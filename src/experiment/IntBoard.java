@@ -1,12 +1,14 @@
 
 
-package experiments;
+package experiment;
 
 import java.util.*;
 
 public class IntBoard {
 	private BoardCell[][] grid;
 	private Map<BoardCell, Set<BoardCell>> adjMtx;
+	private Set<BoardCell> visited;
+	private Set<BoardCell> targets;
 	
 	public IntBoard() {
 		grid = new BoardCell[4][4];
@@ -17,11 +19,11 @@ public class IntBoard {
 		
 	}
 	
-	public Set<BoardCell> getAdjList() {
+	public Set<BoardCell> getAdjList(BoardCell cell) {
 		return null;
 	}
 	
-	public void calcTargets(int startCell, int pathLength) {
+	public void calcTargets(BoardCell startCell, int pathLength) {
 		
 	}
 	
