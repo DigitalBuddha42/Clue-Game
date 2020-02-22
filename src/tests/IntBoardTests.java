@@ -6,14 +6,22 @@ import experiment.BoardCell;
 import experiment.IntBoard;
 import java.util.*;
 
+/**
+ * @author Sam Mills, Nadia Bixenman
+ *
+ */
 public class IntBoardTests {
 	IntBoard gameBoard;
 	
+	// Set up gameBoard for all tests
 	@Before
 	public void beforeAll() {
 		gameBoard = new IntBoard();
 	}
 
+	// Adjacency tests - test that the adjacency lists for the given cell are exactly the correct length and contain the correct cells
+	
+	// Cell 0_0
 	@Test
 	public void testAdjacancy0_0() {
 		BoardCell cell = gameBoard.getCell(0,0);
@@ -23,6 +31,7 @@ public class IntBoardTests {
 		assertEquals(2, testList.size());
 	}
 	
+	// Cell 3_3
 	@Test
 	public void testAdjacancy3_3() {
 		BoardCell cell = gameBoard.getCell(3,3);
@@ -32,6 +41,7 @@ public class IntBoardTests {
 		assertEquals(2, testList.size());
 	}
 	
+	// Cell 1_3
 	@Test
 	public void testAdjacancy1_3() {
 		BoardCell cell = gameBoard.getCell(1,3);
@@ -42,6 +52,7 @@ public class IntBoardTests {
 		assertEquals(3, testList.size());
 	}
 	
+	// Cell 3_0
 	@Test
 	public void testAdjacancy3_0() {
 		BoardCell cell = gameBoard.getCell(3,0);
@@ -51,6 +62,7 @@ public class IntBoardTests {
 		assertEquals(2, testList.size());
 	}
 	
+	// Cell 1_1
 	@Test
 	public void testAdjacancy1_1() {
 		BoardCell cell = gameBoard.getCell(1,1);
@@ -62,6 +74,7 @@ public class IntBoardTests {
 		assertEquals(4, testList.size());
 	}
 	
+	// Cell 2_2
 	@Test
 	public void testAdjacancy2_2() {
 		BoardCell cell = gameBoard.getCell(2,2);
@@ -73,6 +86,11 @@ public class IntBoardTests {
 		assertEquals(4, testList.size());
 	}
 	
+	
+	// Target tests from two starting cells and with two path lengths per cell - test that the length of the target sets are exactly correct,
+	// and that the sets contain the correct cells
+	
+	// Starting from cell 0_0 with path length 4
 	@Test
 	public void testTargets0_0_4() {
 		BoardCell cell = gameBoard.getCell(0, 0);
@@ -90,6 +108,7 @@ public class IntBoardTests {
 		
 	}
 	
+	// Starting from cell 0_0 with path length 6
 	@Test
 	public void testTargets0_0_6() {
 		BoardCell cell = gameBoard.getCell(0, 0);
@@ -108,7 +127,7 @@ public class IntBoardTests {
 		
 	}
 	
-	
+	// Starting from cell 1_1 with path length 2
 	@Test
 	public void testTargets1_1_2() {
 		BoardCell cell = gameBoard.getCell(2, 2);
@@ -126,6 +145,7 @@ public class IntBoardTests {
 		
 	}
 	
+	// Starting from cell 1_1 with path length 3
 	@Test
 	public void testTargets1_1_3() {
 		BoardCell cell = gameBoard.getCell(2, 2);

@@ -49,12 +49,6 @@ public class IntBoard {
 	}
 	
 	public Set<BoardCell> getAdjList(BoardCell cell) {
-		System.out.println(cell.getRow() + " " + cell.getCol() + ": ");
-		System.out.print("    ");
-		for (BoardCell c: adjMtx.get(cell)) {
-			System.out.print(c.getRow() + " " + c.getCol() + "   ");
-		}
-		System.out.println();
 		return adjMtx.get(cell);
 	}
 	
