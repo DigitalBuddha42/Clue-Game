@@ -19,7 +19,11 @@ public class IntBoard {
 				grid[i][j] = new BoardCell(i, j);
 			}
 		}
+		
 		adjMtx = new HashMap<BoardCell, HashSet<BoardCell>>();
+		visited = new HashSet<BoardCell>();
+		targets = new HashSet<BoardCell>();
+		
 		calcAdjacencies();
 	}
 	
@@ -55,11 +59,25 @@ public class IntBoard {
 	}
 	
 	public void calcTargets(BoardCell startCell, int pathLength) {
-		
+		for (BoardCell c: adjMtx.get(startCell)) {
+			visited.add(startCell);
+			if (visited.contains(c)) {
+				continue;
+			}
+			visited.add(c);
+			if (pathLength == 1) {
+				targets.add(c);
+			} else {
+				calcTargets(c, pathLength - 1);
+			}
+			visited.remove(c);
+		}
 	}
 	
 	public Set<BoardCell> getTargets(){
-		return null;
+		Set<BoardCell> tempTargets = new HashSet<BoardCell>(targets);
+		targets.clear();
+		return tempTargets;
 	}
 	
 	public BoardCell getCell(int row, int column) {

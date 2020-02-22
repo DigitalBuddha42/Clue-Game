@@ -74,7 +74,7 @@ public class IntBoardTests {
 	}
 	
 	@Test
-	public void testTargets0_0() {
+	public void testTargets0_0_4() {
 		BoardCell cell = gameBoard.getCell(0, 0);
 		
 		// Length 4
@@ -87,6 +87,12 @@ public class IntBoardTests {
 		assertTrue(targets.contains(gameBoard.getCell(2, 0)));
 		assertTrue(targets.contains(gameBoard.getCell(2, 2)));
 		assertTrue(targets.contains(gameBoard.getCell(3, 1)));
+		
+	}
+	
+	@Test
+	public void testTargets0_0_6() {
+		BoardCell cell = gameBoard.getCell(0, 0);
 		
 		//Length 6
 		gameBoard.calcTargets(cell, 6);
@@ -102,8 +108,9 @@ public class IntBoardTests {
 		
 	}
 	
+	
 	@Test
-	public void testTargets1_1() {
+	public void testTargets1_1_2() {
 		BoardCell cell = gameBoard.getCell(2, 2);
 		
 		// Length 2
@@ -117,6 +124,11 @@ public class IntBoardTests {
 		assertTrue(targets.contains(gameBoard.getCell(3, 3)));
 		assertTrue(targets.contains(gameBoard.getCell(3, 1)));
 		
+	}
+	
+	@Test
+	public void testTargets1_1_3() {
+		BoardCell cell = gameBoard.getCell(2, 2);
 		//Length 3
 		gameBoard.calcTargets(cell, 3);
 		Set targets3 = gameBoard.getTargets();
@@ -130,5 +142,7 @@ public class IntBoardTests {
 		assertTrue(targets3.contains(gameBoard.getCell(3, 0)));
 		assertTrue(targets3.contains(gameBoard.getCell(3, 2)));
 	}
-
+		
 }
+
+
