@@ -27,13 +27,17 @@ public class IntBoard {
 		for (int i = 0; i < BOARD_SIZE; i++) {
 			for (int j = 0; j < BOARD_SIZE; j++) {
 				HashSet<BoardCell> tempAdj = new HashSet<BoardCell>();
-				for (BoardCell[] r: grid) {
-					for (BoardCell c: r) {
-						if (((c.getRow() == (i - 1) || c.getRow() == (i + 1)) && c.getCol() == j) ||
-						   ((c.getCol() == (j - 1) || c.getCol() == (j + 1)) && c.getRow() == i)) {
-							tempAdj.add(c);
-						}
-					}
+				if (i > 0) {
+					tempAdj.add(grid[i - 1][j]);
+				}
+				if (i < BOARD_SIZE - 1) {
+					tempAdj.add(grid[i + 1][j]);
+				}
+				if (j > 0) {
+					tempAdj.add(grid[i][j - 1]);
+				}
+				if (j < BOARD_SIZE - 1) {
+					tempAdj.add(grid[i][j + 1]);
 				}
 				adjMtx.put(grid[i][j], tempAdj);
 			}
