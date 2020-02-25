@@ -42,4 +42,12 @@ public class BoardCell {
 	public boolean isDoorway() {
 		return false;
 	}
+	
+	public DoorDirection getDoorDirection() {
+		return null;
+	}
+	
+	public char getInitial() {
+		return 'Q';
+	}
 }

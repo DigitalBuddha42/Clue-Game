@@ -41,4 +41,25 @@ public class Board {
 	public void calcTargets(BoardCell cell, int pathLength) {
 		
 	}
+	
+	public void setConfigFiles(String layoutName, String legendName) {
+		
+	}
+	
+	public Map<Character, String> getLegend() {
+		return new HashMap<Character, String>(50);
+	}
+	
+	public int getNumRows() {
+		return 0;
+	}
+	
+	public int getNumColumns() {
+		return 0;
+	}
+	
+	public BoardCell getCellAt(int row, int column) {
+		return new BoardCell(0, 0);
+	}
+	
 }
