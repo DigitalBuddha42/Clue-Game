@@ -53,7 +53,7 @@ public class Board {
 			System.out.println(initial + ", " + roomName);
 			legend.put(initial, roomName);
 			String roomType = line.substring(index + 2);
-			if (!roomType.equals("Card") && !roomType.equals("O")) {
+			if (!roomType.equals("Card") && !roomType.equals("Other")) {
 				throw new BadConfigFormatException("Room type " + roomType + " is not Card or Other");
 			}
 		}
