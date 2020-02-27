@@ -32,6 +32,12 @@ public class Board {
 	}
 	
 	public void initialize() {
+		try {
+			loadRoomConfig();
+			loadBoardConfig();
+		} catch (FileNotFoundException | BadConfigFormatException e) {
+			e.getMessage();
+		}
 		
 	}
 	
@@ -43,14 +49,16 @@ public class Board {
 			String line = in.nextLine();
 			char initial = line.charAt(0);
 			int index = line.indexOf(",", 3);
-			String roomName = line.substring(3, index-1);
+			String roomName = line.substring(3, index);
+			System.out.println(initial + ", " + roomName);
 			legend.put(initial, roomName);
 			String roomType = line.substring(index + 2);
-			if (roomType != "Card" && roomType != "Other") {
+			if (!roomType.equals("Card") && !roomType.equals("Other")) {
 				throw new BadConfigFormatException("Room type " + roomType + " is not Card or Other");
 			}
 		}
 		allInitials = legend.keySet();
+		System.out.println("Legend is " + legend.size() + "long");
 	}
 	
 	public void loadBoardConfig() throws FileNotFoundException, BadConfigFormatException{
@@ -121,19 +129,19 @@ public class Board {
 	}
 	
 	public Map<Character, String> getLegend() {
-		return new HashMap<Character, String>(50);
+		return legend;
 	}
 	
 	public int getNumRows() {
-		return 0;
+		return numRows;
 	}
 	
 	public int getNumColumns() {
-		return 0;
+		return numColumns;
 	}
 	
 	public BoardCell getCellAt(int row, int column) {
-		return new BoardCell(0, 0);
+		return board[0][0];
 	}
 	
 }

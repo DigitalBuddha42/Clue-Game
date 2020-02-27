@@ -9,7 +9,7 @@ import clueGame.BoardCell;
 import clueGame.DoorDirection;
 
 public class FileInitTests {
-	public static final int NUM_ROOMS = 9;
+	public static final int LEGEND_SIZE = 11;
 	public static final int NUM_COLS = 21;
 	public static final int NUM_ROWS = 21;
 	public static final int NUM_DOORS = 17;
@@ -27,7 +27,7 @@ public class FileInitTests {
 	public void testLegend() {
 		Map<Character, String> legend = board.getLegend();
 		
-		assertEquals(NUM_ROOMS, legend.size());
+		assertEquals(LEGEND_SIZE, legend.size());
 		
 		assertEquals("Parlor", legend.get('P'));
 		assertEquals("Banquet Hall", legend.get('B'));
