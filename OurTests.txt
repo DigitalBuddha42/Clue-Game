@@ -1,0 +1,12 @@
+For the door directions tests, we chose 15,10 because the Banquet Hall door in
+that cell opens up, we chose 7,3 because the game room door in that cell opens right,
+we chose 5, 9 because the Office door in that cell opens down, and we chose 11,16
+because the Dining Room door in that cell opens left. The other two cells were chosen
+because they represent the two types of cells that aren't doorways.
+
+For the initials tests, we chose the first and last cells, a walkway cell, and 6
+other cells because those combined represented the full variety of cells
+on the board.
+
+The rest of the tests don't rely as much on our specific config files, but we do have
+different constants for the numbers of columns, rows and doors.
