@@ -14,12 +14,18 @@ public class Board {
 	private Set<BoardCell> targets;
 	private String boardConfigFile;
 	private String roomConfigFile;
+	Set<Character> allInitials;
 	
 
 	// variable used for singleton pattern
 	private static Board theInstance = new Board();
 	// constructor is private to ensure only one can be created
-	private Board() {}
+	private Board() {
+		board = new BoardCell[MAX_BOARD_SIZE][MAX_BOARD_SIZE];
+		legend = new HashMap<Character, String>();
+		adjMatrix = new HashMap<BoardCell, Set<BoardCell>>();
+		targets = new HashSet<BoardCell>();
+	}
 	// this method returns the only Board
 	public static Board getInstance() {
 		return theInstance;
@@ -41,35 +47,43 @@ public class Board {
 			legend.put(initial, roomName);
 			String roomType = line.substring(index + 2);
 			if (roomType != "Card" && roomType != "Other") {
-				BadConfigFormatException e = new BadConfigFormatException("Room type " + roomType + " is not Card or Other");
+				throw new BadConfigFormatException("Room type " + roomType + " is not Card or Other");
 			}
 		}
+		allInitials = legend.keySet();
 	}
 	
 	public void loadBoardConfig() throws FileNotFoundException, BadConfigFormatException{
 		FileReader reader = new FileReader(boardConfigFile);
 		Scanner in = new Scanner(reader);
 		int row = 0;
+		int numRows = 0;
 		int length = 0;
+		int column = 0;
+		int numColumns = 0;
 		while(in.hasNextLine()) {
 			String line = in.nextLine();
 			if(row !=0) {
 				if(line.length() != length) {
-					BadConfigFormatException e = new BadConfigFormatException("The number of columns in row " + row + " is not equal to the number of rows in row " + (row -1));
+					throw new BadConfigFormatException("The number of columns in row " + row + " is not equal to the number of rows in row " + (row -1));
 				}
 			}
 			length = line.length();
-			int column = 0;
 			for (int i = 0; i<length; i++) {
+				System.out.println("Iterating over line");
 				String roomInitial;
+				column = 0;
 				if (line.charAt(i) != ',') {
-					roomInitial = line.substring(i, (line.indexOf(',', i)) - 1);
-					
-					Set<Character> allInitials = legend.keySet();
-					if (!allInitials.contains(roomInitial.charAt(0))) {
-						BadConfigFormatException e = new BadConfigFormatException("The character " + roomInitial.charAt(0) + " does not correspond to a room in legend");
+					if ((length - i) < 3) {
+						roomInitial = line.substring(i);
+						i = length - 1;
+					} else {
+						roomInitial = line.substring(i, (line.indexOf(',', i)));
+						i = line.indexOf(',', i);
 					}
-					
+					if (!allInitials.contains(roomInitial.charAt(0))) {
+						throw new BadConfigFormatException("The character " + roomInitial.charAt(0) + " does not correspond to a room in legend");
+					}
 					board[row][column] = new BoardCell(row, column);
 					board[row][column].setInitial(roomInitial);
 					
@@ -83,11 +97,14 @@ public class Board {
 						board[row][column].setRoom();
 					}
 					column++;
-					i = line.indexOf(',', i);
+					numColumns++;
 				}
 			}
 			row++;
+			numRows++;
 		}
+		this.numRows = numRows;
+		this.numColumns = numColumns;
 	}
 	
 	public void calcAdjancencies() {
