@@ -14,6 +14,7 @@ public class Board {
 	private Set<BoardCell> targets;
 	private String boardConfigFile;
 	private String roomConfigFile;
+	
 
 	// variable used for singleton pattern
 	private static Board theInstance = new Board();
@@ -49,16 +50,38 @@ public class Board {
 		FileReader reader = new FileReader(boardConfigFile);
 		Scanner in = new Scanner(reader);
 		int row = 0;
+		int length = 0;
 		while(in.hasNextLine()) {
 			String line = in.nextLine();
-			int length = line.length();
+			if(row !=0) {
+				if(line.length() != length) {
+					BadConfigFormatException e = new BadConfigFormatException("The number of columns in row " + row + " is not equal to the number of rows in row " + (row -1));
+				}
+			}
+			length = line.length();
 			int column = 0;
 			for (int i = 0; i<length; i++) {
 				String roomInitial;
 				if (line.charAt(i) != ',') {
 					roomInitial = line.substring(i, (line.indexOf(',', i)) - 1);
+					
+					Set<Character> allInitials = legend.keySet();
+					if (!allInitials.contains(roomInitial.charAt(0))) {
+						BadConfigFormatException e = new BadConfigFormatException("The character " + roomInitial.charAt(0) + " does not correspond to a room in legend");
+					}
+					
 					board[row][column] = new BoardCell(row, column);
 					board[row][column].setInitial(roomInitial);
+					
+					if(roomInitial.length()>1) {
+						board[row][column].setDoor(roomInitial);
+					}
+					else if(roomInitial == "W") {
+						board[row][column].setWalkway();
+					}
+					else {
+						board[row][column].setRoom();
+					}
 					column++;
 					i = line.indexOf(',', i);
 				}
