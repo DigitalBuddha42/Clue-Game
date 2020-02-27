@@ -75,7 +75,7 @@ public class FileInitTests {
 		int numDoors = 0;
 		for (int i = 0; i < board.getNumRows(); i++) {
 			for (int j = 0; j < board.getNumColumns(); j++)
-			if (board.getCellAt(i,  j).isRoom()) {
+			if (board.getCellAt(i,  j).isDoorway()) {
 				numDoors++;
 			}
 		}

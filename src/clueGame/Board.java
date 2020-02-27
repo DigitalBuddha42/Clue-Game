@@ -89,11 +89,11 @@ public class Board {
 					board[row][column] = new BoardCell(row, column);
 					board[row][column].setInitial(roomInitial);
 					
-					if(roomInitial.length()>1) {
-						board[row][column].setDoor(roomInitial);
-					}
-					else if(roomInitial == "W") {
+					if(roomInitial == "W") {
 						board[row][column].setWalkway();
+					}
+					else if(roomInitial.length() > 1) {
+						board[row][column].setDoor(roomInitial);
 					}
 					else {
 						board[row][column].setRoom();
