@@ -52,7 +52,7 @@ public class BoardCell {
 	}
 	
 	public DoorDirection getDoorDirection() {
-		return null;
+		return direction;
 	}
 	
 	public String getInitial() {
