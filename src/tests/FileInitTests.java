@@ -85,18 +85,18 @@ public class FileInitTests {
 	@Test
 	public void testInitials() {
 		// First Cell
-		assertEquals('G', board.getCellAt(0, 0).getInitial());
+		assertEquals("G", board.getCellAt(0, 0).getInitial());
 		// Last Cell
-		assertEquals('K', board.getCellAt(20, 20).getInitial());
+		assertEquals("K", board.getCellAt(20, 20).getInitial());
 		// Walkway
-		assertEquals('W', board.getCellAt(10, 6).getInitial());
+		assertEquals("W", board.getCellAt(10, 6).getInitial());
 		// Other
-		assertEquals('L', board.getCellAt(2, 19).getInitial());
-		assertEquals('P', board.getCellAt(18, 2).getInitial());
-		assertEquals('D', board.getCellAt(10, 19).getInitial());
-		assertEquals('O', board.getCellAt(3, 9).getInitial());
-		assertEquals('H', board.getCellAt(3, 13).getInitial());
-		assertEquals('R', board.getCellAt(11, 3).getInitial());
+		assertEquals("L", board.getCellAt(2, 19).getInitial());
+		assertEquals("P", board.getCellAt(18, 2).getInitial());
+		assertEquals("D", board.getCellAt(10, 19).getInitial());
+		assertEquals("O", board.getCellAt(3, 9).getInitial());
+		assertEquals("H", board.getCellAt(3, 13).getInitial());
+		assertEquals("R", board.getCellAt(11, 3).getInitial());
 	}
 
 }

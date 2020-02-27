@@ -55,8 +55,8 @@ public class BoardCell {
 		return null;
 	}
 	
-	public char getInitial() {
-		return 'Q';
+	public String getInitial() {
+		return roomInitial;
 	}
 	
 	public void setInitial(String initial) {

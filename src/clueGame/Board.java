@@ -50,7 +50,6 @@ public class Board {
 			char initial = line.charAt(0);
 			int index = line.indexOf(",", 3);
 			String roomName = line.substring(3, index);
-			System.out.println(initial + ", " + roomName);
 			legend.put(initial, roomName);
 			String roomType = line.substring(index + 2);
 			if (!roomType.equals("Card") && !roomType.equals("Other")) {
@@ -58,7 +57,6 @@ public class Board {
 			}
 		}
 		allInitials = legend.keySet();
-		System.out.println("Legend is " + legend.size() + "long");
 	}
 	
 	public void loadBoardConfig() throws FileNotFoundException, BadConfigFormatException{
@@ -69,18 +67,14 @@ public class Board {
 		int length = 0;
 		int column = 0;
 		int numColumns = 0;
+		int firstLength = 0;
 		while(in.hasNextLine()) {
+			column = 0;
+			numColumns = 0;
 			String line = in.nextLine();
-			if(row !=0) {
-				if(line.length() != length) {
-					throw new BadConfigFormatException("The number of columns in row " + row + " is not equal to the number of rows in row " + (row -1));
-				}
-			}
 			length = line.length();
 			for (int i = 0; i<length; i++) {
-				System.out.println("Iterating over line");
 				String roomInitial;
-				column = 0;
 				if (line.charAt(i) != ',') {
 					if ((length - i) < 3) {
 						roomInitial = line.substring(i);
@@ -107,6 +101,11 @@ public class Board {
 					column++;
 					numColumns++;
 				}
+			}
+			if (row == 0) {
+				firstLength = numColumns;
+			} else if (numColumns != firstLength) {
+				throw new BadConfigFormatException("The number of columns in row " + row + " is not equal to the number of rows in row 0");
 			}
 			row++;
 			numRows++;
@@ -141,7 +140,7 @@ public class Board {
 	}
 	
 	public BoardCell getCellAt(int row, int column) {
-		return board[0][0];
+		return board[row][column];
 	}
 	
 }
