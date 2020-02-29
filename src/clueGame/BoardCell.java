@@ -7,7 +7,7 @@ package clueGame;
 public class BoardCell {
 	private int row;
 	private int column;
-	private String roomInitial;
+	private char roomInitial;
 	private DoorDirection direction;
 	private boolean isWalkway;
 	private boolean isRoom;
@@ -55,12 +55,13 @@ public class BoardCell {
 		return direction;
 	}
 	
-	public String getInitial() {
+	public char getInitial() {
 		return roomInitial;
 	}
 	
+	// Convert to char
 	public void setInitial(String initial) {
-		roomInitial = initial;
+		roomInitial = initial.charAt(0);
 	}
 	
 	public void setWalkway() {
@@ -71,19 +72,22 @@ public class BoardCell {
 		isRoom = true;
 	}
 	
+	/** Given that the cell is a door(two character initial, setDoor called), sets the direction of the door cell and that it is a door
+	 * @param door
+	 */
 	public void setDoor(String door) {
 		char directionChar = door.charAt(1);
 		if(directionChar == 'R') {
 			direction = DoorDirection.RIGHT;
-		}
-		if(directionChar == 'L') {
+		} else if(directionChar == 'L') {
 			direction = DoorDirection.LEFT;
-		}
-		if(directionChar == 'U') {
+		} else if(directionChar == 'U') {
 			direction = DoorDirection.UP;
-		}
-		if(directionChar == 'D') {
+		} else if(directionChar == 'D') {
 			direction = DoorDirection.DOWN;
+		} else {
+			isDoorway = false;
+			return;
 		}
 		isDoorway = true;
 	}

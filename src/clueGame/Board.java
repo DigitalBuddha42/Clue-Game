@@ -4,10 +4,14 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.*;
 
+/**
+ * @author Sam Mills, Nadia Bixenman
+ *
+ */
 public class Board {
 	private int numRows;
 	private int numColumns;
-	public final int MAX_BOARD_SIZE = 50;
+	public final int MAX_BOARD_SIZE = 50; // Large enough to not be an issue
 	private BoardCell[][] board;
 	private Map<Character, String> legend;
 	private Map<BoardCell, Set<BoardCell>> adjMatrix;
@@ -17,20 +21,22 @@ public class Board {
 	Set<Character> allInitials;
 	
 
-	// variable used for singleton pattern
+	// Singleton pattern, only one instance of board
 	private static Board theInstance = new Board();
-	// constructor is private to ensure only one can be created
 	private Board() {
 		board = new BoardCell[MAX_BOARD_SIZE][MAX_BOARD_SIZE];
+		// HashMap and HashSet for efficiency and lack of need to be in order
 		legend = new HashMap<Character, String>();
 		adjMatrix = new HashMap<BoardCell, Set<BoardCell>>();
 		targets = new HashSet<BoardCell>();
 	}
-	// this method returns the only Board
 	public static Board getInstance() {
 		return theInstance;
 	}
 	
+	
+	/** Loads the config files and handles their exceptions
+	 */
 	public void initialize() {
 		try {
 			loadRoomConfig();
@@ -41,6 +47,10 @@ public class Board {
 		
 	}
 	
+	/** Reads the legend file, ensuring that it has been correctly read and is correctly formatted, and adds to the legend map
+	 * @throws FileNotFoundException
+	 * @throws BadConfigFormatException
+	 */
 	public void loadRoomConfig() throws FileNotFoundException, BadConfigFormatException{
 		FileReader reader = new FileReader(roomConfigFile);
 		Scanner in = new Scanner(reader);
@@ -59,6 +69,11 @@ public class Board {
 		allInitials = legend.keySet();
 	}
 	
+	/** Reads the layout file, ensuring that it has been correctly read and is formatted correctly, and adds cells to the board, as well as
+	 * calls the appropriate BoardCell methods for each type of cell, keeping track of number of columns and rows
+	 * @throws FileNotFoundException
+	 * @throws BadConfigFormatException
+	 */
 	public void loadBoardConfig() throws FileNotFoundException, BadConfigFormatException{
 		FileReader reader = new FileReader(boardConfigFile);
 		Scanner in = new Scanner(reader);
@@ -68,6 +83,7 @@ public class Board {
 		int column = 0;
 		int numColumns = 0;
 		int firstLength = 0;
+		// Each line is a row the length of lines is counted as the number of commas to ensure consistent number of columns per row
 		while(in.hasNextLine()) {
 			column = 0;
 			numColumns = 0;
@@ -89,9 +105,11 @@ public class Board {
 					board[row][column] = new BoardCell(row, column);
 					board[row][column].setInitial(roomInitial);
 					
+					// Walkways
 					if(roomInitial == "W") {
 						board[row][column].setWalkway();
 					}
+					// Doors have initials of two characters
 					else if(roomInitial.length() > 1) {
 						board[row][column].setDoor(roomInitial);
 					}
@@ -122,6 +140,10 @@ public class Board {
 		
 	}
 	
+	/** Sets the names of the layout and legend config files
+	 * @param layoutName
+	 * @param legendName
+	 */
 	public void setConfigFiles(String layoutName, String legendName) {
 		roomConfigFile = legendName;
 		boardConfigFile = layoutName;
