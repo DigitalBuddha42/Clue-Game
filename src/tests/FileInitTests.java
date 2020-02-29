@@ -16,7 +16,7 @@ public class FileInitTests {
 	public static Board board;
 	
 	
-	@Before
+	@Before 
 	public void setUp() {
 		board = Board.getInstance();
 		board.setConfigFiles("ClueLayout.csv", "ClueLegend.txt");		
