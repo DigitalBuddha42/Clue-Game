@@ -165,4 +165,17 @@ public class Board {
 		return board[row][column];
 	}
 	
+	public Set<BoardCell> getAdjList(int row, int column) {
+		return adjMatrix.get(board[row][column]);
+		//return targets;
+	}
+	
+	public void calcTargets(int row, int column, int pathLength) {
+		
+	}
+	
+	public Set<BoardCell> getTargets() {
+		return targets;
+	}
+	
 }

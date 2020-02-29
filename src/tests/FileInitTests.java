@@ -20,13 +20,9 @@ public class FileInitTests {
 	public static final int NUM_DOORS = 17;
 	public static Board board;
 	
-<<<<<<< HEAD
-	
-	@Before 
-=======
+
 	// Create the board, set the config files, initialize the board
 	@Before
->>>>>>> e6610eab6610558bdcbac71188707dcec761e5a8
 	public void setUp() {
 		board = Board.getInstance();
 		board.setConfigFiles("ClueLayout.csv", "ClueLegend.txt");		
