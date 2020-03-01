@@ -141,24 +141,72 @@ public class BoardAdjTargetTests {
 		assertEquals(1, testList.size());
 	}
 	
+	// Test walkways with path length 1
 	@Test
 	public void testTargets_1() {
+		board.calcTargets(8, 20, 1);
+		Set<BoardCell> testList = board.getTargets();
+		assertTrue(testList.contains(board.getCellAt(7, 20)));
+		assertTrue(testList.contains(board.getCellAt(9, 20)));
+		assertEquals(2, testList.size());
 		
+		board.calcTargets(1, 5, 1);
+		testList = board.getTargets();
+		assertTrue(testList.contains(board.getCellAt(0, 5)));
+		assertTrue(testList.contains(board.getCellAt(1, 4)));
+		assertTrue(testList.contains(board.getCellAt(2, 5)));
+		assertEquals(3, testList.size());
 	}
 	
+	// Test walkways with path length 2
 	@Test
 	public void testTargets_2() {
+		board.calcTargets(8, 20, 2);
+		Set<BoardCell> testList = board.getTargets();
+		assertTrue(testList.contains(board.getCellAt(7, 19)));
+		assertEquals(1, testList.size());
 		
+		board.calcTargets(1, 5, 2);
+		testList = board.getTargets();
+		assertTrue(testList.contains(board.getCellAt(0, 4)));
+		assertTrue(testList.contains(board.getCellAt(1, 4)));
+		assertTrue(testList.contains(board.getCellAt(2, 4)));
+		assertTrue(testList.contains(board.getCellAt(3, 5)));
+		assertEquals(4, testList.size());
 	}
 	
+	// Test walkways with path length 4
 	@Test
 	public void testTargets_4() {
+		board.calcTargets(8, 20, 4);
+		Set<BoardCell> testList = board.getTargets();
+		assertTrue(testList.contains(board.getCellAt(7, 17)));
+		assertEquals(1, testList.size());
 		
+		board.calcTargets(1, 5, 4);
+		testList = board.getTargets();
+		assertTrue(testList.contains(board.getCellAt(2, 4)));
+		assertTrue(testList.contains(board.getCellAt(3, 5)));
+		assertTrue(testList.contains(board.getCellAt(4, 4)));
+		assertTrue(testList.contains(board.getCellAt(5, 5)));
+		assertTrue(testList.contains(board.getCellAt(4, 4)));
+		assertEquals(5, testList.size());
 	}
 	
+	// Test walkways with path length 5 UNFINISHED!
 	@Test
 	public void testTargets_5() {
+		board.calcTargets(8, 20, 5);
+		Set<BoardCell> testList = board.getTargets();
+		assertTrue(testList.contains(board.getCellAt(7, 16)));
+		assertEquals(1, testList.size());
 		
+		board.calcTargets(1, 5, 5);
+		testList = board.getTargets();
+		assertTrue(testList.contains(board.getCellAt(2, 5)));
+		assertTrue(testList.contains(board.getCellAt(3, 4)));
+		assertTrue(testList.contains(board.getCellAt(4, 5)));
+		assertEquals(5, testList.size());
 	}
 	
 	@Test

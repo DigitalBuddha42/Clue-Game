@@ -188,7 +188,7 @@ public class CTest_BoardAdjTargetTests {
 		assertEquals(3, targets.size());
 		assertTrue(targets.contains(board.getCellAt(14, 1)));
 		assertTrue(targets.contains(board.getCellAt(13, 0)));	
-		assertTrue(targets.contains(board.getCellAt(15, 0)));			
+		assertTrue(targets.contains(board.getCellAt(15, 0)));	
 	}
 	
 	// Tests of just walkways, 2 steps
