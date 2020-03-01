@@ -166,8 +166,9 @@ public class Board {
 	}
 	
 	public Set<BoardCell> getAdjList(int row, int column) {
-		return adjMatrix.get(board[row][column]);
-		//return targets;
+		Set<BoardCell> testList = new HashSet<BoardCell>(50);
+		testList.add(new BoardCell(-10, -10));
+		return testList; // empty but nonzero so all tests successfully fail
 	}
 	
 	public void calcTargets(int row, int column, int pathLength) {
@@ -175,7 +176,9 @@ public class Board {
 	}
 	
 	public Set<BoardCell> getTargets() {
-		return targets;
+		Set<BoardCell> testList = new HashSet<BoardCell>(50);
+		testList.add(new BoardCell(-10, -10));
+		return testList; // empty but nonzero so all tests successfully fail
 	}
 	
 }
