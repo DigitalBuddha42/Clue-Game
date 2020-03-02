@@ -150,32 +150,76 @@ public class Board {
 					if (board[i][j].getDoorDirection() == DoorDirection.LEFT) {
 						tempAdj.add(board[i][j - 1]);
 					}
+<<<<<<< HEAD
 				} else {
 					if (i > 0) {
 						if (!board[i][j].isRoom() && board[i - 1][j].isDoorway() && board[i - 1][j].getDoorDirection() == DoorDirection.DOWN) {
 							tempAdj.add(board[i - 1][j]);
 						} else if (!board[i][j].isRoom() && board[i - 1][j].isWalkway()) {
+=======
+					for (int k = 0; k < numRows; k++) {
+						for (int l = 0; l < numColumns; l++) {
+							if (board[k][l].isDoorway() && board[k][l].getInitial() == board[i][j].getInitial()) {
+								if (board[k][l].getDoorDirection() == DoorDirection.UP) {
+									tempAdj.add(board[k - 1][l]);
+								}
+								if (board[k][l].getDoorDirection() == DoorDirection.DOWN) {
+									tempAdj.add(board[k + 1][l]);
+								}
+								if (board[k][l].getDoorDirection() == DoorDirection.RIGHT) {
+									tempAdj.add(board[k][l + 1]);
+								}
+								if (board[k][l].getDoorDirection() == DoorDirection.LEFT) {
+									tempAdj.add(board[k][l - 1]);
+								}
+							}
+						}
+					}
+				} else {
+					if (i > 0) {
+						if (board[i - 1][j].isDoorway() && board[i - 1][j].getDoorDirection() == DoorDirection.DOWN) {
+							tempAdj.add(board[i - 1][j]);
+						} else if (board[i - 1][j].isWalkway()) {
+>>>>>>> e21b605395a3ad8a2e11b64143d8560df867e39b
 							tempAdj.add(board[i - 1][j]);
 						}
 					}
 					if (i < numRows - 1) {
+<<<<<<< HEAD
 						if (!board[i][j].isRoom() && board[i + 1][j].isDoorway() && board[i + 1][j].getDoorDirection() == DoorDirection.UP) {
 							tempAdj.add(board[i + 1][j]);
 						} else if (!board[i][j].isRoom() && board[i + 1][j].isWalkway()) {
+=======
+						if (board[i + 1][j].isDoorway() && board[i + 1][j].getDoorDirection() == DoorDirection.UP) {
+							tempAdj.add(board[i + 1][j]);
+						} else if (board[i + 1][j].isWalkway()) {
+>>>>>>> e21b605395a3ad8a2e11b64143d8560df867e39b
 							tempAdj.add(board[i + 1][j]);
 						}
 					}
 					if (j > 0) {
+<<<<<<< HEAD
 						if (!board[i][j].isRoom() && board[i][j - 1].isDoorway() && board[i][j - 1].getDoorDirection() == DoorDirection.RIGHT) {
 							tempAdj.add(board[i][j - 1]);
 						} else if (!board[i][j].isRoom() && board[i][j - 1].isWalkway()) {
+=======
+						if (board[i][j - 1].isDoorway() && board[i][j - 1].getDoorDirection() == DoorDirection.RIGHT) {
+							tempAdj.add(board[i][j - 1]);
+						} else if (board[i][j - 1].isWalkway()) {
+>>>>>>> e21b605395a3ad8a2e11b64143d8560df867e39b
 							tempAdj.add(board[i][j - 1]);
 						}
 					}
 					if (j < numColumns - 1) {
+<<<<<<< HEAD
 						if (!board[i][j].isRoom() && board[i][j + 1].isDoorway() && board[i][j + 1].getDoorDirection() == DoorDirection.LEFT) {
 							tempAdj.add(board[i][j + 1]);
 						} else if (!board[i][j].isRoom() && board[i][j + 1].isWalkway()) {
+=======
+						if (board[i][j + 1].isDoorway() && board[i][j + 1].getDoorDirection() == DoorDirection.LEFT) {
+							tempAdj.add(board[i][j + 1]);
+						} else if (board[i][j + 1].isWalkway()) {
+>>>>>>> e21b605395a3ad8a2e11b64143d8560df867e39b
 							tempAdj.add(board[i][j + 1]);
 						}
 					}
