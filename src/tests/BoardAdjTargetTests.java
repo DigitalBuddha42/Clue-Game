@@ -106,6 +106,12 @@ public class BoardAdjTargetTests {
 		testList = board.getAdjList(13, 20);
 		assertTrue(testList.contains(board.getCellAt(14, 20)));
 		assertEquals(1, testList.size());
+		
+		// Testing walkway on top edge of board, next to a room wall
+		testList = board.getAdjList(10, 15);
+		assertTrue(testList.contains(board.getCellAt(0, 16)));
+		assertTrue(testList.contains(board.getCellAt(1, 15)));
+		assertEquals(2, testList.size());
 	}
 	
 	@Test
@@ -193,7 +199,7 @@ public class BoardAdjTargetTests {
 		assertEquals(5, testList.size());
 	}
 	
-	// Test walkways with path length 5 UNFINISHED!
+	// Test walkways with path length 5
 	@Test
 	public void testTargets_5() {
 		board.calcTargets(8, 20, 5);
@@ -206,7 +212,12 @@ public class BoardAdjTargetTests {
 		assertTrue(testList.contains(board.getCellAt(2, 5)));
 		assertTrue(testList.contains(board.getCellAt(3, 4)));
 		assertTrue(testList.contains(board.getCellAt(4, 5)));
-		assertEquals(5, testList.size());
+		assertTrue(testList.contains(board.getCellAt(6, 5)));
+		assertTrue(testList.contains(board.getCellAt(5, 4)));
+		assertTrue(testList.contains(board.getCellAt(6, 4)));
+		assertTrue(testList.contains(board.getCellAt(1, 4)));
+		assertTrue(testList.contains(board.getCellAt(0, 5)));
+		assertEquals(8, testList.size());
 	}
 	
 	@Test
