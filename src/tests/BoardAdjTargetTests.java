@@ -114,7 +114,7 @@ public class BoardAdjTargetTests {
 		assertEquals(1, testList.size());
 		
 		// Testing walkway on top edge of board, next to a room wall
-		testList = board.getAdjList(10, 15);
+		testList = board.getAdjList(0, 15);
 		assertTrue(testList.contains(board.getCellAt(0, 16)));
 		assertTrue(testList.contains(board.getCellAt(1, 15)));
 		assertEquals(2, testList.size());
@@ -146,7 +146,7 @@ public class BoardAdjTargetTests {
 
 		// Test doorway cell DOWN
 		testList = board.getAdjList(6, 13);
-		assertTrue(testList.contains(board.getCellAt(15, 2)));
+		assertTrue(testList.contains(board.getCellAt(7,13)));
 		assertEquals(1, testList.size());
 
 		// Test doorway cell LEFT
