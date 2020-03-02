@@ -44,6 +44,7 @@ public class Board {
 		} catch (FileNotFoundException | BadConfigFormatException e) {
 			e.getMessage();
 		}
+		calcAdjancencies();
 		
 	}
 	
@@ -106,7 +107,7 @@ public class Board {
 					board[row][column].setInitial(roomInitial);
 					
 					// Walkways
-					if(roomInitial == "W") {
+					if(roomInitial.charAt(0) == 'W') {
 						board[row][column].setWalkway();
 					}
 					// Doors have initials of two characters
@@ -133,7 +134,55 @@ public class Board {
 	}
 	
 	public void calcAdjancencies() {
-		
+		for (int i = 0; i < numRows; i++) {
+			for (int j = 0; j < numColumns; j++) {
+				HashSet<BoardCell> tempAdj = new HashSet<BoardCell>();
+				if (board[i][j].isDoorway()) {
+					if (board[i][j].getDoorDirection() == DoorDirection.UP) {
+						tempAdj.add(board[i - 1][j]);
+					}
+					if (board[i][j].getDoorDirection() == DoorDirection.DOWN) {
+						tempAdj.add(board[i + 1][j]);
+					}
+					if (board[i][j].getDoorDirection() == DoorDirection.RIGHT) {
+						tempAdj.add(board[i][j + 1]);
+					}
+					if (board[i][j].getDoorDirection() == DoorDirection.LEFT) {
+						tempAdj.add(board[i][j - 1]);
+					}
+				} else {
+					if (i > 0) {
+						if (!board[i][j].isRoom() && board[i - 1][j].isDoorway() && board[i - 1][j].getDoorDirection() == DoorDirection.DOWN) {
+							tempAdj.add(board[i - 1][j]);
+						} else if (!board[i][j].isRoom() && board[i - 1][j].isWalkway()) {
+							tempAdj.add(board[i - 1][j]);
+						}
+					}
+					if (i < numRows - 1) {
+						if (!board[i][j].isRoom() && board[i + 1][j].isDoorway() && board[i + 1][j].getDoorDirection() == DoorDirection.UP) {
+							tempAdj.add(board[i + 1][j]);
+						} else if (!board[i][j].isRoom() && board[i + 1][j].isWalkway()) {
+							tempAdj.add(board[i + 1][j]);
+						}
+					}
+					if (j > 0) {
+						if (!board[i][j].isRoom() && board[i][j - 1].isDoorway() && board[i][j - 1].getDoorDirection() == DoorDirection.RIGHT) {
+							tempAdj.add(board[i][j - 1]);
+						} else if (!board[i][j].isRoom() && board[i][j - 1].isWalkway()) {
+							tempAdj.add(board[i][j - 1]);
+						}
+					}
+					if (j < numColumns - 1) {
+						if (!board[i][j].isRoom() && board[i][j + 1].isDoorway() && board[i][j + 1].getDoorDirection() == DoorDirection.LEFT) {
+							tempAdj.add(board[i][j + 1]);
+						} else if (!board[i][j].isRoom() && board[i][j + 1].isWalkway()) {
+							tempAdj.add(board[i][j + 1]);
+						}
+					}
+				}
+				adjMatrix.put(board[i][j], tempAdj);
+			}
+		}
 	}
 	
 	public void calcTargets(BoardCell cell, int pathLength) {
@@ -167,7 +216,6 @@ public class Board {
 	
 	public Set<BoardCell> getAdjList(int row, int column) {
 		return adjMatrix.get(board[row][column]);
-		//return targets;
 	}
 	
 	public void calcTargets(int row, int column, int pathLength) {
@@ -175,7 +223,9 @@ public class Board {
 	}
 	
 	public Set<BoardCell> getTargets() {
-		return targets;
+		Set<BoardCell> testList = new HashSet<BoardCell>(50);
+		testList.add(new BoardCell(-10, -10));
+		return testList; // empty but nonzero so all tests successfully fail
 	}
 	
 }

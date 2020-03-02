@@ -91,6 +91,10 @@ public class CTest_BoardAdjTargetTests {
 	{
 		// Test beside a door direction RIGHT
 		Set<BoardCell> testList = board.getAdjList(4, 4);
+		for(BoardCell cell : testList) {
+			System.out.println(cell.getRow());
+			System.out.println(cell.getCol());
+		}
 		assertTrue(testList.contains(board.getCellAt(4, 3)));
 		assertTrue(testList.contains(board.getCellAt(4, 5)));
 		assertTrue(testList.contains(board.getCellAt(5, 4)));
@@ -188,7 +192,7 @@ public class CTest_BoardAdjTargetTests {
 		assertEquals(3, targets.size());
 		assertTrue(targets.contains(board.getCellAt(14, 1)));
 		assertTrue(targets.contains(board.getCellAt(13, 0)));	
-		assertTrue(targets.contains(board.getCellAt(15, 0)));			
+		assertTrue(targets.contains(board.getCellAt(15, 0)));	
 	}
 	
 	// Tests of just walkways, 2 steps
