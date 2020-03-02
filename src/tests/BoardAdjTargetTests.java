@@ -9,6 +9,8 @@ import java.util.Set;
 //Doing a static import allows me to write assertEquals rather than
 //assertEquals
 import static org.junit.Assert.*;
+
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -19,20 +21,22 @@ public class BoardAdjTargetTests {
 	// We make the Board static because we can load it one time and 
 	// then do all the tests. 
 	private static Board board;
-	@BeforeClass
-	public static void setUp() {
+	@Before
+	public void setUp() {
 		// Board is singleton, get the only instance
 		board = Board.getInstance();
 		// set the file names to use my config files
 		board.setConfigFiles("ClueLayout.csv", "ClueLegend.txt");		
-		// Initialize will load BOTH config files 
+		// Initialize will load BOTH config files and call calcAdjacencies
 		board.initialize();
+
 	}
 	
 	// Adjacency list tests for cells by doorways - GREEN on spreadsheet
 	@Test
 	public void testAdjDoorways() {
 		// Testing walkway to the right of a room entrance
+		System.out.println(board.getNumRows());
 		Set<BoardCell> testList = board.getAdjList(11, 5);
 		assertTrue(testList.contains(board.getCellAt(11, 4)));
 		assertTrue(testList.contains(board.getCellAt(11, 6)));
