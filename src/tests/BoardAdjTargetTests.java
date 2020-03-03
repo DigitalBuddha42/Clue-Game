@@ -1,13 +1,8 @@
 package tests;
 
-/*
- * This program tests that adjacencies and targets are calculated correctly.
- */
 
 import java.util.Set;
 
-//Doing a static import allows me to write assertEquals rather than
-//assertEquals
 import static org.junit.Assert.*;
 
 import org.junit.Before;
@@ -17,17 +12,17 @@ import org.junit.Test;
 import clueGame.Board;
 import clueGame.BoardCell;
 
+/**
+ * @author Sam Mills, Nadia Bixenman
+ *
+ */
 public class BoardAdjTargetTests {
-	// We make the Board static because we can load it one time and 
-	// then do all the tests. 
+	// Static board
 	private static Board board;
 	@Before
 	public void setUp() {
-		// Board is singleton, get the only instance
 		board = Board.getInstance();
-		// set the file names to use my config files
-		board.setConfigFiles("ClueLayout.csv", "ClueLegend.txt");		
-		// Initialize will load BOTH config files and call calcAdjacencies
+		board.setConfigFiles("ClueLayout.csv", "ClueLegend.txt");
 		board.initialize();
 
 	}
@@ -183,10 +178,9 @@ public class BoardAdjTargetTests {
 		board.calcTargets(1, 5, 2);
 		testList = board.getTargets();
 		assertTrue(testList.contains(board.getCellAt(0, 4)));
-		assertTrue(testList.contains(board.getCellAt(1, 4)));
 		assertTrue(testList.contains(board.getCellAt(2, 4)));
 		assertTrue(testList.contains(board.getCellAt(3, 5)));
-		assertEquals(4, testList.size());
+		assertEquals(3, testList.size());
 	}
 	
 	// Test walkways with path length 4 - LIGHT BLUE on spreadsheet
@@ -222,10 +216,9 @@ public class BoardAdjTargetTests {
 		assertTrue(testList.contains(board.getCellAt(4, 5)));
 		assertTrue(testList.contains(board.getCellAt(6, 5)));
 		assertTrue(testList.contains(board.getCellAt(5, 4)));
-		assertTrue(testList.contains(board.getCellAt(6, 4)));
 		assertTrue(testList.contains(board.getCellAt(1, 4)));
 		assertTrue(testList.contains(board.getCellAt(0, 5)));
-		assertEquals(8, testList.size());
+		assertEquals(7, testList.size());
 	}
 	
 	// Test targets from cells into rooms - LIGHT BLUE on spreadsheet
@@ -247,11 +240,12 @@ public class BoardAdjTargetTests {
 		// Door 4 spaces away
 		board.calcTargets(8, 8, 4);
 		testList = board.getTargets();
-		assertEquals(12, testList.size());
+		assertEquals(14, testList.size());
 		// Into room
 		assertTrue(testList.contains(board.getCellAt(5, 9)));
 		// Other
 		assertTrue(testList.contains(board.getCellAt(8, 12)));
+		assertTrue(testList.contains(board.getCellAt(8, 10)));
 		assertTrue(testList.contains(board.getCellAt(8, 4)));
 		assertTrue(testList.contains(board.getCellAt(7, 5)));
 		assertTrue(testList.contains(board.getCellAt(9, 5)));
@@ -262,25 +256,24 @@ public class BoardAdjTargetTests {
 		assertTrue(testList.contains(board.getCellAt(7, 9)));
 		assertTrue(testList.contains(board.getCellAt(7, 11)));
 		assertTrue(testList.contains(board.getCellAt(6, 10)));
+		assertTrue(testList.contains(board.getCellAt(9, 7)));
 	}
 	
 	// Test targets from room exits - LIGHT BLUE on spreadsheet
 	@Test
 	public void testTargetsLeavingRoom() {
-		// One Step from room with 3 door cells
+		// One Step from room
 		board.calcTargets(17, 5, 1);
 		Set<BoardCell> testList = board.getTargets();
-		assertEquals(3, testList.size());
+		assertEquals(1, testList.size());
 		assertTrue(testList.contains(board.getCellAt(17, 6)));
-		assertTrue(testList.contains(board.getCellAt(18, 6)));
-		assertTrue(testList.contains(board.getCellAt(15, 2)));
 		
-		// Two steps from room with one door
-		board.calcTargets(5, 9, 2);
+		// Two steps from room
+		board.calcTargets(16, 15, 2);
 		testList = board.getTargets();
 		assertEquals(2, testList.size());
-		assertTrue(testList.contains(board.getCellAt(6, 10)));
-		assertTrue(testList.contains(board.getCellAt(7, 9)));
+		assertTrue(testList.contains(board.getCellAt(15, 14)));
+		assertTrue(testList.contains(board.getCellAt(16, 13)));
 	}
 
 }

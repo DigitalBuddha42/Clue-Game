@@ -20,7 +20,7 @@ public class Board {
 	private String boardConfigFile;
 	private String roomConfigFile;
 	Set<Character> allInitials;
-	
+	Set<BoardCell> visited;
 
 	// Singleton pattern, only one instance of board
 	private static Board theInstance = new Board();
@@ -30,6 +30,7 @@ public class Board {
 		legend = new HashMap<Character, String>();
 		adjMatrix = new HashMap<BoardCell, Set<BoardCell>>();
 		targets = new HashSet<BoardCell>();
+		visited = new HashSet<BoardCell>();
 	}
 	public static Board getInstance() {
 		return theInstance;
@@ -218,24 +219,53 @@ public class Board {
 	}
 	
 	public void calcTargets(int row, int column, int pathLength) {
-	Set<BoardCell> visited = new HashSet<BoardCell>();
 		for(BoardCell cell : adjMatrix.get(board[row][column])) {
 			visited.add(board[row][column]);
 			if(visited.contains(cell)) {
 				continue;
 			}
+			if (cell.isRoom()) {
+				continue;
+			}
+			if (cell.isDoorway()) {
+				if (cell.getDoorDirection() == DoorDirection.DOWN && column == cell.getCol() && row - cell.getRow() == 1) {
+					visited.add(cell);
+					targets.add(cell);
+					continue;
+				}
+				if (cell.getDoorDirection() == DoorDirection.UP && column == cell.getCol() && cell.getRow() - row == 1) {
+					visited.add(cell);
+					targets.add(cell);
+					continue;
+				}
+				if (cell.getDoorDirection() == DoorDirection.RIGHT && column - cell.getCol() == 1 && row == cell.getRow()) {
+					visited.add(cell);
+					targets.add(cell);
+					continue;
+				}
+				if (cell.getDoorDirection() == DoorDirection.RIGHT && cell.getCol() - column == 1 && row == cell.getRow()) {
+					visited.add(cell);
+					targets.add(cell);
+					continue;
+				}
+			}
 			visited.add(cell);
 			if (pathLength == 1) {
 				targets.add(cell); // If at desired distance from starting cell, a target has been reached
 			} else {
-				calcTargets(numRows, numColumns, pathLength - 1); // If not at desired distance from starting cell, continue
+				calcTargets(cell.getRow(), cell.getCol(), pathLength - 1); // If not at desired distance from starting cell, continue
 			}
 			visited.remove(cell);
 		}
 	}
 	
 	public Set<BoardCell> getTargets() {
-		return targets; // empty but nonzero so all tests successfully fail
+		System.out.println(targets.size());
+		Set<BoardCell> tempTargets = new HashSet<BoardCell>();
+		tempTargets.addAll(targets);
+		targets.clear();
+		return tempTargets;
+		
 	}
 	
 }
