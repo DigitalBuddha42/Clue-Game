@@ -138,7 +138,8 @@ public class Board {
 	public void calcAdjancencies() {
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numColumns; j++) {
-				HashSet<clueGame.BoardCell> tempAdj = new HashSet<clueGame.BoardCell>();
+				HashSet<clueGame.BoardCell> tempAdj = new HashSet<clueGame.BoardCell>(); //Temp set to add to adjacency matrix
+				//If cell is doorway, add cell in appropriate direction
 				if (board[i][j].isDoorway()) {
 					if (board[i][j].getDoorDirection() == DoorDirection.UP) {
 						tempAdj.add(board[i - 1][j]);
@@ -155,34 +156,44 @@ public class Board {
 
 
 				} 
-				if (i > 0) {
+				
+				if (i > 0) { //Make sure we won't get an out of bounds exception
+					// Add cell from doorway
 					if (!board[i][j].isRoom() && board[i - 1][j].isDoorway() && board[i - 1][j].getDoorDirection() == DoorDirection.DOWN) {
 						tempAdj.add(board[i - 1][j]);
+					// Add cell from walkway if it is not a room or doorway
 					} else if (!board[i][j].isRoom() && !board[i][j].isDoorway() && board[i - 1][j].isWalkway()) {
 						tempAdj.add(board[i - 1][j]);
 					}
 				}
-				if (i < numRows - 1) {
+				if (i < numRows - 1) {//Make sure we won't get an out of bounds exception
+					// Add cell from doorway
 					if (!board[i][j].isRoom() && board[i + 1][j].isDoorway() && board[i + 1][j].getDoorDirection() == DoorDirection.UP) {
 						tempAdj.add(board[i + 1][j]);
+						// Add cell from walkway if it is not a room or doorway
 					} else if (!board[i][j].isDoorway() && !board[i][j].isRoom() && board[i + 1][j].isWalkway()) {
 						tempAdj.add(board[i + 1][j]);
 					}
 				}
-				if (j > 0) {
+				if (j > 0) {//Make sure we won't get an out of bounds exception
+					// Add cell from doorway
 					if (!board[i][j].isRoom() && board[i][j - 1].isDoorway() && board[i][j - 1].getDoorDirection() == DoorDirection.RIGHT) {
 						tempAdj.add(board[i][j - 1]);
+						// Add cell from walkway if it is not a room or doorway
 					} else if (!board[i][j].isDoorway() && !board[i][j].isRoom() && board[i][j - 1].isWalkway()) {
 						tempAdj.add(board[i][j - 1]);
 					}
 				}
-				if (j < numColumns - 1) {
+				if (j < numColumns - 1) {//Make sure we won't get an out of bounds exception
+					// Add cell from doorway
 					if (!board[i][j].isRoom() && board[i][j + 1].isDoorway() && board[i][j + 1].getDoorDirection() == DoorDirection.LEFT) {
 						tempAdj.add(board[i][j + 1]);
+						// Add cell from walkway if it is not a room or doorway
 					} else if (!board[i][j].isDoorway() && !board[i][j].isRoom() && board[i][j + 1].isWalkway()) {
 						tempAdj.add(board[i][j + 1]);
 					}
 				}
+				// Adding cells to adjacency matrix
 				adjMatrix.put(board[i][j], tempAdj);
 			}
 		}
@@ -219,15 +230,19 @@ public class Board {
 	}
 	
 	public void calcTargets(int row, int column, int pathLength) {
-		for(BoardCell cell : adjMatrix.get(board[row][column])) {
+		for(BoardCell cell : adjMatrix.get(board[row][column])) { //Iterate through adjacency set
+			// Add cell to visited matrix
 			visited.add(board[row][column]);
+			// Don't add cell if its already been visited
 			if(visited.contains(cell)) {
 				continue;
 			}
+			// Don't add cell if its a room
 			if (cell.isRoom()) {
 				continue;
 			}
 			if (cell.isDoorway()) {
+				// Adding cell from doorway based on direction
 				if (cell.getDoorDirection() == DoorDirection.DOWN && column == cell.getCol() && row - cell.getRow() == 1) {
 					visited.add(cell);
 					targets.add(cell);
@@ -249,21 +264,22 @@ public class Board {
 					continue;
 				}
 			}
+			// Adding cell from walkway
 			visited.add(cell);
 			if (pathLength == 1) {
 				targets.add(cell); // If at desired distance from starting cell, a target has been reached
 			} else {
 				calcTargets(cell.getRow(), cell.getCol(), pathLength - 1); // If not at desired distance from starting cell, continue
 			}
+			// Remove cell after it has been added to targets
 			visited.remove(cell);
 		}
 	}
 	
 	public Set<BoardCell> getTargets() {
-		System.out.println(targets.size());
 		Set<BoardCell> tempTargets = new HashSet<BoardCell>();
-		tempTargets.addAll(targets);
-		targets.clear();
+		tempTargets.addAll(targets); //Create temporary set equal to targets to return
+		targets.clear(); // Clear targets for next roll
 		return tempTargets;
 		
 	}
