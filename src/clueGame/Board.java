@@ -1,8 +1,9 @@
 package clueGame;
 
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.io.FileReader;
 import java.util.*;
+
 
 /**
  * @author Sam Mills, Nadia Bixenman
@@ -136,7 +137,7 @@ public class Board {
 	public void calcAdjancencies() {
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numColumns; j++) {
-				HashSet<BoardCell> tempAdj = new HashSet<BoardCell>();
+				HashSet<clueGame.BoardCell> tempAdj = new HashSet<clueGame.BoardCell>();
 				if (board[i][j].isDoorway()) {
 					if (board[i][j].getDoorDirection() == DoorDirection.UP) {
 						tempAdj.add(board[i - 1][j]);
@@ -186,11 +187,6 @@ public class Board {
 		}
 	}
 			
-		
-	
-	public void calcTargets(BoardCell cell, int pathLength) {
-		
-	}
 	
 	/** Sets the names of the layout and legend config files
 	 * @param layoutName
@@ -222,13 +218,24 @@ public class Board {
 	}
 	
 	public void calcTargets(int row, int column, int pathLength) {
-		
+	Set<BoardCell> visited = new HashSet<BoardCell>();
+		for(BoardCell cell : adjMatrix.get(board[row][column])) {
+			visited.add(board[row][column]);
+			if(visited.contains(cell)) {
+				continue;
+			}
+			visited.add(cell);
+			if (pathLength == 1) {
+				targets.add(cell); // If at desired distance from starting cell, a target has been reached
+			} else {
+				calcTargets(numRows, numColumns, pathLength - 1); // If not at desired distance from starting cell, continue
+			}
+			visited.remove(cell);
+		}
 	}
 	
 	public Set<BoardCell> getTargets() {
-		Set<BoardCell> testList = new HashSet<BoardCell>(50);
-		testList.add(new BoardCell(-10, -10));
-		return testList; // empty but nonzero so all tests successfully fail
+		return targets; // empty but nonzero so all tests successfully fail
 	}
 	
 }
