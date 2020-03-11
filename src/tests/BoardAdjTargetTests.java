@@ -19,7 +19,7 @@ import clueGame.BoardCell;
 public class BoardAdjTargetTests {
 	// Static board
 	private static Board board;
-	@Before
+	@BeforeClass
 	public void setUp() {
 		board = Board.getInstance();
 		board.setConfigFiles("ClueLayout.csv", "ClueLegend.txt");

@@ -77,19 +77,18 @@ public class BoardCell {
 	 */
 	public void setDoor(String door) {
 		char directionChar = door.charAt(1);
-		if(directionChar == 'R') {
-			direction = DoorDirection.RIGHT;
-		} else if(directionChar == 'L') {
-			direction = DoorDirection.LEFT;
-		} else if(directionChar == 'U') {
-			direction = DoorDirection.UP;
-		} else if(directionChar == 'D') {
-			direction = DoorDirection.DOWN;
-		} else {
-			isDoorway = false;
-			return;
+		
+		switch(directionChar) {
+		case 'R': direction = DoorDirection.RIGHT;
+		case 'L': direction = DoorDirection.LEFT;
+		case 'U': direction = DoorDirection.UP;
+		case 'D': direction = DoorDirection.DOWN;
+		default: direction = DoorDirection.NONE;
 		}
-		isDoorway = true;
+		if(direction != DoorDirection.NONE) {
+			isDoorway = true;
+		}
+		
 	}
 	
 }

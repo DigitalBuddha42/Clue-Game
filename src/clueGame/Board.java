@@ -243,26 +243,12 @@ public class Board {
 			}
 			if (cell.isDoorway()) {
 				// Adding cell from doorway based on direction
-				if (cell.getDoorDirection() == DoorDirection.DOWN && column == cell.getCol() && row - cell.getRow() == 1) {
+				if (targetHelper(row,column,cell)) {
 					visited.add(cell);
 					targets.add(cell);
 					continue;
 				}
-				if (cell.getDoorDirection() == DoorDirection.UP && column == cell.getCol() && cell.getRow() - row == 1) {
-					visited.add(cell);
-					targets.add(cell);
-					continue;
-				}
-				if (cell.getDoorDirection() == DoorDirection.RIGHT && column - cell.getCol() == 1 && row == cell.getRow()) {
-					visited.add(cell);
-					targets.add(cell);
-					continue;
-				}
-				if (cell.getDoorDirection() == DoorDirection.RIGHT && cell.getCol() - column == 1 && row == cell.getRow()) {
-					visited.add(cell);
-					targets.add(cell);
-					continue;
-				}
+				
 			}
 			// Adding cell from walkway
 			visited.add(cell);
@@ -282,6 +268,22 @@ public class Board {
 		targets.clear(); // Clear targets for next roll
 		return tempTargets;
 		
+	}
+	
+	public boolean targetHelper(int row, int column, BoardCell cell) {
+		if(cell.getDoorDirection() == DoorDirection.DOWN && column == cell.getCol() && row - cell.getRow() == 1) {
+			return true;
+		}
+		if(cell.getDoorDirection() == DoorDirection.UP && column == cell.getCol() && cell.getRow() - row == 1) {
+			return true;
+		}
+		if(cell.getDoorDirection() == DoorDirection.RIGHT && column - cell.getCol() == 1 && row == cell.getRow()) {
+			return true;
+		}
+		if(cell.getDoorDirection() == DoorDirection.RIGHT && cell.getCol() - column == 1 && row == cell.getRow()) {
+			return true;
+		}
+		return false;
 	}
 	
 }
