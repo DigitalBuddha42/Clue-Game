@@ -24,6 +24,7 @@ public class Board {
 	Set<Character> allInitials;
 	Set<BoardCell> visited;
 	private Solution theAnswer;
+	private Set<Player> allPlayers;
 
 	// Singleton pattern, only one instance of board
 	private static Board theInstance = new Board();
@@ -207,12 +208,20 @@ public class Board {
 	 * @param layoutName
 	 * @param legendName
 	 */
+	
+	public void setConfigFiles(String layoutName, String legendName) {
+		roomConfigFile = legendName;
+		boardConfigFile = layoutName;
+		playerConfigFile = "CluePlayer.txt";
+		weaponConfigFile = "ClueWeapons.txt";
+	}
 	public void setConfigFiles(String layoutName, String legendName, String playerName, String weaponsName) {
 		roomConfigFile = legendName;
 		boardConfigFile = layoutName;
 		playerConfigFile = playerName;
 		weaponConfigFile = weaponsName;
 	}
+	
 	
 	public Map<Character, String> getLegend() {
 		return legend;
@@ -301,5 +310,9 @@ public class Board {
 	
 	public boolean checkAccusation(Solution accusation) {
 		return false;
+	}
+	
+	public Set<Player> getPlayers() {
+		return null;
 	}
 }
