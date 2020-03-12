@@ -12,7 +12,7 @@ import java.util.*;
 public class Board {
 	private int numRows;
 	private int numColumns;
-	public final int MAX_BOARD_SIZE = 50; // Large enough to not be an issue
+	public final int MAX_BOARD_SIZE = 50; // Large enough so that it is not an issue
 	private BoardCell[][] board;
 	private Map<Character, String> legend;
 	private Map<BoardCell, Set<BoardCell>> adjMatrix;
@@ -129,6 +129,7 @@ public class Board {
 					numColumns++;
 				}
 			}
+			//check that there are the same number of rows and columns on every line
 			if (row == 0) {
 				firstLength = numColumns;
 			} else if (numColumns != firstLength) {
