@@ -59,7 +59,7 @@ public class BoardCell {
 		return roomInitial;
 	}
 	
-	// Convert to char
+	// Convert to character
 	public void setInitial(String initial) {
 		roomInitial = initial.charAt(0);
 	}
