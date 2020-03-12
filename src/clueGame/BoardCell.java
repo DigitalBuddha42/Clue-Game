@@ -74,6 +74,7 @@ public class BoardCell {
 	
 	/** Given that the cell is a door(two character initial, setDoor called), sets the direction of the door cell and that it is a door
 	 * @param door
+	 * 
 	 */
 	public void setDoor(String door) {
 		char directionChar = door.charAt(1);
