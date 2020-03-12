@@ -286,4 +286,15 @@ public class Board {
 		return false;
 	}
 	
+	public void selectAnswer() {
+		
+	}
+	
+	public Card handleSuggestion() {
+		return null;
+	}
+	
+	public boolean checkAccusation(Solution accusation) {
+		return false;
+	}
 }
