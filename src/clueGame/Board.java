@@ -73,6 +73,7 @@ public class Board {
 				throw new BadConfigFormatException("Room type " + roomType + " is not Card or Other");
 			}
 		}
+		// Create to check for wrong room exceptions
 		allInitials = legend.keySet();
 	}
 	
@@ -98,6 +99,7 @@ public class Board {
 			length = line.length();
 			for (int i = 0; i<length; i++) {
 				String roomInitial;
+				// Parse line
 				if (line.charAt(i) != ',') {
 					if ((length - i) < 3) {
 						roomInitial = line.substring(i);
