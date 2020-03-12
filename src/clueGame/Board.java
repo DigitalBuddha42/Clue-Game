@@ -288,6 +288,7 @@ public class Board {
 	
 	//Helper function to reduce code in calcTargets
 	// Checks cells to add from doorway
+	// Takes in row, column, and cell
 	public boolean targetHelper(int row, int column, BoardCell cell) {
 		// Checks cell is in appropriate direction from door
 		if(cell.getDoorDirection() == DoorDirection.DOWN && column == cell.getCol() && row - cell.getRow() == 1) {
