@@ -1,0 +1,49 @@
+Log:
+
+* Made the tests work again
+* Added more specific error message when loading files
+* Fixed new switch statement to work with tests
+* Fixed indentation in Board.java
+* Got rid of unnecessary variables in loadConfig function
+* Added more comments to tests to specify what was being tested
+* Refactored vague variables
+* Added more comments to dense code in Board.java
+
+Original code(Within calcTargets method):
+
+	if (cell.isDoorway()) {
+		// Adding cell from doorway based on direction
+		if(cell.getDoorDirection() == DoorDirection.DOWN && column == cell.getCol() && row - cell.getRow() == 1) {
+			visited.add(cell);
+			targets.add(cell);
+			continue;
+		}
+		if(cell.getDoorDirection() == DoorDirection.UP && column == cell.getCol() && cell.getRow() - row == 1) {
+			visited.add(cell);
+			targets.add(cell);
+			continue;
+		}
+		if(cell.getDoorDirection() == DoorDirection.RIGHT && column - cell.getCol() == 1 && row == cell.getRow()) {
+			visited.add(cell);
+			targets.add(cell);
+			continue;
+		}
+		if(cell.getDoorDirection() == DoorDirection.RIGHT && cell.getCol() - column == 1 && row == cell.getRow()) {
+			visited.add(cell);
+			targets.add(cell);
+			continue;
+		}
+		return false;
+
+
+Updated code (with an added helper function to test if a cell is a valid one):
+
+		if (cell.isDoorway()) {
+			// Adding cell from doorway based on direction
+			if (targetHelper(row,column,cell)) {
+				visited.add(cell);
+				targets.add(cell);
+				continue;
+			}
+				
+		}
