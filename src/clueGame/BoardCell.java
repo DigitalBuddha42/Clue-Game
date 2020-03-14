@@ -80,12 +80,23 @@ public class BoardCell {
 		char directionChar = door.charAt(1);
 		
 		switch(directionChar) {
-		case 'R': direction = DoorDirection.RIGHT;
-		case 'L': direction = DoorDirection.LEFT;
-		case 'U': direction = DoorDirection.UP;
-		case 'D': direction = DoorDirection.DOWN;
-		default: direction = DoorDirection.NONE;
+		case 'R':
+			direction = DoorDirection.RIGHT;
+			break;
+		case 'L':
+			direction = DoorDirection.LEFT;
+			break;
+		case 'U':
+			direction = DoorDirection.UP;
+			break;
+		case 'D':
+			direction = DoorDirection.DOWN;
+			break;
+		default:
+			direction = DoorDirection.NONE;
+			break;
 		}
+		
 		if(direction != DoorDirection.NONE) {
 			isDoorway = true;
 		}

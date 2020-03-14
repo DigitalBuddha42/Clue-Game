@@ -20,7 +20,7 @@ public class BoardAdjTargetTests {
 	// Static board
 	private static Board board;
 	@BeforeClass
-	public void setUp() {
+	public static void setUp() {
 		board = Board.getInstance();
 		board.setConfigFiles("ClueLayout.csv", "ClueLegend.txt");
 		board.initialize();
@@ -31,7 +31,6 @@ public class BoardAdjTargetTests {
 	@Test
 	public void testAdjDoorways() {
 		// Testing walkway to the right of a room entrance
-		System.out.println(board.getNumRows());
 		Set<BoardCell> testList = board.getAdjList(11, 5);
 		assertTrue(testList.contains(board.getCellAt(11, 4)));
 		assertTrue(testList.contains(board.getCellAt(11, 6)));

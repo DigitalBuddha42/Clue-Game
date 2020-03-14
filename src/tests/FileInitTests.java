@@ -23,7 +23,7 @@ public class FileInitTests {
 
 	// Create the board, set the config files, initialize the board
 	@BeforeClass
-	public void setUp() {
+	public static void setUp() {
 		board = Board.getInstance();
 		board.setConfigFiles("ClueLayout.csv", "ClueLegend.txt");		
 		board.initialize();
