@@ -322,7 +322,7 @@ public class Board {
 	}
 	
 	public Set<Player> getPlayers() {
-		return null;
+		return allPlayers;
 	}
 	
 }
