@@ -1,7 +1,9 @@
 package clueGame;
 
+import java.awt.Color;
 import java.io.*;
 import java.io.FileReader;
+import java.lang.reflect.Field;
 import java.util.*;
 
 
@@ -50,6 +52,7 @@ public class Board {
 		try {
 			loadRoomConfig();
 			loadBoardConfig();
+			loadPlayerConfig();
 		} catch (FileNotFoundException | BadConfigFormatException e) {
 			e.getMessage();
 		}
@@ -143,6 +146,56 @@ public class Board {
 		}
 		this.numRows = numRows;
 		this.numColumns = numColumns;
+	}
+	
+	public void loadPlayerConfig() throws FileNotFoundException, BadConfigFormatException{
+		FileReader reader = new FileReader(playerConfigFile);
+		Scanner in = new Scanner(reader);
+		
+		String line = " ";
+		int row;
+		int col;
+		String name = " ";
+		String colorString = " ";
+		Color color = null;
+		String playerType = " ";
+		Card tempCard;
+		
+		while(in.hasNextLine()) {
+			name = in.next();
+			colorString = in.next();
+			
+			// Converting colorString to a java color
+			try {
+				Field field  = Class.forName("java.awt.Color").getField( colorString );
+				color = (Color)field.get(null);
+			}catch(Exception e){
+				System.out.println( "The color entered for player " + name + " is not a valid color" );
+			}
+			
+			playerType = in.next();
+			// Exception to check player is either Human or Computer
+			if(!playerType.equals("Human") && !playerType.equals("Computer")) {
+				throw new BadConfigFormatException("The player type " + playerType + " is not a valid player type.");
+			}
+			
+			row = Integer.parseInt(in.next());
+			col = Integer.parseInt(in.next());
+			
+			// Add new person card to deck
+			tempCard = new Card(name, CardType.PERSON);
+			deck.add(tempCard);
+			
+			//Add new human or computer player to set of players
+			if(playerType.equals("Human")){
+				allPlayers.add(new HumanPlayer(name, row, col, color));
+			}
+			else if(playerType.equals("Computer")) {
+				allPlayers.add(new ComputerPlayer(name, row, col, color));
+			}
+		}
+		
+		in.close();
 	}
 	
 	public void calcAdjancencies() {

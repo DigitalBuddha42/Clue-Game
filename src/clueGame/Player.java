@@ -28,19 +28,19 @@ public class Player {
 	}
 	
 	public String getPlayerName() {
-		return null;
+		return playerName;
 	}
 	
 	public int getPlayerRow() {
-		return 0;
+		return row;
 	}
 	
 	public int getPLayerCol() {
-		return 0;
+		return column;
 	}
 	
 	public Color getPlayerColor() {
-		return Color.white;
+		return color;
 	}
 	
 	public Set<Card> getMyCards(){
