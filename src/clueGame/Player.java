@@ -26,4 +26,24 @@ public class Player {
 	public Card disproveSuggestion(Solution suggestion) {
 		return null;
 	}
+	
+	public String getPlayerName() {
+		return playerName;
+	}
+	
+	public int getPlayerRow() {
+		return row;
+	}
+	
+	public int getPLayerCol() {
+		return column;
+	}
+	
+	public Color getPlayerColor() {
+		return color;
+	}
+	
+	public Set<Card> getMyCards(){
+		return myCards;
+	}
 }

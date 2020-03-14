@@ -10,7 +10,7 @@ import clueGame.Player;
 
 
 public class gameSetupTests {
-	private Board board;
+	private static Board board;
 	public static final int NUM_PEOPLE = 6;
 	public static final int NUM_WEAPONS = 6;
 	public static final int NUM_CARDS = 21;

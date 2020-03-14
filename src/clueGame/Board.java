@@ -25,6 +25,7 @@ public class Board {
 	Set<BoardCell> visited;
 	private Solution theAnswer;
 	private Set<Player> allPlayers;
+	private Set<Card> deck;
 
 	// Singleton pattern, only one instance of board
 	private static Board theInstance = new Board();
@@ -35,6 +36,8 @@ public class Board {
 		adjMatrix = new HashMap<BoardCell, Set<BoardCell>>();
 		targets = new HashSet<BoardCell>();
 		visited = new HashSet<BoardCell>();
+		allPlayers = new HashSet<Player>();
+		deck = new HashSet<Card>();
 	}
 	public static Board getInstance() {
 		return theInstance;
