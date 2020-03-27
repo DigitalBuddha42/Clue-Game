@@ -110,7 +110,7 @@ public class gameSetupTests {
 		
 		assertEquals(personCard, 6);
 		assertEquals(weaponCard, 6);
-		assertEquals(roomCard, 6);
+		assertEquals(roomCard, 9);
 	}
 
 }
