@@ -53,6 +53,7 @@ public class Board {
 			loadRoomConfig();
 			loadBoardConfig();
 			loadPlayerConfig();
+			loadWeaponFile();
 		} catch (FileNotFoundException | BadConfigFormatException e) {
 			e.getMessage();
 		}
@@ -204,8 +205,33 @@ public class Board {
 	}
 	
 	public void loadWeaponFile() throws FileNotFoundException, BadConfigFormatException{
-		FileReader reader = new FileReader(playerConfigFile);
+		FileReader reader = new FileReader(weaponConfigFile);
 		Scanner in = new Scanner(reader);
+		
+		String line = "";
+		String weapon = "";
+		String type = "";
+		int commaIndex = 0;
+		Card tempCard;
+		
+		while(in.hasNextLine()) {
+			line = in.nextLine();
+			commaIndex = line.indexOf(','); //Find where the comma is to separate the weapon from type
+			
+			weapon = line.substring(0, commaIndex - 1);
+			type = line.substring(commaIndex + 1);
+			
+			// Check that the weapon is a card
+			if(!type.equals("Card")) {
+				throw new BadConfigFormatException("The type: " + type + " is not a valid card");
+			}
+			
+			// Adding the weapon to the deck
+			tempCard = new Card(weapon, CardType.WEAPON);
+			deck.add(tempCard);
+		}
+		
+		in.close();
 	}
 	
 	public void calcAdjancencies() {
