@@ -67,6 +67,7 @@ public class Board {
 	public void loadRoomConfig() throws FileNotFoundException, BadConfigFormatException{
 		FileReader reader = new FileReader(roomConfigFile);
 		Scanner in = new Scanner(reader);
+		Card tempCard;
 		
 		while(in.hasNextLine()) {
 			String line = in.nextLine();
@@ -77,6 +78,10 @@ public class Board {
 			String roomType = line.substring(index + 2);
 			if (!roomType.equals("Card") && !roomType.equals("Other")) {
 				throw new BadConfigFormatException("Room type " + roomType + " is not Card or Other");
+			}
+			if(roomType.equals("Card")) {
+				tempCard = new Card(roomName, CardType.ROOM);
+				deck.add(tempCard);
 			}
 		}
 		// Create to check for wrong room exceptions
@@ -196,6 +201,11 @@ public class Board {
 		}
 		
 		in.close();
+	}
+	
+	public void loadWeaponFile() throws FileNotFoundException, BadConfigFormatException{
+		FileReader reader = new FileReader(playerConfigFile);
+		Scanner in = new Scanner(reader);
 	}
 	
 	public void calcAdjancencies() {
@@ -378,4 +388,7 @@ public class Board {
 		return allPlayers;
 	}
 	
+	public Set<Card> getDeck(){
+		return deck;
+	}
 }

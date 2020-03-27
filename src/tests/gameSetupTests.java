@@ -6,6 +6,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import clueGame.Board;
+import clueGame.Card;
+import clueGame.CardType;
 import clueGame.ComputerPlayer;
 import clueGame.HumanPlayer;
 import clueGame.Player;
@@ -81,6 +83,34 @@ public class gameSetupTests {
 		
 		assertEquals(playerCount, NUM_PEOPLE);
 		
+	}
+	
+	/*
+	 * Test checks that the deck is complete and that there are the right number of each kind of card
+	 */
+	@Test
+	public void deckTest() {
+		
+		assertEquals(board.getDeck().size(), 21);
+		
+		int personCard = 0;
+		int weaponCard = 0;
+		int roomCard = 0;
+		for(Card testCard : board.getDeck()) {
+			if(testCard.getCardType() == CardType.PERSON) {
+				personCard ++;
+			}
+			else if(testCard.getCardType() == CardType.WEAPON) {
+				weaponCard ++;
+			}
+			else if(testCard.getCardType() == CardType.ROOM) {
+				roomCard ++;
+			}
+		}
+		
+		assertEquals(personCard, 6);
+		assertEquals(weaponCard, 6);
+		assertEquals(roomCard, 6);
 	}
 
 }
