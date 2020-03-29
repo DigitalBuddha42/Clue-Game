@@ -112,5 +112,40 @@ public class gameSetupTests {
 		assertEquals(weaponCard, 6);
 		assertEquals(roomCard, 9);
 	}
+	
+	/*
+	 * Checks that all cards are dealt, players have same number of cards within 1
+	 */
+	@Test
+	public void dealCardTest() {
+		
+		int cardCount = 0;
+		boolean firstLoop = true;
+		int playerCards = 0;
+		
+		for(Player p: board.getPlayers()) {
+			if(firstLoop) {
+				playerCards = p.getMyCards().size();
+				firstLoop = false;
+			}
+			else {
+				if(playerCards - p.getMyCards().size() >= 1) {
+					fail();
+				}
+			}
+			cardCount ++;
+	
+		}
+		
+		assertEquals(cardCount, 18); //Have to use 18 because not counting solution cards
+	}
+	
+	/*
+	 * Check that each card is only dealt once, including solution deck
+	 */
+	@Test
+	public void checkPlayerCardsTest() {
+		
+	}
 
 }
