@@ -144,8 +144,7 @@ public class gameSetupTests {
 	 * Check that each card is only dealt once, including solution deck
 	 */
 	@Test
-	public void checkPlayerCardsTest() {
-		
+	public void checkPlayerCardsTest() {		
 	}
 
 }
