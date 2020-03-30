@@ -28,7 +28,7 @@ public class Board {
 	private Solution theAnswer;
 	private ArrayList<Player> allPlayers;
 	private Set<Card> deck;
-	private Set<Card> playerDeck;
+	private ArrayList<Card> playerDeck;
 
 	// Singleton pattern, only one instance of board
 	private static Board theInstance = new Board();
@@ -40,6 +40,7 @@ public class Board {
 		targets = new HashSet<BoardCell>();
 		visited = new HashSet<BoardCell>();
 		deck = new HashSet<Card>();
+		allPlayers = new ArrayList<Player>();
 	}
 	public static Board getInstance() {
 		return theInstance;
@@ -428,7 +429,7 @@ public class Board {
 			}
 		}
 		
-		playerDeck = new HashSet<Card>(deck);
+		playerDeck = new ArrayList<Card>(deck);
 		for (Card c: solutionSet) {
 			if (c.getCardType() == CardType.PERSON) {
 				person = c.getCardName();
@@ -445,28 +446,18 @@ public class Board {
 	
 	public void dealCards() {
 		Random rand = new Random();
-		Set<Card> dealtCards = new HashSet<Card>();
+		ArrayList<Card> dealtCards = new ArrayList<Card>();
 		Set<Card> playerCards = new HashSet<Card>();
-		Collections.shuffle((List<?>) playerDeck);
+		Collections.shuffle(playerDeck);
 		int player = 0;
 		
-		for(Card c : playerDeck) {
+		for(Card c: playerDeck) {
 			allPlayers.get(player).dealCard(c);
-		}
-
-		/*while (!dealtCards.equals(playerDeck)) {
-			for (Player p: allPlayers) {
-				int cardNum = rand.nextInt(playerDeck.size());
-				int currentCard = 0;
-				for (Card c: playerDeck) {
-					if (currentCard == cardNum && !dealtCards.contains(c)) {
-						p.dealCard(c);
-						dealtCards.add(c);
-					}
-				}
-
+			player ++;
+			if(player == 6) {
+				player = 0;
 			}
-		}*/
+		}
 
 	}
 	
