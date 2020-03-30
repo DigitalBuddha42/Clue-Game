@@ -1,9 +1,7 @@
 * Made final test pass
 * Finished editing dealCardTest
 * Updated dealCardTest to check if all cards were dealt except for the answer cards to the players
-* Made deckTest pass
 * Worked on dealCards, still can't get it to work
-* Removed comment
 * Made some progress toward implementing getting a solution and dealing cards.
 * Made dealCardTest fail, need to implement method in board to deal cards
 * Wrote dealCardTest to make sure all cards dealt evenly
@@ -14,84 +12,3 @@
 * Made loadPeopleTest fail
 * Wrote loadPeopleTest
 * Added getters to Player class and created deck in Board
-* Renamed file
-* Finished refactoring txt file
-* Made the tests work again
-* Added more specific error message when loading files
-* Fixed new switch statement to work with tests
-* Fixed indentation in Board.java
-* Got rid of unnecessary variables in loadConfig function
-* Added more comments to tests to specify what was being tested
-* Refactored vague variables
-* Added more comments to dense code in Board.java
-* Added files
-* Added constructors and setters
-* Started setting up test class and added weapons file
-* Set up initial player and card classes
-* Added target helper function, changed to beforeClass, and changed setDoor to switch statement
-* added comments
-* Renamed git log
-* Added git log
-* Made all tests pass
-* started working on calcTargets
-* Got our adjacency tests working
-*   Merged
-|\  
-| * Finished part III, started part IV
-| * Finished tests
-| * Finished testTargets_5 and added test of cell at top of board
-| * Worked on target tests, walkway tests with path length 5 are half finished
-| * Finished adj tests, all CTest adjtests fail successfully
-* | Got all adjacency CTests working
-|/  
-* Wrote tests for walkway adjacencies (green and light purple cells)
-* Updated excel spreadsheet to include tests
-* Made Ctests fail, but can't figure out the getAdjList function
-*   Merged branches
-|\  
-| *   Merge branch 'master' of https://github.com/nadiabixenman/Clue-Game
-| |\  
-| * | Finished comments and everything
-* | | Imported Adjacent target tests file
-| |/  
-|/|   
-* | Added files
-|/  
-* Got all FileInitTests working. Take a look and make changes/add comments as necessary if you want
-* Got testDoorDirections working
-* Got testInitials a nd testDimensions to pass
-* Actually actually fixed testLegend
-* Actually fixed testLegend
-* Made testLegend pass
-* Made exceptions tests pass
-* Finished up board but need to initialize legend
-* Set up board and roon config
-* Added csv file
-* Finished Part 1, but comments not added yet
-* Added our own test file
-* Ensured tests failed successfully
-* Set up skeleton classes of DoorDirection and BoardCell
-* Added new data files
-* Added back layout files
-* Added git log
-* Final changes
-* Fixed layout files
-* Made excel sheet
-* Created txt file of rooms
-* Added comments
-* Updated comments on IntBoardTests
-* Added target functionality and updated tests
-* Improved calcAdjacencies algorithm
-* updated print statements to look better(these will be deleted before we submit)
-* Finished Part 1, saved Part 1 code as a separate folder, added functionality for all adjacency tests
-* Finished tests
-* Created preliminary classes, text file, excel doc
-* Made BoardCell Class
-* Delete .project
-* Delete .classpath
-* Actually added gitignore
-* Added everything
-* Added gitignore
-* Deleted gitignore
-* Updated .gitignore
-* Initial commit
