@@ -5,7 +5,6 @@ import java.util.*;
 
 /**
  * @author Sam Mills, Nadia Bixenman
- *
  */
 public class ComputerPlayer extends Player {
 
