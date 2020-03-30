@@ -26,7 +26,7 @@ public class Board {
 	Set<Character> allInitials;
 	Set<BoardCell> visited;
 	private Solution theAnswer;
-	private Set<Player> allPlayers;
+	private ArrayList<Player> allPlayers;
 	private Set<Card> deck;
 	private Set<Card> playerDeck;
 
@@ -39,7 +39,6 @@ public class Board {
 		adjMatrix = new HashMap<BoardCell, Set<BoardCell>>();
 		targets = new HashSet<BoardCell>();
 		visited = new HashSet<BoardCell>();
-		allPlayers = new HashSet<Player>();
 		deck = new HashSet<Card>();
 	}
 	public static Board getInstance() {
@@ -448,8 +447,14 @@ public class Board {
 		Random rand = new Random();
 		Set<Card> dealtCards = new HashSet<Card>();
 		Set<Card> playerCards = new HashSet<Card>();
+		Collections.shuffle((List<?>) playerDeck);
+		int player = 0;
+		
+		for(Card c : playerDeck) {
+			allPlayers.get(player).dealCard(c);
+		}
 
-		while (!dealtCards.equals(playerDeck)) {
+		/*while (!dealtCards.equals(playerDeck)) {
 			for (Player p: allPlayers) {
 				int cardNum = rand.nextInt(playerDeck.size());
 				int currentCard = 0;
@@ -461,7 +466,7 @@ public class Board {
 				}
 
 			}
-		}
+		}*/
 
 	}
 	
@@ -473,7 +478,7 @@ public class Board {
 		return false;
 	}
 	
-	public Set<Player> getPlayers() {
+	public ArrayList<Player> getPlayers() {
 		return allPlayers;
 	}
 	

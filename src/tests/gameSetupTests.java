@@ -137,6 +137,8 @@ public class gameSetupTests {
 				playerCards = p.getMyCards().size();
 				firstLoop = false;
 			} else {
+				System.out.println(playerCards);
+				System.out.println(p.getMyCards().size());
 				if(Math.abs(playerCards - p.getMyCards().size()) > 1) {
 					fail();
 				}
