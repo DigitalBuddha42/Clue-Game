@@ -453,7 +453,7 @@ public class Board {
 		
 		for(Card c: playerDeck) {
 			allPlayers.get(player).dealCard(c);
-			player ++;
+			player++;
 			if(player == 6) {
 				player = 0;
 			}

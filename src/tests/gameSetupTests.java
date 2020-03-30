@@ -130,23 +130,26 @@ public class gameSetupTests {
 		int cardCount = 0;
 		boolean firstLoop = true;
 		int playerCards = 0;
-		Random rand = new Random();
+		Set<Card> deck = new HashSet<Card>(board.getDeck());
+		Set<Card> playerSet = new HashSet<Card>();
 		
 		for(Player p: board.getPlayers()) {
 			if(firstLoop) {
 				playerCards = p.getMyCards().size();
 				firstLoop = false;
 			} else {
-				System.out.println(playerCards);
-				System.out.println(p.getMyCards().size());
 				if(Math.abs(playerCards - p.getMyCards().size()) > 1) {
 					fail();
 				}
 			}
 			cardCount += p.getMyCards().size();
+			for (Card c: p.getMyCards()) {
+				playerSet.add(c);
+			}
 	
 		}
-		
+		assertTrue(deck.containsAll(playerSet));
+		assertEquals(deck.size(), playerSet.size() + 3);
 		assertEquals(NUM_CARDS - 3, cardCount); 
 	}
 	
