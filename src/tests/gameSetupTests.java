@@ -145,7 +145,7 @@ public class gameSetupTests {
 	
 		}
 		
-		assertEquals(NUM_CARDS - 3, cardCount); //Have to use 18 because not counting solution cards
+		assertEquals(NUM_CARDS - 3, cardCount); 
 	}
 	
 	/*
