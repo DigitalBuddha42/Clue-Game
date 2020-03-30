@@ -3,6 +3,10 @@ package clueGame;
 import java.awt.Color;
 import java.util.*;
 
+/**
+ * @author Sam Mills, Nadia Bixenman
+ *
+ */
 public class ComputerPlayer extends Player {
 
 	public ComputerPlayer(String playerName, int row, int column, Color color) {

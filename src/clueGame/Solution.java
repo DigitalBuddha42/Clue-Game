@@ -1,5 +1,9 @@
 package clueGame;
 
+/**
+ * @author Sam Mills, Nadia Bixenman
+ *
+ */
 public class Solution {
 	public String person;
 	public String room;

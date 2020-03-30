@@ -13,16 +13,21 @@ import clueGame.CardType;
 import clueGame.ComputerPlayer;
 import clueGame.HumanPlayer;
 import clueGame.Player;
+import clueGame.Solution;
 
 import java.awt.Color;
 
+/**
+ * @author Sam Mills, Nadia Bixenman
+ *
+ */
 public class gameSetupTests {
 	private static Board board;
 	public static final int NUM_PEOPLE = 6;
 	public static final int NUM_WEAPONS = 6;
 	public static final int NUM_ROOMS = 9;
 	public static final int NUM_CARDS = 21;
-	
+
 	@BeforeClass
 	public static void setUp() {
 		board = Board.getInstance();
@@ -30,7 +35,7 @@ public class gameSetupTests {
 		board.initialize();
 		board.selectAnswer();
 		board.dealCards();
-		
+
 	}
 
 	/*
@@ -38,16 +43,16 @@ public class gameSetupTests {
 	 */
 	@Test
 	public void loadPeopleTest() {
-		
+
 		assertEquals(board.getPlayers().size(), NUM_PEOPLE);
 		int playerCount = 0;
-		
+
 		for(Player p : board.getPlayers()) {
 			if(p.getPlayerName().equals("Player1")) {
 				assertEquals(Color.red, p.getPlayerColor());
 				assertEquals(10, p.getPlayerRow());
 				assertEquals(6, p.getPLayerCol());
-				assert(p instanceof HumanPlayer); // Do we need this? Would the player methods even work if it wasn't one?
+				assert(p instanceof HumanPlayer);
 				playerCount++;
 			}
 			else if(p.getPlayerName().equals("Player2")) {
@@ -89,22 +94,24 @@ public class gameSetupTests {
 				fail();
 			}
 		}
-		
+
 		assertEquals(NUM_PEOPLE, playerCount);
-		
+
 	}
-	
+
 	/*
 	 * Test checks that the deck is complete and that there are the right number of each kind of card
 	 */
 	@Test
 	public void deckTest() {
-		
-		assertEquals(NUM_CARDS, board.getDeck().size());
-		
+
+		assertEquals(NUM_CARDS, board.getDeck().size()); // Check that the deck is the expected size
+
 		int personCard = 0;
 		int weaponCard = 0;
 		int roomCard = 0;
+		
+		// Count the number of each type of card
 		for(Card testCard : board.getDeck()) {
 			if(testCard.getCardType() == CardType.PERSON) {
 				personCard ++;
@@ -117,48 +124,65 @@ public class gameSetupTests {
 			}
 		}
 		
+		// Compare the counted cards with the expected amounts
 		assertEquals(NUM_PEOPLE, personCard);
 		assertEquals(NUM_WEAPONS, weaponCard);
 		assertEquals(NUM_ROOMS, roomCard);
 	}
-	
+
 	/*
-	 * Checks that all cards are dealt, players have same number of cards within 1
+	 * Checks that all cards are dealt only once, and that players have same number of cards within 1
 	 */
 	@Test
 	public void dealCardTest() {
 		int cardCount = 0;
 		boolean firstLoop = true;
 		int playerCards = 0;
+		Solution solution = board.getSolution();
 		Set<Card> deck = new HashSet<Card>(board.getDeck());
 		Set<Card> playerSet = new HashSet<Card>();
-		
+
 		for(Player p: board.getPlayers()) {
 			if(firstLoop) {
-				playerCards = p.getMyCards().size();
+				playerCards = p.getMyCards().size(); // Check the number of cards held by the first player to be compared with other players
 				firstLoop = false;
 			} else {
+				// Verify that each player has within 1 card of each other
 				if(Math.abs(playerCards - p.getMyCards().size()) > 1) {
 					fail();
 				}
 			}
 			cardCount += p.getMyCards().size();
 			for (Card c: p.getMyCards()) {
-				playerSet.add(c);
+				// Verify that no duplicate cards are held by players
+				if (playerSet.contains(c)) {
+					fail();
+				} else {
+					playerSet.add(c);
+				}
 			}
-	
+
 		}
+		// Verify that the players have been dealt all but 3 cards contained in the deck
 		assertTrue(deck.containsAll(playerSet));
 		assertEquals(deck.size(), playerSet.size() + 3);
-		assertEquals(NUM_CARDS - 3, cardCount); 
-	}
-	
-	/*
-	 * Check that each card is only dealt once, including solution deck
-	 */
-	@Test
-	public void checkPlayerCardsTest() {	
-		fail();
-	}
 
+		assertEquals(NUM_CARDS - 3, cardCount); // Verify that the players have right number of cards total (no duplicates)
+
+		deck.removeAll(playerSet);
+
+		assertEquals(3, deck.size()); // Verify that the deck, when the dealt cards are removed, contains only the solution
+
+		// Verify that the remaining cards in the deck are in fact the correct solution
+		for (Card c: deck) {
+			if (c.getCardType() == CardType.PERSON) {
+				assertTrue(c.getCardName().equals(solution.person));
+			} else if (c.getCardType() == CardType.ROOM) {
+				assertTrue(c.getCardName().equals(solution.room));
+			} else if (c.getCardType() == CardType.WEAPON) {
+				assertTrue(c.getCardName().equals(solution.weapon));
+			}
+		}
+	}
 }
+

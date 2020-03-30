@@ -6,7 +6,7 @@ package clueGame;
 import java.awt.Color;
 
 /**
- * @author nadiabixenman
+ * @author Nadia Bixenman, Sam Mills
  *
  */
 public class HumanPlayer extends Player {

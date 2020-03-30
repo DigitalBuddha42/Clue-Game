@@ -399,17 +399,21 @@ public class Board {
 		return false;
 	}
 	
+	/** Chooses the answer at random from the initial deck
+	 * 
+	 */
 	public void selectAnswer() {
 		String person = null;
 		String weapon = null;
 		String room = null;
 		Random rand = new Random();
-		Set<Card> dealtCards = new HashSet<Card>();
-		Set<Card> solutionSet = new HashSet<Card>();
+		Set<Card> dealtCards = new HashSet<Card>(); // Keep track of dealt cards
+		Set<Card> solutionSet = new HashSet<Card>(); // The set of cards to be made into the Solution object
 		while (solutionSet.size() < 3) {
 			int cardNum = rand.nextInt(deck.size());
 			int currentCard = 0;
 			int cardType = 0;
+			// Choose a random card of each type
 			for (Card c: deck) {
 				if (currentCard == cardNum && !dealtCards.contains(c)) {
 					if (cardType == 0 && c.getCardType() == CardType.PERSON) {
@@ -429,6 +433,7 @@ public class Board {
 			}
 		}
 		
+		// Set the solution to the three cards chosen
 		playerDeck = new ArrayList<Card>(deck);
 		for (Card c: solutionSet) {
 			if (c.getCardType() == CardType.PERSON) {
@@ -444,15 +449,18 @@ public class Board {
 		
 	}
 	
+	/** Deal cards to players
+	 * 
+	 */
 	public void dealCards() {
 		Random rand = new Random();
 		ArrayList<Card> dealtCards = new ArrayList<Card>();
 		Set<Card> playerCards = new HashSet<Card>();
-		Collections.shuffle(playerDeck);
+		Collections.shuffle(playerDeck); // randomize the available cards
 		int player = 0;
 		
 		for(Card c: playerDeck) {
-			allPlayers.get(player).dealCard(c);
+			allPlayers.get(player).dealCard(c); // Deal cards one at a time to each player
 			player++;
 			if(player == 6) {
 				player = 0;
@@ -475,5 +483,9 @@ public class Board {
 	
 	public Set<Card> getDeck(){
 		return deck;
+	}
+	
+	public Solution getSolution() {
+		return theAnswer;
 	}
 }

@@ -1,5 +1,9 @@
 package clueGame;
 
+/**
+ * @author Sam Mills, Nadia Bixenman
+ *
+ */
 public class Card {
 	private String cardName;
 	private CardType type;

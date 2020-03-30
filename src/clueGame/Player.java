@@ -3,6 +3,10 @@ package clueGame;
 import java.awt.Color;
 import java.util.*;
 
+/**
+ * @author Sam Mills, Nadia Bixenman
+ *
+ */
 public class Player {
 	private String playerName;
 	private int row;
