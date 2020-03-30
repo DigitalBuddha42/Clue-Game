@@ -28,6 +28,7 @@ public class Board {
 	private Solution theAnswer;
 	private Set<Player> allPlayers;
 	private Set<Card> deck;
+	private Set<Card> playerDeck;
 
 	// Singleton pattern, only one instance of board
 	private static Board theInstance = new Board();
@@ -399,7 +400,69 @@ public class Board {
 	}
 	
 	public void selectAnswer() {
+		String person = null;
+		String weapon = null;
+		String room = null;
+		Random rand = new Random();
+		Set<Card> dealtCards = new HashSet<Card>();
+		Set<Card> solutionSet = new HashSet<Card>();
+		while (solutionSet.size() < 3) {
+			int cardNum = rand.nextInt(deck.size());
+			int currentCard = 0;
+			int cardType = 0;
+			for (Card c: deck) {
+				if (currentCard == cardNum && !dealtCards.contains(c)) {
+					if (cardType == 0 && c.getCardType() == CardType.PERSON) {
+						solutionSet.add(c);
+						cardType++;
+						dealtCards.add(c);
+					} else if (cardType == 1 && c.getCardType() == CardType.ROOM) {
+						solutionSet.add(c);
+						cardType++;
+						dealtCards.add(c);
+					} else if (cardType == 2 && c.getCardType() == CardType.WEAPON) {
+						solutionSet.add(c);
+						cardType++;
+						dealtCards.add(c);
+					}
+				}
+			}
+		}
 		
+		playerDeck = new HashSet<Card>(deck);
+		for (Card c: solutionSet) {
+			if (c.getCardType() == CardType.PERSON) {
+				person = c.getCardName();
+			} else if (c.getCardType() == CardType.ROOM) {
+				room = c.getCardName();
+			} else if (c.getCardType() == CardType.WEAPON) {
+				weapon = c.getCardName();
+			}
+			playerDeck.remove(c);
+		}
+		theAnswer = new Solution(person, room, weapon);
+		
+	}
+	
+	public void dealCards() {
+		Random rand = new Random();
+		Set<Card> dealtCards = new HashSet<Card>();
+		Set<Card> playerCards = new HashSet<Card>();
+
+		while (!dealtCards.equals(playerDeck)) {
+			for (Player p: allPlayers) {
+				int cardNum = rand.nextInt(playerDeck.size());
+				int currentCard = 0;
+				for (Card c: playerDeck) {
+					if (currentCard == cardNum && !dealtCards.contains(c)) {
+						p.dealCard(c);
+						dealtCards.add(c);
+					}
+				}
+
+			}
+		}
+
 	}
 	
 	public Card handleSuggestion() {

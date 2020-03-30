@@ -46,4 +46,8 @@ public class Player {
 	public Set<Card> getMyCards(){
 		return myCards;
 	}
+	
+	public void dealCard(Card card) {
+		myCards.add(card);
+	}
 }

@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import java.util.*;
+import java.lang.Math;
 
 import clueGame.Board;
 import clueGame.Card;
@@ -18,6 +20,7 @@ public class gameSetupTests {
 	private static Board board;
 	public static final int NUM_PEOPLE = 6;
 	public static final int NUM_WEAPONS = 6;
+	public static final int NUM_ROOMS = 9;
 	public static final int NUM_CARDS = 21;
 	
 	@BeforeClass
@@ -25,6 +28,9 @@ public class gameSetupTests {
 		board = Board.getInstance();
 		board.setConfigFiles("ClueLayout.csv", "ClueLegend.txt", "CluePlayer", "ClueWeapons");		
 		board.initialize();
+		board.selectAnswer();
+		board.dealCards();
+		
 	}
 
 	/*
@@ -38,50 +44,53 @@ public class gameSetupTests {
 		
 		for(Player p : board.getPlayers()) {
 			if(p.getPlayerName().equals("Player1")) {
-				assertEquals(p.getPlayerColor(), Color.red);
-				assertEquals(p.getPlayerRow(), 10);
-				assertEquals(p.getPLayerCol(), 6);
-				assert(p instanceof HumanPlayer);
+				assertEquals(Color.red, p.getPlayerColor());
+				assertEquals(10, p.getPlayerRow());
+				assertEquals(6, p.getPLayerCol());
+				assert(p instanceof HumanPlayer); // Do we need this? Would the player methods even work if it wasn't one?
 				playerCount++;
 			}
 			else if(p.getPlayerName().equals("Player2")) {
-				assertEquals(p.getPlayerColor(), Color.blue);
-				assertEquals(p.getPlayerRow(), 6);
-				assertEquals(p.getPLayerCol(), 16);
+				assertEquals(Color.blue, p.getPlayerColor());
+				assertEquals(6, p.getPlayerRow());
+				assertEquals(16, p.getPLayerCol());
 				assert(p instanceof ComputerPlayer);
 				playerCount++;
 			}
 			else if(p.getPlayerName().equals("Player3")) {
-				assertEquals(p.getPlayerColor(), Color.green);
-				assertEquals(p.getPlayerRow(), 20);
-				assertEquals(p.getPLayerCol(), 13);
+				assertEquals(Color.green, p.getPlayerColor());
+				assertEquals(20, p.getPlayerRow());
+				assertEquals(13, p.getPLayerCol());
 				assert(p instanceof ComputerPlayer);
 				playerCount++;
 			}
 			else if(p.getPlayerName().equals("Player4")) {
-				assertEquals(p.getPlayerColor(), Color.orange);
-				assertEquals(p.getPlayerRow(), 14);
-				assertEquals(p.getPLayerCol(), 6);
+				assertEquals(Color.orange, p.getPlayerColor());
+				assertEquals(14, p.getPlayerRow());
+				assertEquals(6, p.getPLayerCol());
 				assert(p instanceof ComputerPlayer);
 				playerCount++;
 			}
 			else if(p.getPlayerName().equals("Player5")) {
-				assertEquals(p.getPlayerColor(), Color.yellow);
-				assertEquals(p.getPlayerRow(), 8);
-				assertEquals(p.getPLayerCol(), 11);
+				assertEquals(Color.yellow, p.getPlayerColor());
+				assertEquals(8, p.getPlayerRow());
+				assertEquals(11, p.getPLayerCol());
 				assert(p instanceof ComputerPlayer);
 				playerCount++;
 			}
 			else if(p.getPlayerName().equals("Player6")) {
-				assertEquals(p.getPlayerColor(), Color.magenta);
-				assertEquals(p.getPlayerRow(), 9);
-				assertEquals(p.getPLayerCol(), 7);
+				assertEquals(Color.magenta, p.getPlayerColor());
+				assertEquals(9, p.getPlayerRow());
+				assertEquals(7, p.getPLayerCol());
 				assert(p instanceof ComputerPlayer);
 				playerCount++;
 			}
+			else {
+				fail();
+			}
 		}
 		
-		assertEquals(playerCount, NUM_PEOPLE);
+		assertEquals(NUM_PEOPLE, playerCount);
 		
 	}
 	
@@ -91,7 +100,7 @@ public class gameSetupTests {
 	@Test
 	public void deckTest() {
 		
-		assertEquals(board.getDeck().size(), 21);
+		assertEquals(NUM_CARDS, board.getDeck().size());
 		
 		int personCard = 0;
 		int weaponCard = 0;
@@ -108,9 +117,9 @@ public class gameSetupTests {
 			}
 		}
 		
-		assertEquals(personCard, 6);
-		assertEquals(weaponCard, 6);
-		assertEquals(roomCard, 9);
+		assertEquals(NUM_PEOPLE, personCard);
+		assertEquals(NUM_WEAPONS, weaponCard);
+		assertEquals(NUM_ROOMS, roomCard);
 	}
 	
 	/*
@@ -118,33 +127,33 @@ public class gameSetupTests {
 	 */
 	@Test
 	public void dealCardTest() {
-		
 		int cardCount = 0;
 		boolean firstLoop = true;
 		int playerCards = 0;
+		Random rand = new Random();
 		
 		for(Player p: board.getPlayers()) {
 			if(firstLoop) {
 				playerCards = p.getMyCards().size();
 				firstLoop = false;
-			}
-			else {
-				if(playerCards - p.getMyCards().size() >= 1) {
+			} else {
+				if(Math.abs(playerCards - p.getMyCards().size()) > 1) {
 					fail();
 				}
 			}
-			cardCount ++;
+			cardCount += p.getMyCards().size();
 	
 		}
 		
-		assertEquals(cardCount, 18); //Have to use 18 because not counting solution cards
+		assertEquals(NUM_CARDS - 3, cardCount); //Have to use 18 because not counting solution cards
 	}
 	
 	/*
 	 * Check that each card is only dealt once, including solution deck
 	 */
 	@Test
-	public void checkPlayerCardsTest() {		
+	public void checkPlayerCardsTest() {	
+		fail();
 	}
 
 }
