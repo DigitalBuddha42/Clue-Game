@@ -454,15 +454,13 @@ public class Board {
 	 */
 	public void dealCards() {
 		Random rand = new Random();
-		ArrayList<Card> dealtCards = new ArrayList<Card>();
-		Set<Card> playerCards = new HashSet<Card>();
 		Collections.shuffle(playerDeck); // randomize the available cards
 		int player = 0;
 		
 		for(Card c: playerDeck) {
 			allPlayers.get(player).dealCard(c); // Deal cards one at a time to each player
 			player++;
-			if(player == 6) {
+			if(player == 6) { //Loop back to zero index to make sure there is no out of bounds error
 				player = 0;
 			}
 		}

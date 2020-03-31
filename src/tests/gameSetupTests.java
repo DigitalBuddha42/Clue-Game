@@ -46,48 +46,43 @@ public class gameSetupTests {
 
 		assertEquals(board.getPlayers().size(), NUM_PEOPLE);
 		int playerCount = 0;
-
+		
+		//Check that every card has the correct color, row, and column
 		for(Player p : board.getPlayers()) {
 			if(p.getPlayerName().equals("Player1")) {
 				assertEquals(Color.red, p.getPlayerColor());
 				assertEquals(10, p.getPlayerRow());
 				assertEquals(6, p.getPLayerCol());
-				assert(p instanceof HumanPlayer);
 				playerCount++;
 			}
 			else if(p.getPlayerName().equals("Player2")) {
 				assertEquals(Color.blue, p.getPlayerColor());
 				assertEquals(6, p.getPlayerRow());
 				assertEquals(16, p.getPLayerCol());
-				assert(p instanceof ComputerPlayer);
 				playerCount++;
 			}
 			else if(p.getPlayerName().equals("Player3")) {
 				assertEquals(Color.green, p.getPlayerColor());
 				assertEquals(20, p.getPlayerRow());
 				assertEquals(13, p.getPLayerCol());
-				assert(p instanceof ComputerPlayer);
 				playerCount++;
 			}
 			else if(p.getPlayerName().equals("Player4")) {
 				assertEquals(Color.orange, p.getPlayerColor());
 				assertEquals(14, p.getPlayerRow());
 				assertEquals(6, p.getPLayerCol());
-				assert(p instanceof ComputerPlayer);
 				playerCount++;
 			}
 			else if(p.getPlayerName().equals("Player5")) {
 				assertEquals(Color.yellow, p.getPlayerColor());
 				assertEquals(8, p.getPlayerRow());
 				assertEquals(11, p.getPLayerCol());
-				assert(p instanceof ComputerPlayer);
 				playerCount++;
 			}
 			else if(p.getPlayerName().equals("Player6")) {
 				assertEquals(Color.magenta, p.getPlayerColor());
 				assertEquals(9, p.getPlayerRow());
 				assertEquals(7, p.getPLayerCol());
-				assert(p instanceof ComputerPlayer);
 				playerCount++;
 			}
 			else {
@@ -95,7 +90,7 @@ public class gameSetupTests {
 			}
 		}
 
-		assertEquals(NUM_PEOPLE, playerCount);
+		assertEquals(NUM_PEOPLE, playerCount); //Checks that all player cards are accounted for
 
 	}
 
