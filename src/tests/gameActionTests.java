@@ -1,6 +1,3 @@
-/**
- * 
- */
 package tests;
 
 import static org.junit.Assert.*;
@@ -8,9 +5,11 @@ import static org.junit.Assert.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import java.awt.Color;
+import java.util.*;
 
 import clueGame.Board;
 import clueGame.ComputerPlayer;
+import clueGame.BoardCell;
 
 /**
  * @author Sam Mills, Nadia Bixenman
@@ -47,13 +46,15 @@ public class gameActionTests {
 		boolean cell4 = false;
 		boolean cell5 = false;
 		boolean cell6 = false;
+		boolean cell7 = false;
 		
-		for(int i = 0; i < 100; i++) {
+		while(roomCount < 5) {
 			ComputerPlayer testPlayer = new ComputerPlayer("testPlayer", 6, 15, Color.red);
 			board.calcTargets(6, 15, 2);
-			testPlayer.pickLocation(board.getTargets());
-			testRow = testPlayer.getPlayerRow();
-			testCol = testPlayer.getPLayerCol();
+			Set<BoardCell> targets = new HashSet<BoardCell>(board.getTargets());
+			BoardCell testCell = testPlayer.pickLocation(targets);
+			testRow = testCell.getRow();
+			testCol = testCell.getCol();
 			
 			if(testRow == 7 && testCol == 16) {
 				if(!cell1) {
@@ -73,22 +74,16 @@ public class gameActionTests {
 					cell3 = true;
 				}
 			}
-			else if(testRow == 6 && testCol == 13) {
-				if(!cell4) {
-					roomCount++;
-					cell4 = true;
-				}
-			}
-			else if(testRow == 5 && testCol == 14) {
-				if(!cell5) {
-					roomCount++;
-					cell5 = true;
-				}
-			}
 			else if(testRow == 4 && testCol == 15) {
 				if(!cell6) {
 					roomCount++;
 					cell6 = true;
+				}
+			}
+			else if(testRow == 5 && testCol == 16) {
+				if(!cell7) {
+					roomCount++;
+					cell7 = true;
 				}
 			}
 			else {
@@ -98,7 +93,7 @@ public class gameActionTests {
 			}
 		}
 		
-		assertEquals(6, roomCount); //Tests that all rooms are visited at least once
+		assertEquals(5, roomCount); //Tests that all rooms are visited at least once
 		
 	}
 
