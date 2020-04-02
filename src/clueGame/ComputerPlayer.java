@@ -20,6 +20,8 @@ public class ComputerPlayer extends Player {
 		
 		for(BoardCell cell : targets) {
 			if(index == randomIndex) {
+				this.setRow(cell.getRow());
+				this.setColumn(cell.getCol());
 				return cell;
 			}
 			index++;

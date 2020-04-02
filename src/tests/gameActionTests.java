@@ -87,8 +87,6 @@ public class gameActionTests {
 				}
 			}
 			else {
-				System.out.println(testRow);
-				System.out.println(testCol);
 				fail(); //Test should fail if testPlayer picks location that isn't a target
 			}
 		}
@@ -100,7 +98,21 @@ public class gameActionTests {
 	// A cell in a room the player didn't just occupy is available
 	@Test
 	public void targetNewRoom() {
-		fail("Not yet implemented");
+		int testRow;
+		int testCol;
+		
+		//Run test 100 times to make sure the room is chosen every time
+		for(int i = 0; i < 100; i++) {
+			ComputerPlayer testPlayer = new ComputerPlayer("testPlayer", 7, 19, Color.red);
+			board.calcTargets(7, 19, 3);
+			Set<BoardCell> targets = new HashSet<BoardCell>(board.getTargets());
+			BoardCell testCell = testPlayer.pickLocation(targets);
+			testRow = testCell.getRow();
+			testCol = testCell.getCol();
+			if(testRow != 5 || testCol != 18) {
+				fail(); //If the testPlayer does not choose the unvisited room everytime, the test fails
+			}
+		}
 	}
 
 	// A cell in a room the player just occupied is available
