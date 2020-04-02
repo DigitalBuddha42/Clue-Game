@@ -54,4 +54,12 @@ public class Player {
 	public void dealCard(Card card) {
 		myCards.add(card);
 	}
+	
+	public void setRow(int row) {
+		this.row = row;
+	}
+	
+	public void setColumn(int column) {
+		this.column = column;
+	}
 }

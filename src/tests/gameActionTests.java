@@ -92,6 +92,8 @@ public class gameActionTests {
 				}
 			}
 			else {
+				System.out.println(testRow);
+				System.out.println(testCol);
 				fail(); //Test should fail if testPlayer picks location that isn't a target
 			}
 		}

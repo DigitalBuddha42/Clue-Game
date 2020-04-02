@@ -16,7 +16,15 @@ public class ComputerPlayer extends Player {
 		
 		Random rand = new Random();
 		int randomIndex = rand.nextInt(targets.size());
+		int index = 0;
 		
+		for(BoardCell cell : targets) {
+			if(index == randomIndex) {
+				this.setRow(cell.getRow());
+				this.setColumn(cell.getCol());
+				return cell;
+			}
+		}
 		
 		return null;
 	}
