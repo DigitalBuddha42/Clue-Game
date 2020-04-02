@@ -7,24 +7,97 @@ import static org.junit.Assert.*;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import java.awt.Color;
+
+import clueGame.Board;
+import clueGame.ComputerPlayer;
 
 /**
  * @author Sam Mills, Nadia Bixenman
  *
  */
 public class gameActionTests {
-
+	private static Board board;
 
 	@BeforeClass
 	public static void setUp() {
-
+		board = Board.getInstance();
+		board.setConfigFiles("ClueLayout.csv", "ClueLegend.txt", "CluePlayer", "ClueWeapons");		
+		board.initialize();
+		board.selectAnswer();
+		board.dealCards();
 	}
 
 // Choose target tests (ComputerPlayer)
 	// No room cells available
+	/*
+	 * Player starts at cell 6,15
+	 * With a roll of 2, player should visit cells 7,16 (cell1) 8,15 (cell2) 7,14 (cell3) 6,13 (cell4) 5,14 (cell5) and 4,15 (cell6) only 
+	 */
 	@Test
 	public void targetNoRooms() {
-		fail("Not yet implemented");
+		int testRow;
+		int testCol;
+		int roomCount = 0;
+		
+		//variables to make sure each room is only counted towards roomcount once
+		boolean cell1 = false;
+		boolean cell2 = false;
+		boolean cell3 = false;
+		boolean cell4 = false;
+		boolean cell5 = false;
+		boolean cell6 = false;
+		
+		for(int i = 0; i < 100; i++) {
+			ComputerPlayer testPlayer = new ComputerPlayer("testPlayer", 6, 15, Color.red);
+			board.calcTargets(6, 15, 2);
+			testPlayer.pickLocation(board.getTargets());
+			testRow = testPlayer.getPlayerRow();
+			testCol = testPlayer.getPLayerCol();
+			
+			if(testRow == 7 && testCol == 16) {
+				if(!cell1) {
+					roomCount++;
+					cell1 = true;
+				}
+			}
+			else if(testRow == 8 && testCol == 15) {
+				if(!cell2) {
+					roomCount++;
+					cell2 = true;
+				}
+			}
+			else if(testRow == 7 && testCol == 14) {
+				if(!cell3) {
+					roomCount++;
+					cell3 = true;
+				}
+			}
+			else if(testRow == 6 && testCol == 13) {
+				if(!cell4) {
+					roomCount++;
+					cell4 = true;
+				}
+			}
+			else if(testRow == 5 && testCol == 14) {
+				if(!cell5) {
+					roomCount++;
+					cell5 = true;
+				}
+			}
+			else if(testRow == 4 && testCol == 15) {
+				if(!cell6) {
+					roomCount++;
+					cell6 = true;
+				}
+			}
+			else {
+				fail(); //Test should fail if testPlayer picks location that isn't a target
+			}
+		}
+		
+		assertEquals(6, roomCount); //Tests that all rooms are visited at least once
+		
 	}
 
 	// A cell in a room the player didn't just occupy is available
