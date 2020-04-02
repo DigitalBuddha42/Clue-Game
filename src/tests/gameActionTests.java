@@ -20,7 +20,7 @@ public class gameActionTests {
 
 	}
 
-	// Target tests (ComputerPlayer)
+// Choose target tests (ComputerPlayer)
 	// No room cells available
 	@Test
 	public void targetNoRooms() {
@@ -40,7 +40,7 @@ public class gameActionTests {
 	}
 
 
-	// Check accusation tests (Board)
+// Check accusation tests (Board)
 	// The accusation is the solution
 	@Test
 	public void accusationCorrect() {
@@ -66,7 +66,7 @@ public class gameActionTests {
 	}
 
 
-	// Making suggestion tests (ComputerPlayer)
+// Making suggestion tests (ComputerPlayer)
 	// Tests that a suggestion can only be made in the correct room
 	@Test
 	public void suggestionCorrectRoom() {
@@ -92,7 +92,7 @@ public class gameActionTests {
 	}
 
 
-	// Disproving suggestion tests (Player)
+// Disproving suggestion tests (Player)
 	// Player has only one matching card, this card must be chosen
 	@Test
 	public void disproveOneMatching() {
@@ -113,7 +113,7 @@ public class gameActionTests {
 
 
 
-	// Handling suggestion tests (Board)
+// Handling suggestion tests (Board)
 	// Suggestion can not be disproved by any player, must return null
 	@Test
 	public void cannotBeDisproved() {
