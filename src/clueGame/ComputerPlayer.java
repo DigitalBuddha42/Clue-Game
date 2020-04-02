@@ -24,6 +24,7 @@ public class ComputerPlayer extends Player {
 			}
 			index++;
 		}
+		
 		return null;
 	}
 	
