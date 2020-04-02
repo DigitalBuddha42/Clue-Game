@@ -100,18 +100,38 @@ public class gameActionTests {
 	public void targetNewRoom() {
 		int testRow;
 		int testCol;
+
+		//Test that Computer chooses room with a path length of 2, starting from cell 18,7
+		ComputerPlayer test1Player = new ComputerPlayer("testPlayer", 18, 7, Color.red);
+		board.calcTargets(18, 7, 2);
+		Set<BoardCell> targets = new HashSet<BoardCell>(board.getTargets());
+		BoardCell testCell = test1Player.pickLocation(targets);
+		testRow = testCell.getRow();
+		testCol = testCell.getCol();
+		if(testRow != 18 || testCol != 5) {
+			fail(); //If the testPlayer does not choose the unvisited room, the test fails
+		}
 		
-		//Run test 100 times to make sure the room is chosen every time
-		for(int i = 0; i < 100; i++) {
-			ComputerPlayer testPlayer = new ComputerPlayer("testPlayer", 7, 19, Color.red);
-			board.calcTargets(7, 19, 3);
-			Set<BoardCell> targets = new HashSet<BoardCell>(board.getTargets());
-			BoardCell testCell = testPlayer.pickLocation(targets);
-			testRow = testCell.getRow();
-			testCol = testCell.getCol();
-			if(testRow != 5 || testCol != 18) {
-				fail(); //If the testPlayer does not choose the unvisited room everytime, the test fails
-			}
+		//Test that Computer chooses room with a path length of 3, starting from cell 10,6
+		ComputerPlayer test2Player = new ComputerPlayer("testPlayer", 10, 6, Color.red);
+		board.calcTargets(10, 6, 3);
+		targets = board.getTargets();
+		testCell = test2Player.pickLocation(targets);
+		testRow = testCell.getRow();
+		testCol = testCell.getCol();
+		if(testRow != 11 || testCol != 4) {
+			fail(); //If the testPlayer does not choose the unvisited room, the test fails
+		}
+		
+		//Test that Computer chooses room with a path length of 4, starting from cell 18,13
+		ComputerPlayer test3Player = new ComputerPlayer("testPlayer", 18, 13, Color.red);
+		board.calcTargets(18, 13, 4);
+		targets = board.getTargets();
+		testCell = test3Player.pickLocation(targets);
+		testRow = testCell.getRow();
+		testCol = testCell.getCol();
+		if(testRow != 16 || testCol != 15) {
+			fail(); //If the testPlayer does not choose the unvisited room, the test fails
 		}
 	}
 
