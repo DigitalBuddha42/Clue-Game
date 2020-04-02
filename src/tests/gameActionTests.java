@@ -138,7 +138,33 @@ public class gameActionTests {
 	// A cell in a room the player just occupied is available
 	@Test
 	public void targetVisitedRoom() {
-		fail("Not yet implemented");
+		
+		int testRow;
+		int testCol;
+		
+		ComputerPlayer testPlayer = new ComputerPlayer("testPlayer", 16, 14, Color.red);
+		
+		//Calc targets from a location with 3 possible rooms that the player can enter
+		board.calcTargets(15, 13, 4);
+		Set<BoardCell> targets = new HashSet<BoardCell>(board.getTargets());
+		BoardCell firstRoom = testPlayer.pickLocation(targets);
+		assertTrue(firstRoom.isDoorway()); 
+		
+		//Player picks location - it should be a different room than the player previously entered
+		BoardCell secondRoom = testPlayer.pickLocation(targets);
+		assertTrue(secondRoom != firstRoom); //Test that the player does not enter the room previously entered
+		assertTrue(secondRoom.isDoorway());	//Test that the player entered a room
+			
+		//Player should pick the last room from target list
+		BoardCell thirdRoom = testPlayer.pickLocation(targets);
+		assertTrue(thirdRoom != secondRoom);
+		assertTrue(thirdRoom != firstRoom); //Test that player doesn't enter either of the previous rooms
+		assertTrue(thirdRoom.isDoorway()); //Test that player entered third available room
+		
+		//Since all rooms have been picked, the player should pick a walkway
+		BoardCell testWalkway = testPlayer.pickLocation(targets);
+		assertTrue(testWalkway.isWalkway());
+		
 	}
 
 
