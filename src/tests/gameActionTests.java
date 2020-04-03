@@ -180,6 +180,14 @@ public class gameActionTests {
 		Solution wrongPerson = new Solution(board.getSolution());
 		wrongPerson.person = "wrongPerson";
 		assertFalse(board.checkAccusation(wrongPerson));
+		
+		Solution wrongWeapon = new Solution(board.getSolution());
+		wrongWeapon.weapon = "wrongWeapon";
+		assertFalse(board.checkAccusation(wrongWeapon));
+		
+		Solution wrongRoom = new Solution(board.getSolution());
+		wrongRoom.room = "wrongRoom";
+		assertFalse(board.checkAccusation(wrongRoom));
 	}
 
 	// The accusation has the wrong player
