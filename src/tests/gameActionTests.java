@@ -398,7 +398,15 @@ public class gameActionTests {
 	// Player has no matching cards, returns null
 	@Test
 	public void disproveNoMatching() {
-		fail("Not yet implemented");
+		Solution testSolution = new Solution("Player1", "Bedroom", "Sword");
+		Card testRoom = new Card("Hallway", CardType.ROOM); //Card that isn't in the solution
+		
+		ComputerPlayer testPlayer = new ComputerPlayer("testPlayer", 0, 0, Color.red);
+		testPlayer.dealCard(testRoom);
+		
+		for(int i = 0; i < 100; i++) {
+			assertTrue(testPlayer.disproveSuggestion(testSolution).equals(null));
+		}
 	}
 
 
