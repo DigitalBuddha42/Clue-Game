@@ -334,26 +334,65 @@ public class gameActionTests {
 		Solution testSolution = new Solution("Player1", "Bedroom", "Sword");
 		Card testRoom = new Card("Bedroom", CardType.ROOM);
 		Card testWeapon = new Card("Sword", CardType.WEAPON);
+		Card testRoom2 = new Card("Hallway", CardType.ROOM); //Card that isn't in the solution
 		
 		//Create a player with only one of the cards
 		ComputerPlayer testPlayer = new ComputerPlayer("testPlayer", 0, 0, Color.red);
 		testPlayer.dealCard(testRoom);
+		testPlayer.dealCard(testRoom2);
 		
 		//Create another player with one of the different cards
 		ComputerPlayer testPlayer2 = new ComputerPlayer("testPlayer", 0, 0, Color.red);
 		testPlayer2.dealCard(testWeapon);
 		
 		//Run loop 100 times to make sure the players consistently return the correct card
-		//for(int i = 0; i < 100; i++) {
+		for(int i = 0; i < 100; i++) {
 			assertTrue(testPlayer.disproveSuggestion(testSolution).equals(testRoom));
 			assertTrue(testPlayer2.disproveSuggestion(testSolution).equals(testWeapon));
-		//}
+		}
 	}
 
 	// Player has several matching cards, card selected randomly
 	@Test
 	public void disproveManyMatching() {
-		fail("Not yet implemented");
+		Solution testSolution = new Solution("Player1", "Bedroom", "Sword");
+		Card testRoom = new Card("Bedroom", CardType.ROOM);
+		Card testWeapon = new Card("Sword", CardType.WEAPON);
+		Card testPerson = new Card("Player1", CardType.PERSON);
+		Card testRoom2 = new Card("Hallway", CardType.ROOM); //Card that isn't in the solution
+		
+		//Create a player with all of the solution cards dealt to them, and one card that isnt in the suggestion
+		ComputerPlayer testPlayer = new ComputerPlayer("testPlayer", 0, 0, Color.red);
+		testPlayer.dealCard(testRoom);
+		testPlayer.dealCard(testWeapon);
+		testPlayer.dealCard(testPerson);
+		testPlayer.dealCard(testRoom2);
+		
+		//Variables to make sure each card is dealt at least once - tests that player is choosing randomly
+		int roomCount = 0;
+		int weaponCount = 0;
+		int personCount = 0;
+		
+		for(int i = 0; i < 100; i++) {
+			Card testCard = testPlayer.disproveSuggestion(testSolution);
+			if(testCard.equals(testRoom)) {
+				roomCount++;
+			}
+			else if(testCard.equals(testWeapon)) {
+				weaponCount++;
+			}
+			else if(testCard.equals(testPerson)) {
+				personCount++;
+			}
+			else {
+				fail(); //If the player doesn't return one of the three cards in the suggestion, the test fails
+			}
+		}
+		
+		assertTrue(roomCount>0);
+		assertTrue(weaponCount>0);
+		assertTrue(personCount>0); //Test that each card was chosen at least once
+		
 	}
 
 	// Player has no matching cards, returns null
