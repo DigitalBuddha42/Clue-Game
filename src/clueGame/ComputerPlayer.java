@@ -64,6 +64,13 @@ public class ComputerPlayer extends Player {
 	}
 	
 	public Solution createSuggestion() {
+		
+		BoardCell cell = Board.getInstance().getCellAt( getPlayerRow(),getPlayerCol());
+		if(cell.isDoorway()) {
+			String roomName = Board.getInstance().getLegend().get(cell.getInitial());
+			Solution temp = new Solution("", roomName , "");
+			return temp;
+		}
 		Solution temp = new Solution("", "", "");
 		return temp;
 	}

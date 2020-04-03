@@ -39,7 +39,7 @@ public class Player {
 		return row;
 	}
 	
-	public int getPLayerCol() {
+	public int getPlayerCol() {
 		return column;
 	}
 	
