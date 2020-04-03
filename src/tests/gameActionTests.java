@@ -190,25 +190,7 @@ public class gameActionTests {
 		assertFalse(board.checkAccusation(wrongRoom));
 	}
 
-	// The accusation has the wrong player
-	@Test
-	public void accusationWrongPlayer() {
-		fail("Not yet implemented");
-	}
-
-	// The accusation has the wrong weapon
-	@Test
-	public void accusationWrongWeapon() {
-		fail("Not yet implemented");
-	}
-
-	// The accusation has the wrong room
-	@Test
-	public void accusationWrongRoom() {
-		fail("Not yet implemented");
-	}
-
-
+	
 // Making suggestion tests (ComputerPlayer)
 	// Tests that a suggestion can only be made in the correct room
 	@Test

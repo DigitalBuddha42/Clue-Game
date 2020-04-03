@@ -472,7 +472,7 @@ public class Board {
 	}
 	
 	public boolean checkAccusation(Solution accusation) {
-		if(accusation.equals(getSolution())) {
+		if(accusation.person.equals(theAnswer.person) && accusation.weapon.equals(theAnswer.weapon) && accusation.room.equals(theAnswer.room)) {
 			return true;
 		}
 		return false;
