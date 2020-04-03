@@ -9,8 +9,11 @@ import java.util.*;
 
 import clueGame.Board;
 import clueGame.ComputerPlayer;
+import clueGame.Player;
 import clueGame.Solution;
 import clueGame.BoardCell;
+import clueGame.Card;
+import clueGame.CardType;
 
 /**
  * @author Sam Mills, Nadia Bixenman
@@ -195,7 +198,7 @@ public class gameActionTests {
 	// Tests that a suggestion can only be made in the correct room
 	@Test
 	public void suggestionCorrectRoom() {
-		ComputerPlayer testPlayer = (ComputerPlayer) board.getPlayers().get(1);
+		ComputerPlayer testPlayer = new ComputerPlayer("testPlayer", 0, 0, Color.red);
 		
 		//Run test 100 times to make sure the correct room is chosen each time
 		for(int i = 0; i < 100; i++) {
@@ -217,7 +220,24 @@ public class gameActionTests {
 	// There is only one option (of weapon and/or player), it must be chosen
 	@Test
 	public void suggestionOneOptionOnly() {
-		fail("Not yet implemented");
+		ComputerPlayer testPlayer = (ComputerPlayer) board.getPlayers().get(1); //Set testPlayer to Player2
+		
+		testPlayer.setRow(11);
+		testPlayer.setColumn(4); //Set testPlayer location to the doorway of the bedroom
+		
+		ArrayList<Card> tempSeenCards = new ArrayList();
+		for(Card c: board.getDeck()) {
+			if(c.getCardName() != "Player3" && c.getCardName() != "Sword") { //Add all cards to seenCards except for player3 and sword cards
+				tempSeenCards.add(c);
+			}
+		}
+		
+		testPlayer.setSeenCards(tempSeenCards);
+		
+		Solution testSuggestion = testPlayer.createSuggestion();
+		
+		assertEquals(testSuggestion.person, "Player3");
+		assertEquals(testSuggestion.weapon, "Sword"); //Assert that the computerPlayer selects the only possible solution
 	}
 
 	// There are several options of weapons, randomly chosen

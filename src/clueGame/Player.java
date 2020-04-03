@@ -13,7 +13,7 @@ public class Player {
 	private int column;
 	private Color color;
 	private ArrayList<Card> myCards;
-	private Set<Card> seenCards;
+	private ArrayList<Card> seenCards;
 	
 	
 	public Player(String playerName, int row, int column, Color color) {
@@ -23,7 +23,7 @@ public class Player {
 		this.column = column;
 		this.color = color;
 		myCards = new ArrayList<Card>();
-		seenCards = new HashSet<Card>();
+		seenCards = new ArrayList<Card>();
 	}
 
 
@@ -61,5 +61,9 @@ public class Player {
 	
 	public void setColumn(int column) {
 		this.column = column;
+	}
+	
+	public void setSeenCards(ArrayList<Card> seenCards) {
+		this.seenCards = seenCards;
 	}
 }
