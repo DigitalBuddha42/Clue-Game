@@ -28,7 +28,7 @@ public class Player {
 
 
 	public Card disproveSuggestion(Solution suggestion) {
-		return null;
+		return new Card("", CardType.PERSON);
 	}
 	
 	public String getPlayerName() {

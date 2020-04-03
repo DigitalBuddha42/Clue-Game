@@ -331,7 +331,21 @@ public class gameActionTests {
 	// Player has only one matching card, this card must be chosen
 	@Test
 	public void disproveOneMatching() {
-		fail("Not yet implemented");
+		Solution testSolution = new Solution("Player1", "Bedroom", "Sword");
+		
+		//Create a player with only one of the cards
+		ComputerPlayer testPlayer = new ComputerPlayer("testPlayer", 0, 0, Color.red);
+		testPlayer.dealCard(new Card("Bedroom", CardType.ROOM));
+		
+		//Create another player with one of the different cards
+		ComputerPlayer testPlayer2 = new ComputerPlayer("testPlayer", 0, 0, Color.red);
+		testPlayer2.dealCard(new Card("Sword", CardType.WEAPON));
+		
+		//Run loop 100 times to make sure the players consistently return the correct card
+		for(int i = 0; i < 100; i++) {
+			assertTrue(testPlayer.disproveSuggestion(testSolution).equals(new Card("Bedroom", CardType.ROOM)));
+			assertTrue(testPlayer2.disproveSuggestion(testSolution).equals(new Card("Sword", CardType.WEAPON)));
+		}
 	}
 
 	// Player has several matching cards, card selected randomly
