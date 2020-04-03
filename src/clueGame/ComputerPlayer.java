@@ -66,8 +66,27 @@ public class ComputerPlayer extends Player {
 	public Solution createSuggestion() {
 		
 		BoardCell cell = Board.getInstance().getCellAt( getPlayerRow(),getPlayerCol());
+		
+		ArrayList<Card> mySeenCards = this.getSeenCards();
+		
 		if(cell.isDoorway()) {
 			String roomName = Board.getInstance().getLegend().get(cell.getInitial());
+			
+			ArrayList<String> possiblePeople = new ArrayList<String>();
+			ArrayList<String> possibleWeapons = new ArrayList<String>();
+			
+			for (Card c: Board.getInstance().getDeck()){
+				if(!mySeenCards.contains(c)) {
+					if(c.getCardType() == CardType.PERSON) {
+						possiblePeople.add(c.getCardName());
+					}
+					else if(c.getCardType() == CardType.WEAPON) {
+						possibleWeapons.add(c.getCardName());
+					}
+				}
+			}
+			
+			System.out.println(possiblePeople.size());
 			Solution temp = new Solution("", roomName , "");
 			return temp;
 		}

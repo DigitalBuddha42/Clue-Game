@@ -198,7 +198,7 @@ public class gameActionTests {
 	// Tests that a suggestion can only be made in the correct room
 	@Test
 	public void suggestionCorrectRoom() {
-		ComputerPlayer testPlayer = new ComputerPlayer("testPlayer", 0, 0, Color.red);
+		ComputerPlayer testPlayer = (ComputerPlayer) board.getPlayers().get(1);
 		
 		//Run test 100 times to make sure the correct room is chosen each time
 		for(int i = 0; i < 100; i++) {

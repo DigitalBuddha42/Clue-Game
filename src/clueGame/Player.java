@@ -53,6 +53,7 @@ public class Player {
 	
 	public void dealCard(Card card) {
 		myCards.add(card);
+		seenCards.add(card);
 	}
 	
 	public void setRow(int row) {
@@ -66,4 +67,8 @@ public class Player {
 	public void setSeenCards(ArrayList<Card> seenCards) {
 		this.seenCards = seenCards;
 	}
+	
+	public ArrayList<Card> getSeenCards(){
+		return seenCards;
+	} 
 }
