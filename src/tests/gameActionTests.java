@@ -227,7 +227,7 @@ public class gameActionTests {
 		
 		ArrayList<Card> tempSeenCards = new ArrayList();
 		for(Card c: board.getDeck()) {
-			if(c.getCardName() != "Player3" && c.getCardName() != "Sword") { //Add all cards to seenCards except for player3 and sword cards
+			if(!c.getCardName().equals("Player3") && !c.getCardName().equals("Sword")) { //Add all cards to seenCards except for player3 and sword cards
 				tempSeenCards.add(c);
 			}
 		}

@@ -219,7 +219,7 @@ public class Board {
 			line = in.nextLine();
 			commaIndex = line.indexOf(','); //Find where the comma is to separate the weapon from type
 			
-			weapon = line.substring(0, commaIndex - 1);
+			weapon = line.substring(0, commaIndex);
 			type = line.substring(commaIndex + 1);
 			
 			// Check that the weapon is a card

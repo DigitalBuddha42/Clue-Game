@@ -65,7 +65,8 @@ public class ComputerPlayer extends Player {
 	
 	public Solution createSuggestion() {
 		
-		BoardCell cell = Board.getInstance().getCellAt( getPlayerRow(),getPlayerCol());
+		
+		BoardCell cell = Board.getInstance().getCellAt(getPlayerRow(),getPlayerCol());
 		
 		ArrayList<Card> mySeenCards = this.getSeenCards();
 		
@@ -86,11 +87,16 @@ public class ComputerPlayer extends Player {
 				}
 			}
 			
-			System.out.println(possiblePeople.size());
-			Solution temp = new Solution("", roomName , "");
+			Random rand = new Random();
+			int randomIndex = rand.nextInt(possiblePeople.size());
+			String personChoice = possiblePeople.get(randomIndex);
+			randomIndex = rand.nextInt(possibleWeapons.size());
+			String weaponChoice = possibleWeapons.get(randomIndex);
+
+			Solution temp = new Solution(personChoice, roomName , weaponChoice);
 			return temp;
+		} else {
+			return null;
 		}
-		Solution temp = new Solution("", "", "");
-		return temp;
 	}
 }

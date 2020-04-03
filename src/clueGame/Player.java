@@ -53,7 +53,10 @@ public class Player {
 	
 	public void dealCard(Card card) {
 		myCards.add(card);
+		System.out.println(playerName + " has " + myCards.size() + " cards.");
 		seenCards.add(card);
+		System.out.println(playerName + " has seen " + seenCards.size() + " cards.");
+		
 	}
 	
 	public void setRow(int row) {

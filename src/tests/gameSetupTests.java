@@ -52,37 +52,37 @@ public class gameSetupTests {
 			if(p.getPlayerName().equals("Player1")) {
 				assertEquals(Color.red, p.getPlayerColor());
 				assertEquals(10, p.getPlayerRow());
-				assertEquals(6, p.getPLayerCol());
+				assertEquals(6, p.getPlayerCol());
 				playerCount++;
 			}
 			else if(p.getPlayerName().equals("Player2")) {
 				assertEquals(Color.blue, p.getPlayerColor());
 				assertEquals(6, p.getPlayerRow());
-				assertEquals(15, p.getPLayerCol());
+				assertEquals(15, p.getPlayerCol());
 				playerCount++;
 			}
 			else if(p.getPlayerName().equals("Player3")) {
 				assertEquals(Color.green, p.getPlayerColor());
 				assertEquals(20, p.getPlayerRow());
-				assertEquals(13, p.getPLayerCol());
+				assertEquals(13, p.getPlayerCol());
 				playerCount++;
 			}
 			else if(p.getPlayerName().equals("Player4")) {
 				assertEquals(Color.orange, p.getPlayerColor());
 				assertEquals(14, p.getPlayerRow());
-				assertEquals(7, p.getPLayerCol());
+				assertEquals(7, p.getPlayerCol());
 				playerCount++;
 			}
 			else if(p.getPlayerName().equals("Player5")) {
 				assertEquals(Color.yellow, p.getPlayerColor());
 				assertEquals(7, p.getPlayerRow());
-				assertEquals(11, p.getPLayerCol());
+				assertEquals(11, p.getPlayerCol());
 				playerCount++;
 			}
 			else if(p.getPlayerName().equals("Player6")) {
 				assertEquals(Color.magenta, p.getPlayerColor());
 				assertEquals(9, p.getPlayerRow());
-				assertEquals(7, p.getPLayerCol());
+				assertEquals(7, p.getPlayerCol());
 				playerCount++;
 			}
 			else {
