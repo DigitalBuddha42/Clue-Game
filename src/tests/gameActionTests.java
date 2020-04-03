@@ -142,28 +142,29 @@ public class gameActionTests {
 		int testRow;
 		int testCol;
 		
-		ComputerPlayer testPlayer = new ComputerPlayer("testPlayer", 16, 14, Color.red);
-		
-		//Calc targets from a location with 3 possible rooms that the player can enter
+		//Calc targets once to avoid redundancy, target list includes three possible rooms that the player could enter
 		board.calcTargets(15, 13, 4);
 		Set<BoardCell> targets = new HashSet<BoardCell>(board.getTargets());
-		BoardCell firstRoom = testPlayer.pickLocation(targets);
-		assertTrue(firstRoom.isDoorway()); 
 		
-		//Player picks location - it should be a different room than the player previously entered
-		BoardCell secondRoom = testPlayer.pickLocation(targets);
-		assertTrue(secondRoom != firstRoom); //Test that the player does not enter the room previously entered
-		assertTrue(secondRoom.isDoorway());	//Test that the player entered a room
-			
-		//Player should pick the last room from target list
-		BoardCell thirdRoom = testPlayer.pickLocation(targets);
-		assertTrue(thirdRoom != secondRoom);
-		assertTrue(thirdRoom != firstRoom); //Test that player doesn't enter either of the previous rooms
-		assertTrue(thirdRoom.isDoorway()); //Test that player entered third available room
-		
-		//Since all rooms have been picked, the player should pick a walkway
-		BoardCell testWalkway = testPlayer.pickLocation(targets);
-		assertTrue(testWalkway.isWalkway());
+		//Run loop 100 times to make sure the player consistently chooses appropriate rooms
+		for(int i = 0; i < 100; i++) {
+
+			ComputerPlayer testPlayer = new ComputerPlayer("testPlayer", 15, 13, Color.red);
+
+			//Player picks a location from the target list, should be one of the three rooms within range
+			BoardCell firstRoom = testPlayer.pickLocation(targets);
+			assertTrue(firstRoom.isDoorway()); 
+
+			//Player picks location - it should be a different room than the player previously entered
+			BoardCell secondRoom = testPlayer.pickLocation(targets);
+			assertTrue(secondRoom != firstRoom); //Test that the player does not enter the room previously entered
+			assertTrue(secondRoom.isDoorway());	//Test that the player entered a room
+
+			//Player should pick a room that isn't the second room, but could be the first room
+			BoardCell thirdRoom = testPlayer.pickLocation(targets);
+			assertTrue(thirdRoom != secondRoom);
+			assertTrue(thirdRoom.isDoorway()); //Test that player entered an available room
+		}
 		
 	}
 
