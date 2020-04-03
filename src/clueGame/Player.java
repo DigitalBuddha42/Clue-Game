@@ -28,25 +28,29 @@ public class Player {
 
 
 	public Card disproveSuggestion(Solution suggestion) {
+		ArrayList<Card> possibleCards = new ArrayList();
 		
 		for(Card c: myCards) {
 			if(c.getCardType() == CardType.PERSON) {
 				if(c.getCardName().equals(suggestion.person)) {
-					return c;
+					possibleCards.add(c);
 				}
 			}
 			else if(c.getCardType() == CardType.ROOM) {
 				if(c.getCardName().equals(suggestion.room)) {
-					return c;
+					possibleCards.add(c);
 				}
 			}
 			else if(c.getCardType() == CardType.WEAPON) {
 				if(c.getCardName().equals(suggestion.weapon)) {
-					return c;
+					possibleCards.add(c);
 				}
 			}
 		}
-		return null;
+		
+		Random rand = new Random();
+		int randomIndex = rand.nextInt(possibleCards.size());
+		return possibleCards.get(randomIndex);
 	}
 	
 	public String getPlayerName() {
