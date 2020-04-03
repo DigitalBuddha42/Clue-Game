@@ -171,11 +171,15 @@ public class gameActionTests {
 
 
 // Check accusation tests (Board)
-	// The accusation is the solution
 	@Test
-	public void accusationCorrect() {
+	public void accusationTests() {
+		//Check accusation with the correct solution
 		Solution correctSol = new Solution(board.getSolution());
 		assertTrue(board.checkAccusation(correctSol));
+		
+		Solution wrongPerson = new Solution(board.getSolution());
+		wrongPerson.person = "wrongPerson";
+		assertFalse(board.checkAccusation(wrongPerson));
 	}
 
 	// The accusation has the wrong player

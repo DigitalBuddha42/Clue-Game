@@ -472,6 +472,9 @@ public class Board {
 	}
 	
 	public boolean checkAccusation(Solution accusation) {
+		if(accusation.equals(getSolution())) {
+			return true;
+		}
 		return false;
 	}
 	
