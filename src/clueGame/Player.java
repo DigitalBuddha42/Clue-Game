@@ -48,9 +48,13 @@ public class Player {
 			}
 		}
 		
-		Random rand = new Random();
-		int randomIndex = rand.nextInt(possibleCards.size());
-		return possibleCards.get(randomIndex);
+		if(possibleCards.size() > 0) {
+			Random rand = new Random();
+			int randomIndex = rand.nextInt(possibleCards.size());
+			return possibleCards.get(randomIndex);
+		}
+		
+		return null;
 	}
 	
 	public String getPlayerName() {

@@ -405,7 +405,7 @@ public class gameActionTests {
 		testPlayer.dealCard(testRoom);
 		
 		for(int i = 0; i < 100; i++) {
-			assertTrue(testPlayer.disproveSuggestion(testSolution).equals(null));
+			assertEquals(testPlayer.disproveSuggestion(testSolution),null);
 		}
 	}
 
