@@ -288,7 +288,41 @@ public class gameActionTests {
 	// There are several options of players, randomly chosen
 	@Test
 	public void suggestionMultiplePlayers() {
-		fail("Not yet implemented");
+ComputerPlayer testPlayer = (ComputerPlayer) board.getPlayers().get(1);
+		
+		testPlayer.setRow(11);
+		testPlayer.setColumn(4);
+		
+		ArrayList<Card> tempSeenCards = new ArrayList();
+		for(Card c: board.getDeck()) {
+			if(!c.getCardName().equals("Player3") && !c.getCardName().equals("Sword")
+			&& !c.getCardName().equals("Poison") && !c.getCardName().equals("Knife")) { //Add all cards to seenCards except for player3 and three weapon cards
+				tempSeenCards.add(c);
+			}
+		}
+		
+		testPlayer.setSeenCards(tempSeenCards);
+		
+		Boolean hasBeenSword = false;
+		Boolean hasBeenPoison = false;
+		Boolean hasBeenKnife = false;
+		while (!hasBeenSword || !hasBeenPoison || !hasBeenKnife) {
+			Solution testSuggestion = testPlayer.createSuggestion();
+			
+			if (testSuggestion.weapon.equals("Sword")) {
+				hasBeenSword = true;
+			}
+			if (testSuggestion.weapon.equals("Poison")) {
+				hasBeenPoison = true;
+			}
+			if (testSuggestion.weapon.equals("Knife")) {
+				hasBeenKnife = true;
+			}
+			
+			assertEquals("Player3", testSuggestion.person);
+			assertTrue(testSuggestion.weapon.equals("Sword") || testSuggestion.weapon.equals("Poison")
+			|| testSuggestion.weapon.equals("Knife"));
+		}
 	}
 
 
