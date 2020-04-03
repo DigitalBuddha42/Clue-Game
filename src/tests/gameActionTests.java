@@ -31,7 +31,7 @@ public class gameActionTests {
 		board.dealCards();
 	}
 
-// Choose target tests (ComputerPlayer)
+	// Choose target tests (ComputerPlayer)
 	// No room cells available
 	/*
 	 * Player starts at cell 6,15
@@ -42,7 +42,7 @@ public class gameActionTests {
 		int testRow;
 		int testCol;
 		int roomCount = 0;
-		
+
 		//variables to make sure each room is only counted towards roomcount once
 		boolean cell1 = false;
 		boolean cell2 = false;
@@ -51,7 +51,7 @@ public class gameActionTests {
 		boolean cell5 = false;
 		boolean cell6 = false;
 		boolean cell7 = false;
-		
+
 		while(roomCount < 5) {
 			ComputerPlayer testPlayer = new ComputerPlayer("testPlayer", 6, 15, Color.red);
 			board.calcTargets(6, 15, 2);
@@ -59,7 +59,7 @@ public class gameActionTests {
 			BoardCell testCell = testPlayer.pickLocation(targets);
 			testRow = testCell.getRow();
 			testCol = testCell.getCol();
-			
+
 			if(testRow == 7 && testCol == 16) {
 				if(!cell1) {
 					roomCount++;
@@ -94,9 +94,9 @@ public class gameActionTests {
 				fail(); //Test should fail if testPlayer picks location that isn't a target
 			}
 		}
-		
+
 		assertEquals(5, roomCount); //Tests that all rooms are visited at least once
-		
+
 	}
 
 	// A cell in a room the player didn't just occupy is available
@@ -115,7 +115,7 @@ public class gameActionTests {
 		if(testRow != 18 || testCol != 5) {
 			fail(); //If the testPlayer does not choose the unvisited room, the test fails
 		}
-		
+
 		//Test that Computer chooses room with a path length of 3, starting from cell 10,6
 		ComputerPlayer test2Player = new ComputerPlayer("testPlayer", 10, 6, Color.red);
 		board.calcTargets(10, 6, 3);
@@ -126,7 +126,7 @@ public class gameActionTests {
 		if(testRow != 11 || testCol != 4) {
 			fail(); //If the testPlayer does not choose the unvisited room, the test fails
 		}
-		
+
 		//Test that Computer chooses room with a path length of 4, starting from cell 18,13
 		ComputerPlayer test3Player = new ComputerPlayer("testPlayer", 18, 13, Color.red);
 		board.calcTargets(18, 13, 4);
@@ -142,14 +142,14 @@ public class gameActionTests {
 	// A cell in a room the player just occupied is available
 	@Test
 	public void targetVisitedRoom() {
-		
+
 		int testRow;
 		int testCol;
-		
+
 		//Calc targets once to avoid redundancy, target list includes three possible rooms that the player could enter
 		board.calcTargets(15, 13, 4);
 		Set<BoardCell> targets = new HashSet<BoardCell>(board.getTargets());
-		
+
 		//Run loop 100 times to make sure the player consistently chooses appropriate rooms
 		for(int i = 0; i < 100; i++) {
 
@@ -172,37 +172,37 @@ public class gameActionTests {
 			assertTrue(thirdRoom != secondRoom);
 			assertTrue(thirdRoom.isDoorway()); //Test that player entered an available room
 		}
-		
+
 	}
 
 
-// Check accusation tests (Board)
+	// Check accusation tests (Board)
 	@Test
 	public void accusationTests() {
 		//Check accusation with the correct solution
 		Solution correctSol = new Solution(board.getSolution());
 		assertTrue(board.checkAccusation(correctSol));
-		
+
 		Solution wrongPerson = new Solution(board.getSolution());
 		wrongPerson.person = "wrongPerson";
 		assertFalse(board.checkAccusation(wrongPerson));
-		
+
 		Solution wrongWeapon = new Solution(board.getSolution());
 		wrongWeapon.weapon = "wrongWeapon";
 		assertFalse(board.checkAccusation(wrongWeapon));
-		
+
 		Solution wrongRoom = new Solution(board.getSolution());
 		wrongRoom.room = "wrongRoom";
 		assertFalse(board.checkAccusation(wrongRoom));
 	}
 
-	
-// Making suggestion tests (ComputerPlayer)
+
+	// Making suggestion tests (ComputerPlayer)
 	// Tests that a suggestion can only be made in the correct room
 	@Test
 	public void suggestionCorrectRoom() {
 		ComputerPlayer testPlayer = (ComputerPlayer) board.getPlayers().get(1);
-		
+
 		//Run test 100 times to make sure the correct room is chosen each time
 		for(int i = 0; i < 100; i++) {
 			testPlayer.setRow(11);
@@ -217,28 +217,28 @@ public class gameActionTests {
 			roomSuggestion = testPlayer.createSuggestion();
 			assertEquals(roomSuggestion.room, "Hall"); //Test that the suggested room is the room the player is in
 		}
-		
+
 	}
 
 	// There is only one option (of weapon and/or player), it must be chosen
 	@Test
 	public void suggestionOneOptionOnly() {
 		ComputerPlayer testPlayer = (ComputerPlayer) board.getPlayers().get(1); //Set testPlayer to Player2
-		
+
 		testPlayer.setRow(11);
 		testPlayer.setColumn(4); //Set testPlayer location to the doorway of the bedroom
-		
+
 		ArrayList<Card> tempSeenCards = new ArrayList();
 		for(Card c: board.getDeck()) {
 			if(!c.getCardName().equals("Player3") && !c.getCardName().equals("Sword")) { //Add all cards to seenCards except for player3 and sword cards
 				tempSeenCards.add(c);
 			}
 		}
-		
+
 		testPlayer.setSeenCards(tempSeenCards);
-		
+
 		Solution testSuggestion = testPlayer.createSuggestion();
-		
+
 		assertEquals(testSuggestion.person, "Player3");
 		assertEquals(testSuggestion.weapon, "Sword"); //Assert that the computerPlayer selects the only possible solution
 	}
@@ -247,26 +247,26 @@ public class gameActionTests {
 	@Test
 	public void suggestionMultipleWeapons() {
 		ComputerPlayer testPlayer = (ComputerPlayer) board.getPlayers().get(1);
-		
+
 		testPlayer.setRow(11);
 		testPlayer.setColumn(4);
-		
+
 		ArrayList<Card> tempSeenCards = new ArrayList();
 		for(Card c: board.getDeck()) {
 			if(!c.getCardName().equals("Player3") && !c.getCardName().equals("Sword")
-			&& !c.getCardName().equals("Poison") && !c.getCardName().equals("Knife")) { //Add all cards to seenCards except for player3 and three weapon cards
+					&& !c.getCardName().equals("Poison") && !c.getCardName().equals("Knife")) { //Add all cards to seenCards except for player3 and three weapon cards
 				tempSeenCards.add(c);
 			}
 		}
-		
+
 		testPlayer.setSeenCards(tempSeenCards);
-		
+
 		Boolean hasBeenSword = false;
 		Boolean hasBeenPoison = false;
 		Boolean hasBeenKnife = false;
 		while (!hasBeenSword || !hasBeenPoison || !hasBeenKnife) {
 			Solution testSuggestion = testPlayer.createSuggestion();
-			
+
 			if (testSuggestion.weapon.equals("Sword")) {
 				hasBeenSword = true;
 			}
@@ -276,57 +276,57 @@ public class gameActionTests {
 			if (testSuggestion.weapon.equals("Knife")) {
 				hasBeenKnife = true;
 			}
-			
+
 			assertEquals("Player3", testSuggestion.person);
 			assertTrue(testSuggestion.weapon.equals("Sword") || testSuggestion.weapon.equals("Poison")
-			|| testSuggestion.weapon.equals("Knife"));
+					|| testSuggestion.weapon.equals("Knife"));
 		}
-		
-		
+
+
 	}
 
 	// There are several options of players, randomly chosen
 	@Test
 	public void suggestionMultiplePlayers() {
-ComputerPlayer testPlayer = (ComputerPlayer) board.getPlayers().get(1);
-		
+		ComputerPlayer testPlayer = (ComputerPlayer) board.getPlayers().get(1);
+
 		testPlayer.setRow(11);
 		testPlayer.setColumn(4);
-		
+
 		ArrayList<Card> tempSeenCards = new ArrayList();
 		for(Card c: board.getDeck()) {
 			if(!c.getCardName().equals("Player3") && !c.getCardName().equals("Sword")
-			&& !c.getCardName().equals("Poison") && !c.getCardName().equals("Knife")) { //Add all cards to seenCards except for player3 and three weapon cards
+					&& !c.getCardName().equals("Player1") && !c.getCardName().equals("Player4")) { //Add all cards to seenCards except for sword and three player cards
 				tempSeenCards.add(c);
 			}
 		}
-		
+
 		testPlayer.setSeenCards(tempSeenCards);
-		
-		Boolean hasBeenSword = false;
-		Boolean hasBeenPoison = false;
-		Boolean hasBeenKnife = false;
-		while (!hasBeenSword || !hasBeenPoison || !hasBeenKnife) {
+
+		Boolean hasBeenPlayer1 = false;
+		Boolean hasBeenPlayer3 = false;
+		Boolean hasBeenPlayer4 = false;
+		while (!hasBeenPlayer1 || !hasBeenPlayer3 || !hasBeenPlayer4) {
 			Solution testSuggestion = testPlayer.createSuggestion();
-			
-			if (testSuggestion.weapon.equals("Sword")) {
-				hasBeenSword = true;
+
+			if (testSuggestion.person.equals("Player1")) {
+				hasBeenPlayer1 = true;
 			}
-			if (testSuggestion.weapon.equals("Poison")) {
-				hasBeenPoison = true;
+			if (testSuggestion.person.equals("Player3")) {
+				hasBeenPlayer3 = true;
 			}
-			if (testSuggestion.weapon.equals("Knife")) {
-				hasBeenKnife = true;
+			if (testSuggestion.person.equals("Player4")) {
+				hasBeenPlayer4 = true;
 			}
-			
-			assertEquals("Player3", testSuggestion.person);
-			assertTrue(testSuggestion.weapon.equals("Sword") || testSuggestion.weapon.equals("Poison")
-			|| testSuggestion.weapon.equals("Knife"));
+
+			assertEquals("Sword", testSuggestion.weapon);
+			assertTrue(testSuggestion.person.equals("Player1") || testSuggestion.person.equals("Player3")
+					|| testSuggestion.person.equals("Player4"));
 		}
 	}
 
 
-// Disproving suggestion tests (Player)
+	// Disproving suggestion tests (Player)
 	// Player has only one matching card, this card must be chosen
 	@Test
 	public void disproveOneMatching() {
@@ -347,7 +347,7 @@ ComputerPlayer testPlayer = (ComputerPlayer) board.getPlayers().get(1);
 
 
 
-// Handling suggestion tests (Board)
+	// Handling suggestion tests (Board)
 	// Suggestion can not be disproved by any player, must return null
 	@Test
 	public void cannotBeDisproved() {
