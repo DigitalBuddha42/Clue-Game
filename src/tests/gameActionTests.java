@@ -323,6 +323,7 @@ public class gameActionTests {
 			assertTrue(testSuggestion.person.equals("Player1") || testSuggestion.person.equals("Player3")
 					|| testSuggestion.person.equals("Player4"));
 		}
+		
 	}
 
 
