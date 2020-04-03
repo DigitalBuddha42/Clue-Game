@@ -28,7 +28,25 @@ public class Player {
 
 
 	public Card disproveSuggestion(Solution suggestion) {
-		return new Card("", CardType.PERSON);
+		
+		for(Card c: myCards) {
+			if(c.getCardType() == CardType.PERSON) {
+				if(c.getCardName().equals(suggestion.person)) {
+					return c;
+				}
+			}
+			else if(c.getCardType() == CardType.ROOM) {
+				if(c.getCardName().equals(suggestion.room)) {
+					return c;
+				}
+			}
+			else if(c.getCardType() == CardType.WEAPON) {
+				if(c.getCardName().equals(suggestion.weapon)) {
+					return c;
+				}
+			}
+		}
+		return null;
 	}
 	
 	public String getPlayerName() {
