@@ -8,13 +8,11 @@ import java.util.*;
  */
 public class ComputerPlayer extends Player {
 	
-	private int previousRow;
-	private int previousCol;
+	private char lastRoomInitial;
 
 	public ComputerPlayer(String playerName, int row, int column, Color color) {
 		super(playerName, row, column, color);
-		previousRow = 0;
-		previousCol = 0; //Set to values that we know will be overridden because 0,0 is inside a room
+		lastRoomInitial = 'Z'; //Set to values that we know will be overridden because 0,0 is inside a room
 	}
 
 	public BoardCell pickLocation(Set<BoardCell> targets) {
@@ -27,20 +25,16 @@ public class ComputerPlayer extends Player {
 		
 		for(BoardCell cell : targets) {
 			if(cell.isDoorway()) {
-				if(cell.getRow() != previousRow || cell.getCol() != previousCol) {
+				if(cell.getInitial() != lastRoomInitial) {
 					targetRooms.add(cell);
 				}
 			}
 		}
 		
-		if(targetRooms.size() >0) {
+		if(targetRooms.size() > 0) {
 			randomIndex = rand.nextInt(targetRooms.size());
 			for(BoardCell cell : targetRooms) {
 				if(index == randomIndex) {
-					this.setRow(cell.getRow());
-					this.setColumn(cell.getCol());
-					previousRow = cell.getRow();
-					previousCol = cell.getCol();
 					return cell;
 				}
 				index++;
@@ -49,8 +43,6 @@ public class ComputerPlayer extends Player {
 		
 		for(BoardCell cell : targets) {
 			if(index == randomIndex) {
-				this.setRow(cell.getRow());
-				this.setColumn(cell.getCol());
 				return cell;
 			}
 			index++;
@@ -97,6 +89,14 @@ public class ComputerPlayer extends Player {
 			return temp;
 		} else {
 			return null;
+		}
+	}
+	
+	public void movePlayer(BoardCell cell) {
+		this.setRow(cell.getRow());
+		this.setColumn(cell.getCol());
+		if (cell.isDoorway()) {
+			lastRoomInitial = cell.getInitial();
 		}
 	}
 }

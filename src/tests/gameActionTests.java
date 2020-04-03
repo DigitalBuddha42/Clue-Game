@@ -157,15 +157,18 @@ public class gameActionTests {
 
 			//Player picks a location from the target list, should be one of the three rooms within range
 			BoardCell firstRoom = testPlayer.pickLocation(targets);
+			testPlayer.movePlayer(firstRoom);
 			assertTrue(firstRoom.isDoorway()); 
 
 			//Player picks location - it should be a different room than the player previously entered
 			BoardCell secondRoom = testPlayer.pickLocation(targets);
+			testPlayer.movePlayer(secondRoom);
 			assertTrue(secondRoom != firstRoom); //Test that the player does not enter the room previously entered
 			assertTrue(secondRoom.isDoorway());	//Test that the player entered a room
 
 			//Player should pick a room that isn't the second room, but could be the first room
 			BoardCell thirdRoom = testPlayer.pickLocation(targets);
+			testPlayer.movePlayer(thirdRoom);
 			assertTrue(thirdRoom != secondRoom);
 			assertTrue(thirdRoom.isDoorway()); //Test that player entered an available room
 		}
@@ -243,7 +246,43 @@ public class gameActionTests {
 	// There are several options of weapons, randomly chosen
 	@Test
 	public void suggestionMultipleWeapons() {
-		fail("Not yet implemented");
+		ComputerPlayer testPlayer = (ComputerPlayer) board.getPlayers().get(1);
+		
+		testPlayer.setRow(11);
+		testPlayer.setColumn(4);
+		
+		ArrayList<Card> tempSeenCards = new ArrayList();
+		for(Card c: board.getDeck()) {
+			if(!c.getCardName().equals("Player3") && !c.getCardName().equals("Sword")
+			&& !c.getCardName().equals("Poison") && !c.getCardName().equals("Knife")) { //Add all cards to seenCards except for player3 and three weapon cards
+				tempSeenCards.add(c);
+			}
+		}
+		
+		testPlayer.setSeenCards(tempSeenCards);
+		
+		Boolean hasBeenSword = false;
+		Boolean hasBeenPoison = false;
+		Boolean hasBeenKnife = false;
+		while (!hasBeenSword || !hasBeenPoison || !hasBeenKnife) {
+			Solution testSuggestion = testPlayer.createSuggestion();
+			
+			if (testSuggestion.weapon.equals("Sword")) {
+				hasBeenSword = true;
+			}
+			if (testSuggestion.weapon.equals("Poison")) {
+				hasBeenPoison = true;
+			}
+			if (testSuggestion.weapon.equals("Knife")) {
+				hasBeenKnife = true;
+			}
+			
+			assertEquals("Player3", testSuggestion.person);
+			assertTrue(testSuggestion.weapon.equals("Sword") || testSuggestion.weapon.equals("Poison")
+			|| testSuggestion.weapon.equals("Knife"));
+		}
+		
+		
 	}
 
 	// There are several options of players, randomly chosen
