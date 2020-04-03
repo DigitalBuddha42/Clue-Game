@@ -63,7 +63,8 @@ public class ComputerPlayer extends Player {
 		
 	}
 	
-	public void createSuggestion() {
-		
+	public Solution createSuggestion() {
+		Solution temp = new Solution("", "", "");
+		return temp;
 	}
 }
