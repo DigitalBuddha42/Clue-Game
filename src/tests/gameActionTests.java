@@ -9,6 +9,7 @@ import java.util.*;
 
 import clueGame.Board;
 import clueGame.ComputerPlayer;
+import clueGame.Solution;
 import clueGame.BoardCell;
 
 /**
@@ -173,7 +174,8 @@ public class gameActionTests {
 	// The accusation is the solution
 	@Test
 	public void accusationCorrect() {
-		fail("Not yet implemented");
+		Solution correctSol = new Solution(board.getSolution());
+		assertTrue(board.checkAccusation(correctSol));
 	}
 
 	// The accusation has the wrong player

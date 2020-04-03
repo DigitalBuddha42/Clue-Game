@@ -14,5 +14,11 @@ public class Solution {
 		this.room = room;
 		this.weapon = weapon;
 	}
+
+	public Solution(Solution solution) {
+		this.person = solution.person;
+		this.room = solution.room;
+		this.weapon = solution.weapon;
+	}
 	
 }
