@@ -9,6 +9,7 @@ import java.util.*;
 
 import clueGame.Board;
 import clueGame.ComputerPlayer;
+import clueGame.HumanPlayer;
 import clueGame.Player;
 import clueGame.Solution;
 import clueGame.BoardCell;
@@ -416,9 +417,13 @@ public class gameActionTests {
 	@Test
 	public void cannotBeDisproved() {
 		Solution testSuggestion = new Solution("Player1", "Bedroom", "Sword");
-		Card testRoom = new Card("Hallway", CardType.ROOM); //Card that isn't in the solution
+		Card testRoom = new Card("Hallway", CardType.ROOM); //Cards that aren't in the solution
 		Card testWeapon = new Card("Poison", CardType.WEAPON);
 		Card testPerson = new Card("Player5", CardType.PERSON);
+		
+		HumanPlayer testPlayer0 = (HumanPlayer) board.getPlayers().get(0);
+		testPlayer0.setSeenCards(new ArrayList<Card> (0));
+		testPlayer0.dealCard(testPerson);
 		
 		ComputerPlayer testPlayer1 = (ComputerPlayer) board.getPlayers().get(1);
 		testPlayer1.setSeenCards(new ArrayList<Card> (0));
@@ -432,10 +437,21 @@ public class gameActionTests {
 		testPlayer3.setSeenCards(new ArrayList<Card> (0));
 		testPlayer3.dealCard(testPerson);
 		
+		ComputerPlayer testPlayer4 = (ComputerPlayer) board.getPlayers().get(4);
+		testPlayer4.setSeenCards(new ArrayList<Card> (0));
+		testPlayer4.dealCard(testRoom);
+		
+		ComputerPlayer testPlayer5 = (ComputerPlayer) board.getPlayers().get(5);
+		testPlayer5.setSeenCards(new ArrayList<Card> (0));
+		testPlayer5.dealCard(testWeapon);
+		
 		for(int i = 0; i < 100; i++) {
+			assertEquals(testPlayer0.disproveSuggestion(testSuggestion),null);
 			assertEquals(testPlayer1.disproveSuggestion(testSuggestion),null);
 			assertEquals(testPlayer2.disproveSuggestion(testSuggestion),null);
 			assertEquals(testPlayer3.disproveSuggestion(testSuggestion),null);
+			assertEquals(testPlayer4.disproveSuggestion(testSuggestion),null);
+			assertEquals(testPlayer5.disproveSuggestion(testSuggestion),null);
 			
 			assertEquals(null, board.handleSuggestion(testSuggestion, board.getPlayers().get(5)));
 		}
@@ -444,7 +460,20 @@ public class gameActionTests {
 	// Only the suggester can disprove the suggestion, must return null
 	@Test
 	public void suggesterCanDisprove() {
-		fail("Not yet implemented");
+		Solution testSuggestion = new Solution("Player1", "Bedroom", "Sword");
+		Card testRoom = new Card("Bedroom", CardType.ROOM); //Cards that aren't in the solution
+		Card testWeapon = new Card("Sword", CardType.WEAPON);
+		Card testPerson = new Card("Player1", CardType.PERSON);
+		
+		ComputerPlayer testPlayer1 = (ComputerPlayer) board.getPlayers().get(1);
+		testPlayer1.setSeenCards(new ArrayList<Card> (0));
+		testPlayer1.dealCard(testRoom);
+		testPlayer1.dealCard(testWeapon);
+		testPlayer1.dealCard(testPerson);
+
+		for(int i = 0; i < 100; i++) {
+			assertEquals(null, board.handleSuggestion(testSuggestion, board.getPlayers().get(1)));
+		}
 	}
 
 	// The human player can disprove the suggestion, must return the answer/disproving card
