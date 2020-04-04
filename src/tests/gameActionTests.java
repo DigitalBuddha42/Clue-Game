@@ -438,7 +438,6 @@ public class gameActionTests {
 			assertEquals(testPlayer3.disproveSuggestion(testSuggestion),null);
 			
 			assertEquals(null, board.handleSuggestion(testSuggestion, board.getPlayers().get(5)));
-			
 		}
 	}
 
