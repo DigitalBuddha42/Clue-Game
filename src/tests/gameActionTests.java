@@ -53,7 +53,7 @@ public class gameActionTests {
 		boolean cell6 = false;
 		boolean cell7 = false;
 
-		while(roomCount < 5) {
+		while(roomCount < 5) { //While loop to get rid of redundancy and make sure each cell is counted
 			ComputerPlayer testPlayer = new ComputerPlayer("testPlayer", 6, 15, Color.red);
 			board.calcTargets(6, 15, 2);
 			Set<BoardCell> targets = new HashSet<BoardCell>(board.getTargets());
@@ -183,15 +183,18 @@ public class gameActionTests {
 		//Check accusation with the correct solution
 		Solution correctSol = new Solution(board.getSolution());
 		assertTrue(board.checkAccusation(correctSol));
-
+		
+		//Check accusation with the wrong person
 		Solution wrongPerson = new Solution(board.getSolution());
 		wrongPerson.person = "wrongPerson";
 		assertFalse(board.checkAccusation(wrongPerson));
-
+		
+		//Check accusation with the wrong weapon
 		Solution wrongWeapon = new Solution(board.getSolution());
 		wrongWeapon.weapon = "wrongWeapon";
 		assertFalse(board.checkAccusation(wrongWeapon));
-
+		
+		//Check accusation with the wrong room
 		Solution wrongRoom = new Solution(board.getSolution());
 		wrongRoom.room = "wrongRoom";
 		assertFalse(board.checkAccusation(wrongRoom));
@@ -250,9 +253,10 @@ public class gameActionTests {
 		ComputerPlayer testPlayer = (ComputerPlayer) board.getPlayers().get(1);
 
 		testPlayer.setRow(11);
-		testPlayer.setColumn(4);
+		testPlayer.setColumn(4); //Set player to doorway
 
 		ArrayList<Card> tempSeenCards = new ArrayList();
+		//Add everything to seen cards except for a couple specified cards
 		for(Card c: board.getDeck()) {
 			if(!c.getCardName().equals("Player3") && !c.getCardName().equals("Sword")
 					&& !c.getCardName().equals("Poison") && !c.getCardName().equals("Knife")) { //Add all cards to seenCards except for player3 and three weapon cards
@@ -265,7 +269,7 @@ public class gameActionTests {
 		Boolean hasBeenSword = false;
 		Boolean hasBeenPoison = false;
 		Boolean hasBeenKnife = false;
-		while (!hasBeenSword || !hasBeenPoison || !hasBeenKnife) {
+		while (!hasBeenSword || !hasBeenPoison || !hasBeenKnife) { //Run loop until all possible weapons have been chosen once
 			Solution testSuggestion = testPlayer.createSuggestion();
 
 			if (testSuggestion.weapon.equals("Sword")) {
@@ -278,9 +282,9 @@ public class gameActionTests {
 				hasBeenKnife = true;
 			}
 
-			assertEquals("Player3", testSuggestion.person);
+			assertEquals("Player3", testSuggestion.person); //Make sure the only person that hasn't been seen is chosen
 			assertTrue(testSuggestion.weapon.equals("Sword") || testSuggestion.weapon.equals("Poison")
-					|| testSuggestion.weapon.equals("Knife"));
+					|| testSuggestion.weapon.equals("Knife")); //Test to make sure the player chooses once of the weapons that haven't been seen
 		}
 
 
@@ -307,7 +311,7 @@ public class gameActionTests {
 		Boolean hasBeenPlayer1 = false;
 		Boolean hasBeenPlayer3 = false;
 		Boolean hasBeenPlayer4 = false;
-		while (!hasBeenPlayer1 || !hasBeenPlayer3 || !hasBeenPlayer4) {
+		while (!hasBeenPlayer1 || !hasBeenPlayer3 || !hasBeenPlayer4) {  //Run loop until all players have been chosen once
 			Solution testSuggestion = testPlayer.createSuggestion();
 
 			if (testSuggestion.person.equals("Player1")) {
@@ -320,9 +324,9 @@ public class gameActionTests {
 				hasBeenPlayer4 = true;
 			}
 
-			assertEquals("Sword", testSuggestion.weapon);
+			assertEquals("Sword", testSuggestion.weapon); //Make sure that the only weapon not seen is chosen
 			assertTrue(testSuggestion.person.equals("Player1") || testSuggestion.person.equals("Player3")
-					|| testSuggestion.person.equals("Player4"));
+					|| testSuggestion.person.equals("Player4")); //Test that one of the not seen players is chosen
 		}
 		
 	}
