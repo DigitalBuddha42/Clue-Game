@@ -421,38 +421,14 @@ public class gameActionTests {
 		Card testWeapon = new Card("Poison", CardType.WEAPON);
 		Card testPerson = new Card("Player5", CardType.PERSON);
 		
-		HumanPlayer testPlayer0 = (HumanPlayer) board.getPlayers().get(0);
-		testPlayer0.setSeenCards(new ArrayList<Card> (0));
-		testPlayer0.dealCard(testPerson);
-		
-		ComputerPlayer testPlayer1 = (ComputerPlayer) board.getPlayers().get(1);
-		testPlayer1.setSeenCards(new ArrayList<Card> (0));
-		testPlayer1.dealCard(testRoom);
-		
-		ComputerPlayer testPlayer2 = (ComputerPlayer) board.getPlayers().get(2);
-		testPlayer2.setSeenCards(new ArrayList<Card> (0));
-		testPlayer2.dealCard(testWeapon);
-		
-		ComputerPlayer testPlayer3 = (ComputerPlayer) board.getPlayers().get(3);
-		testPlayer3.setSeenCards(new ArrayList<Card> (0));
-		testPlayer3.dealCard(testPerson);
-		
-		ComputerPlayer testPlayer4 = (ComputerPlayer) board.getPlayers().get(4);
-		testPlayer4.setSeenCards(new ArrayList<Card> (0));
-		testPlayer4.dealCard(testRoom);
-		
-		ComputerPlayer testPlayer5 = (ComputerPlayer) board.getPlayers().get(5);
-		testPlayer5.setSeenCards(new ArrayList<Card> (0));
-		testPlayer5.dealCard(testWeapon);
+		for (Player p: board.getPlayers()) {
+			p.setSeenCards(new ArrayList<Card> (0)); // Ensure no player has a card that can disprove the suggestion
+			p.dealCard(testRoom);
+			p.dealCard(testWeapon);
+			p.dealCard(testPerson);
+		}
 		
 		for(int i = 0; i < 100; i++) {
-			assertEquals(testPlayer0.disproveSuggestion(testSuggestion),null);
-			assertEquals(testPlayer1.disproveSuggestion(testSuggestion),null);
-			assertEquals(testPlayer2.disproveSuggestion(testSuggestion),null);
-			assertEquals(testPlayer3.disproveSuggestion(testSuggestion),null);
-			assertEquals(testPlayer4.disproveSuggestion(testSuggestion),null);
-			assertEquals(testPlayer5.disproveSuggestion(testSuggestion),null);
-			
 			assertEquals(null, board.handleSuggestion(testSuggestion, board.getPlayers().get(5)));
 		}
 	}
@@ -465,27 +441,46 @@ public class gameActionTests {
 		Card testWeapon = new Card("Sword", CardType.WEAPON);
 		Card testPerson = new Card("Player1", CardType.PERSON);
 		
-		ComputerPlayer testPlayer1 = (ComputerPlayer) board.getPlayers().get(1);
-		testPlayer1.setSeenCards(new ArrayList<Card> (0));
+		for (Player p: board.getPlayers()) {
+			p.setSeenCards(new ArrayList<Card> (0)); // Ensure no player has a card that can disprove the suggestion
+		}
+		
+		ComputerPlayer testPlayer1 = (ComputerPlayer) board.getPlayers().get(1); // Give the suggester the cards that disprove the suggestion
 		testPlayer1.dealCard(testRoom);
 		testPlayer1.dealCard(testWeapon);
 		testPlayer1.dealCard(testPerson);
 
 		for(int i = 0; i < 100; i++) {
-			assertEquals(null, board.handleSuggestion(testSuggestion, board.getPlayers().get(1)));
+			assertEquals(null, board.handleSuggestion(testSuggestion, board.getPlayers().get(1))); // Ensure the suggester does not disprove the suggestion
 		}
 	}
 
 	// The human player can disprove the suggestion, must return the answer/disproving card
 	@Test
 	public void humanCanDisprove() {
-		fail("Not yet implemented");
+		fail();
 	}
 
 	// The human player can disprove the suggestion, but is the suggester, must return null
 	@Test
 	public void humanSuggesterCanDisprove() {
-		fail("Not yet implemented");
+		Solution testSuggestion = new Solution("Player1", "Bedroom", "Sword");
+		Card testRoom = new Card("Bedroom", CardType.ROOM); //Cards that aren't in the solution
+		Card testWeapon = new Card("Sword", CardType.WEAPON);
+		Card testPerson = new Card("Player1", CardType.PERSON);
+		
+		for (Player p: board.getPlayers()) {
+			p.setSeenCards(new ArrayList<Card> (0)); // Ensure no player has a card that can disprove the suggestion
+		}
+		
+		HumanPlayer testPlayer1 = (HumanPlayer) board.getPlayers().get(0); // Give the suggester the cards that disprove the suggestion
+		testPlayer1.dealCard(testRoom);
+		testPlayer1.dealCard(testWeapon);
+		testPlayer1.dealCard(testPerson);
+
+		for(int i = 0; i < 100; i++) {
+			assertEquals(null, board.handleSuggestion(testSuggestion, board.getPlayers().get(0))); // Ensure the human suggester does not disprove the suggestion
+		}
 	}
 
 	// Multiple ComputerPlayers can disprove, must be the next in list

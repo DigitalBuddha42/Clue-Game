@@ -468,7 +468,7 @@ public class Board {
 	}
 	
 	public Card handleSuggestion(Solution suggestion, Player suggester) {
-		for (int i = allPlayers.indexOf(suggester); i < allPlayers.size(); i++) {
+		for (int i = allPlayers.indexOf(suggester) + 1; i < allPlayers.size(); i++) {
 			if (allPlayers.get(i).disproveSuggestion(suggestion) != null) {
 				return allPlayers.get(i).disproveSuggestion(suggestion);
 			}
