@@ -30,7 +30,7 @@ public class Player {
 	public Card disproveSuggestion(Solution suggestion) {
 		ArrayList<Card> possibleCards = new ArrayList();
 		
-		for(Card c: myCards) {
+		for(Card c: seenCards) {
 			if(c.getCardType() == CardType.PERSON) {
 				if(c.getCardName().equals(suggestion.person)) {
 					possibleCards.add(c);

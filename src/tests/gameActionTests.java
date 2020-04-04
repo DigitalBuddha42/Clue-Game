@@ -398,14 +398,14 @@ public class gameActionTests {
 	// Player has no matching cards, returns null
 	@Test
 	public void disproveNoMatching() {
-		Solution testSolution = new Solution("Player1", "Bedroom", "Sword");
+		Solution testSuggestion = new Solution("Player1", "Bedroom", "Sword");
 		Card testRoom = new Card("Hallway", CardType.ROOM); //Card that isn't in the solution
 		
 		ComputerPlayer testPlayer = new ComputerPlayer("testPlayer", 0, 0, Color.red);
 		testPlayer.dealCard(testRoom);
 		
 		for(int i = 0; i < 100; i++) {
-			assertEquals(testPlayer.disproveSuggestion(testSolution),null);
+			assertEquals(testPlayer.disproveSuggestion(testSuggestion),null);
 		}
 	}
 
@@ -415,7 +415,31 @@ public class gameActionTests {
 	// Suggestion can not be disproved by any player, must return null
 	@Test
 	public void cannotBeDisproved() {
-		fail("Not yet implemented");
+		Solution testSuggestion = new Solution("Player1", "Bedroom", "Sword");
+		Card testRoom = new Card("Hallway", CardType.ROOM); //Card that isn't in the solution
+		Card testWeapon = new Card("Poison", CardType.WEAPON);
+		Card testPerson = new Card("Player5", CardType.PERSON);
+		
+		ComputerPlayer testPlayer1 = (ComputerPlayer) board.getPlayers().get(1);
+		testPlayer1.setSeenCards(new ArrayList<Card> (0));
+		testPlayer1.dealCard(testRoom);
+		
+		ComputerPlayer testPlayer2 = (ComputerPlayer) board.getPlayers().get(2);
+		testPlayer2.setSeenCards(new ArrayList<Card> (0));
+		testPlayer2.dealCard(testWeapon);
+		
+		ComputerPlayer testPlayer3 = (ComputerPlayer) board.getPlayers().get(3);
+		testPlayer3.setSeenCards(new ArrayList<Card> (0));
+		testPlayer3.dealCard(testPerson);
+		
+		for(int i = 0; i < 100; i++) {
+			assertEquals(testPlayer1.disproveSuggestion(testSuggestion),null);
+			assertEquals(testPlayer2.disproveSuggestion(testSuggestion),null);
+			assertEquals(testPlayer3.disproveSuggestion(testSuggestion),null);
+			
+			assertEquals(null, board.handleSuggestion(testSuggestion, board.getPlayers().get(5)));
+			
+		}
 	}
 
 	// Only the suggester can disprove the suggestion, must return null
