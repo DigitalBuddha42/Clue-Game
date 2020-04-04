@@ -505,8 +505,8 @@ public class gameActionTests {
 	public void multipleCompCanDisprove() {
 		Solution testSuggestion = new Solution("Player1", "Bedroom", "Sword");
 		Card testRoom = new Card("Bedroom", CardType.ROOM); //Cards that aren't in the solution
-		Card testWeapon = new Card("Poison", CardType.WEAPON);
-		Card testPerson = new Card("Player5", CardType.PERSON);
+		Card testWeapon = new Card("Sword", CardType.WEAPON);
+		Card testPerson = new Card("Player1", CardType.PERSON);
 		
 		for (Player p: board.getPlayers()) {
 			p.setSeenCards(new ArrayList<Card> (0)); // Ensure no player has a card that can disprove the suggestion
@@ -526,17 +526,17 @@ public class gameActionTests {
 	public void humanAndCompCanDisprove() {
 		Solution testSuggestion = new Solution("Player1", "Bedroom", "Sword");
 		Card testRoom = new Card("Bedroom", CardType.ROOM); //Cards that aren't in the solution
-		Card testWeapon = new Card("Poison", CardType.WEAPON);
-		Card testPerson = new Card("Player5", CardType.PERSON);
+		Card testWeapon = new Card("Sword", CardType.WEAPON);
+		Card testPerson = new Card("Player1", CardType.PERSON);
 		
 		for (Player p: board.getPlayers()) {
 			p.setSeenCards(new ArrayList<Card> (0)); // Ensure no player has a card that can disprove the suggestion
 		}
 		board.getPlayers().get(5).dealCard(testRoom);
-		board.getPlayers().get(1).dealCard(testWeapon);
-		board.getPlayers().get(3).dealCard(testPerson);
+		board.getPlayers().get(0).dealCard(testWeapon);
+		board.getPlayers().get(2).dealCard(testPerson);
 		
-		// Ensure that the player next in list always disproves
+		// Ensure that the computer player next in list always disproves
 		for(int i = 0; i < 100; i++) {
 			assertEquals("Bedroom", board.handleSuggestion(testSuggestion, board.getPlayers().get(4)).getCardName());
 		}
