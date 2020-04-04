@@ -541,5 +541,4 @@ public class gameActionTests {
 			assertEquals("Bedroom", board.handleSuggestion(testSuggestion, board.getPlayers().get(4)).getCardName());
 		}
 	}
-
 }
