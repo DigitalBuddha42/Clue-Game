@@ -458,7 +458,7 @@ public class gameActionTests {
 	// The human player can disprove the suggestion, must return the answer/disproving card
 	@Test
 	public void humanCanDisprove() {
-		fail();
+		fail("Not yet implemented");
 	}
 
 	// The human player can disprove the suggestion, but is the suggester, must return null
