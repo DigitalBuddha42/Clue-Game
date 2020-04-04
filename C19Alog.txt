@@ -1,0 +1,39 @@
+* Made final test pass
+* Finished final test
+* Made multipleCompCanDisprove test pass
+* Wrote multipleCompCanDisprove test
+* Made humanSuggesterCanDisprove pass
+* Wrote humanSuggesterCanDisprove test
+* Fixed cannotBeDisproved, made it pass
+* Made cannotBeDisproved pass
+* Wrote cannotBeDisproved
+* Made disprove no matching test pass
+* Made disprove noMatchingTest fail
+* Made disproveManyMatching test pass
+* Made disproveManyMatching test fail
+* Made disproveOneMatching test pass
+* Made disproveOneMatching test fail
+* Made suggestionMultiplePlayers test pass
+* Finished suggestionMultiplePlayers test
+* Made suggestionMultipleWeapons pass
+* Wrote suggestionMultipleWeapons test
+* Removed print statements
+* Made suggestionOneOptionOnly pass
+* Started working on making suggestOneOptionOnly pass
+* Made suggestionOneOptionOnly test fail
+* Made suggestionCorrectRoom test pass
+* Made suggestionCorrectRoom test fail
+* Made accusationTests pass
+* Made accusationTests fail
+* Combined accusation tests into one test
+* Made accusationCorrect fail
+* Made targetVisitedRoom pass
+* Made targetVisitedRoom fail
+* Made targetNewRoom pass
+* Made targetNewRoom fail
+* Made targetNoRooms pass
+* Fixed targetNoRooms test
+* Havhing trouble making targetNoRooms fail - there could be an issue with calcTargets
+* Made targetNoRooms fail
+* Changed comments
+* Added gameActionTests class, created all empty tests
