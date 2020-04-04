@@ -437,7 +437,7 @@ public class gameActionTests {
 	@Test
 	public void suggesterCanDisprove() {
 		Solution testSuggestion = new Solution("Player1", "Bedroom", "Sword");
-		Card testRoom = new Card("Bedroom", CardType.ROOM); //Cards that aren't in the solution
+		Card testRoom = new Card("Bedroom", CardType.ROOM); //Cards that are in the solution
 		Card testWeapon = new Card("Sword", CardType.WEAPON);
 		Card testPerson = new Card("Player1", CardType.PERSON);
 		
@@ -458,7 +458,24 @@ public class gameActionTests {
 	// The human player can disprove the suggestion, must return the answer/disproving card
 	@Test
 	public void humanCanDisprove() {
-		fail("Not yet implemented");
+		Solution testSuggestion = new Solution("Player1", "Bedroom", "Sword");
+		Card testRoom = new Card("Bedroom", CardType.ROOM); //Cards that aren't in the solution
+		Card testWeapon = new Card("Sword", CardType.WEAPON);
+		Card testPerson = new Card("Player1", CardType.PERSON);
+		
+		for (Player p: board.getPlayers()) {
+			p.setSeenCards(new ArrayList<Card> (0)); // Ensure no player has a card that can disprove the suggestion
+		}
+		
+		HumanPlayer testPlayer1 = (HumanPlayer) board.getPlayers().get(0); // Give the suggester the cards that disprove the suggestion
+		testPlayer1.dealCard(testRoom);
+		testPlayer1.dealCard(testWeapon);
+		testPlayer1.dealCard(testPerson);
+
+		 // Ensure the human suggester always disproves the suggestion with one of the disproving cards
+		for(int i = 0; i < 100; i++) {
+			assertTrue(board.handleSuggestion(testSuggestion, board.getPlayers().get(1)) != null);
+		}
 	}
 
 	// The human player can disprove the suggestion, but is the suggester, must return null
@@ -486,13 +503,43 @@ public class gameActionTests {
 	// Multiple ComputerPlayers can disprove, must be the next in list
 	@Test
 	public void multipleCompCanDisprove() {
-		fail("Not yet implemented");
+		Solution testSuggestion = new Solution("Player1", "Bedroom", "Sword");
+		Card testRoom = new Card("Bedroom", CardType.ROOM); //Cards that aren't in the solution
+		Card testWeapon = new Card("Poison", CardType.WEAPON);
+		Card testPerson = new Card("Player5", CardType.PERSON);
+		
+		for (Player p: board.getPlayers()) {
+			p.setSeenCards(new ArrayList<Card> (0)); // Ensure no player has a card that can disprove the suggestion
+		}
+		board.getPlayers().get(5).dealCard(testRoom);
+		board.getPlayers().get(1).dealCard(testWeapon);
+		board.getPlayers().get(3).dealCard(testPerson);
+		
+		// Ensure that the player next in list always disproves
+		for(int i = 0; i < 100; i++) {
+			assertEquals("Bedroom", board.handleSuggestion(testSuggestion, board.getPlayers().get(4)).getCardName());
+		}
 	}
 
-	// Human player and other player(s) can disprove, must be the non-human player
+	// Human player and other player(s) can disprove, and the other player is next in list, the other player must disprove?
 	@Test
 	public void humanAndCompCanDisprove() {
-		fail("Not yet implemented");
+		Solution testSuggestion = new Solution("Player1", "Bedroom", "Sword");
+		Card testRoom = new Card("Bedroom", CardType.ROOM); //Cards that aren't in the solution
+		Card testWeapon = new Card("Poison", CardType.WEAPON);
+		Card testPerson = new Card("Player5", CardType.PERSON);
+		
+		for (Player p: board.getPlayers()) {
+			p.setSeenCards(new ArrayList<Card> (0)); // Ensure no player has a card that can disprove the suggestion
+		}
+		board.getPlayers().get(5).dealCard(testRoom);
+		board.getPlayers().get(1).dealCard(testWeapon);
+		board.getPlayers().get(3).dealCard(testPerson);
+		
+		// Ensure that the player next in list always disproves
+		for(int i = 0; i < 100; i++) {
+			assertEquals("Bedroom", board.handleSuggestion(testSuggestion, board.getPlayers().get(4)).getCardName());
+		}
 	}
 
 }
