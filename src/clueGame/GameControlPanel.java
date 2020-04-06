@@ -39,7 +39,7 @@ public class GameControlPanel extends JPanel {
 	
 	private JPanel createTurnPanel() {
 		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(1,2));
+		panel.setLayout(new GridLayout(2,1));
 		JLabel playerLabel = new JLabel("Whose turn?");
 		panel.add(playerLabel);
 		panel.add(currentPlayer);
