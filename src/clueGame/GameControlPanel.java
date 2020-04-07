@@ -21,6 +21,7 @@ public class GameControlPanel extends JPanel {
 	private JTextField guess = new JTextField(50);
 	private JTextField guessResult = new JTextField(50);
 	
+	//Calls each function to add a new panel
 	public GameControlPanel () {
 		setLayout(new GridLayout(2,0));
 		JPanel panel = createTurnPanel();
@@ -37,6 +38,7 @@ public class GameControlPanel extends JPanel {
 		add(panel);
 	}
 	
+	//Creates the panel displaying whose turn it currently is
 	private JPanel createTurnPanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(2,1));
@@ -46,6 +48,7 @@ public class GameControlPanel extends JPanel {
 		return panel;
 	}
 	
+	//Creates the button to move to the next player
 	private JPanel createNextPlayerPanel() {
 		JButton nextTurn = new JButton("Next player");
 		JPanel panel = new JPanel();
@@ -53,6 +56,7 @@ public class GameControlPanel extends JPanel {
 		return panel;
 	}
 	
+	//Creates the button which allows the player to make an accusation
 	private JPanel createAccusationPanel() {
 		JButton makeAccusation = new JButton("Make an accusation");
 		JPanel panel = new JPanel();
@@ -60,6 +64,7 @@ public class GameControlPanel extends JPanel {
 		return panel;
 	}
 	
+	//Creates the panel displaying the die roll
 	private JPanel createDiePanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(1,2));
@@ -71,6 +76,7 @@ public class GameControlPanel extends JPanel {
 		return panel;
 	}
 	
+	//Creates the box allowing the player to input a guess
 	private JPanel createGuessPanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(2,1));
@@ -81,6 +87,7 @@ public class GameControlPanel extends JPanel {
 		return panel;
 	}
 	
+	//Displays the result of the guess
 	private JPanel createGuessResultPanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(1,2));
@@ -111,9 +118,10 @@ public class GameControlPanel extends JPanel {
 		GameControlPanel panel = new GameControlPanel();
         JFrame frame = new JFrame();
         frame.setContentPane(panel);
-        frame.setSize(750, 200);
+        frame.setSize(750, 200); //Total size of the game control panel
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
        
+        //Default parameters
         panel.updateTurn("Player1");
         panel.updateGuess("Guess") ;
         panel.updateGuessResult("Guess Result");

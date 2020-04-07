@@ -1,3 +1,4 @@
+* Added comments and refactored redundant code
 * Made final test pass
 * Finished final test
 * Made multipleCompCanDisprove test pass
