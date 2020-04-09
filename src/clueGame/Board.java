@@ -27,7 +27,7 @@ public class Board {
 	Set<BoardCell> visited;
 	private Solution theAnswer;
 	private ArrayList<Player> allPlayers;
-	private Set<Card> deck;
+	private Set<Card> deck;  
 	private ArrayList<Card> playerDeck;
 
 	// Singleton pattern, only one instance of board
@@ -499,4 +499,5 @@ public class Board {
 	public Solution getSolution() {
 		return theAnswer;
 	}
+	
 }
