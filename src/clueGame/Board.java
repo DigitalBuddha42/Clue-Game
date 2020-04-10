@@ -1,17 +1,20 @@
 package clueGame;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.io.*;
 import java.io.FileReader;
 import java.lang.reflect.Field;
 import java.util.*;
+
+import javax.swing.JPanel;
 
 
 /**
  * @author Sam Mills, Nadia Bixenman
  *
  */
-public class Board {
+public class Board extends JPanel{
 	private int numRows;
 	private int numColumns;
 	public final int MAX_BOARD_SIZE = 50; // Large enough so that it is not an issue
@@ -498,6 +501,17 @@ public class Board {
 	
 	public Solution getSolution() {
 		return theAnswer;
+	}
+	
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		
+		for(int i = 0; i < numRows; i++) {
+			for(int j = 0; j < numColumns; j++) {
+				board[i][j].draw(g);
+			}
+		}
 	}
 	
 }

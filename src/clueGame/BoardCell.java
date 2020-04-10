@@ -107,12 +107,13 @@ public class BoardCell {
 	}
 	
 	public void draw(Graphics g) {
-		int width = 20;
-		int height = 20;
+		int width = 25;
+		int height = 25;
 		
-		if(isRoom) {
+		if(isRoom || isDoorway) {
 			g.setColor(Color.gray);
 			g.fillRect(column+width*column, row+height*row, width, height);
+			g.drawRect(column+width*column, row+height*row, width, height);
 		}
 		else {
 			g.setColor(Color.black);
@@ -122,25 +123,25 @@ public class BoardCell {
 		}
 		
 		if(isDoorway) {
-			int doorHeight = 20;
-			int doorWidth = 20;
+			int doorHeight = 25;
+			int doorWidth = 25;
 			int rowCorrector = 0;
 			int columnCorrector = 0; //values to correct the location of the door if it is at the bottom or right of cell
 			
 			switch(direction) {
 			case RIGHT:
-				doorWidth = 2;
+				doorWidth = 5;
 				columnCorrector = width - doorWidth;
 				break;
 			case LEFT:
-				doorWidth = 2;
+				doorWidth = 5;
 				break;
 			case UP:
-				doorHeight = 2;
+				doorHeight = 5;
 				break;
 			case DOWN:
-				doorHeight = 2;
-				rowCorrector = height = doorHeight;
+				doorHeight = 5;
+				rowCorrector = height - doorHeight;
 				break;
 			default:
 				break;	
