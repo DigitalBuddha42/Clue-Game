@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.util.*;
 
 /**
@@ -97,4 +98,11 @@ public class Player {
 	public ArrayList<Card> getSeenCards(){
 		return seenCards;
 	} 
+	
+	public void draw(Graphics g) {
+		int width = 25;
+		int height = 25;
+		g.setColor(color);
+		g.fillOval(column + width*column, row + height*row, width, height);
+	}
 }
