@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.io.*;
 import java.io.FileReader;
@@ -517,9 +518,20 @@ public class Board extends JPanel{
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
+		int width = 25;
+		int height = 25;
+		
 		for(int i = 0; i < numRows; i++) {
 			for(int j = 0; j < numColumns; j++) {
 				board[i][j].draw(g);
+				if(board[i][j].getRoomNameDisplayCell()) {
+					String roomName = board[i][j].getDisplayText();
+					roomName = roomName.toUpperCase();
+					g.setColor(Color.blue);
+					Font font = new Font("SansSerif",Font.PLAIN, 12 );
+					g.setFont(font);
+					g.drawString(roomName, j+width*j, i+height*i);
+				}
 			}
 		}
 		

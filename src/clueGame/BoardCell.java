@@ -163,4 +163,12 @@ public class BoardCell {
 		this.displayText = displayText;
 	}
 	
+	public boolean getRoomNameDisplayCell() {
+		return isRoomNameDisplayCell; 
+	}
+	
+	public String getDisplayText() {
+		return displayText;
+	}
+	
 }
