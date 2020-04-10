@@ -1,5 +1,8 @@
 package clueGame;
 
+import java.awt.Color;
+import java.awt.Graphics;
+
 /**
  * @author Sam Mills, Nadia Bixenman
  *
@@ -101,6 +104,51 @@ public class BoardCell {
 			isDoorway = true;
 		}
 		
+	}
+	
+	public void draw(Graphics g) {
+		int width = 20;
+		int height = 20;
+		
+		if(isRoom) {
+			g.setColor(Color.gray);
+			g.fillRect(column+width*column, row+height*row, width, height);
+		}
+		else {
+			g.setColor(Color.black);
+			g.drawRect(column+width*column, row+height*row, width, height);
+			g.setColor(Color.yellow);
+			g.fillRect(column+width*column, row+height*row, width, height);
+		}
+		
+		if(isDoorway) {
+			int doorHeight = 20;
+			int doorWidth = 20;
+			int rowCorrector = 0;
+			int columnCorrector = 0; //values to correct the location of the door if it is at the bottom or right of cell
+			
+			switch(direction) {
+			case RIGHT:
+				doorWidth = 2;
+				columnCorrector = width - doorWidth;
+				break;
+			case LEFT:
+				doorWidth = 2;
+				break;
+			case UP:
+				doorHeight = 2;
+				break;
+			case DOWN:
+				doorHeight = 2;
+				rowCorrector = height = doorHeight;
+				break;
+			default:
+				break;	
+			}
+			
+			g.setColor(Color.blue);
+			g.fillRect(column+width*column+columnCorrector, row+height*row+rowCorrector, doorWidth, doorHeight);
+		}
 	}
 	
 }
