@@ -1,11 +1,11 @@
-P, Parlor, Card
-B, Banquet Hall, Card
-K, Kitchen, Card
-D, Dining Room, Card
-L, Living Room, Card
-H, Hall, Card
-O, Office, Card
-G, Game Room, Card
-R, Bedroom, Card
-X, Storage, Other
-W, Walkway, Other
+P, Parlor, Card, 18 1
+B, Banquet Hall, Card, 18 9
+K, Kitchen, Card, 17 17
+D, Dining Room, Card, 11 17
+L, Living Room, Card, 3 18
+H, Hall, Card, 4 12
+O, Office, Card, 3 7
+G, Game Room, Card, 3 1
+R, Bedroom, Card, 11 1
+X, Storage, Other,
+W, Walkway, Other,

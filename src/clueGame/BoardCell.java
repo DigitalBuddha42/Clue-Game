@@ -15,6 +15,8 @@ public class BoardCell {
 	private boolean isWalkway;
 	private boolean isRoom;
 	private boolean isDoorway;
+	private boolean isRoomNameDisplayCell;
+	private String displayText;
 	
 	/** BoardCell constructor
 	 * @param row
@@ -26,6 +28,7 @@ public class BoardCell {
 		isWalkway = false;
 		isDoorway = false;
 		isRoom = false;
+		isRoomNameDisplayCell = false;
 	}
 	
 	/** Returns integer row
@@ -114,6 +117,9 @@ public class BoardCell {
 			g.setColor(Color.gray);
 			g.fillRect(column+width*column, row+height*row, width, height);
 			g.drawRect(column+width*column, row+height*row, width, height);
+			if (isRoomNameDisplayCell) {
+				g.drawString(displayText, column+width*column, row+height*row);
+			}
 		}
 		else {
 			g.setColor(Color.black);
@@ -150,6 +156,11 @@ public class BoardCell {
 			g.setColor(Color.blue);
 			g.fillRect(column+width*column+columnCorrector, row+height*row+rowCorrector, doorWidth, doorHeight);
 		}
+	}
+	
+	public void setRoomNameDisplayCell (String displayText) {
+		isRoomNameDisplayCell = true;
+		this.displayText = displayText;
 	}
 	
 }

@@ -32,6 +32,7 @@ public class Board extends JPanel{
 	private ArrayList<Player> allPlayers;
 	private Set<Card> deck;  
 	private ArrayList<Card> playerDeck;
+	private Map<BoardCell, String> roomNameDisplayCells;
 
 	// Singleton pattern, only one instance of board
 	private static Board theInstance = new Board();
@@ -44,6 +45,7 @@ public class Board extends JPanel{
 		visited = new HashSet<BoardCell>();
 		deck = new HashSet<Card>();
 		allPlayers = new ArrayList<Player>();
+		roomNameDisplayCells = new HashMap<BoardCell, String>();
 	}
 	public static Board getInstance() {
 		return theInstance;
@@ -80,13 +82,16 @@ public class Board extends JPanel{
 			int index = line.indexOf(",", 3);
 			String roomName = line.substring(3, index);
 			legend.put(initial, roomName);
-			String roomType = line.substring(index + 2);
+			String roomType = line.substring(index + 2, line.indexOf(",", index + 2));
+			index = line.indexOf(",", index + 2) + 2;
 			if (!roomType.equals("Card") && !roomType.equals("Other")) {
 				throw new BadConfigFormatException("Room type " + roomType + " is not Card or Other");
 			}
 			if(roomType.equals("Card")) {
 				tempCard = new Card(roomName, CardType.ROOM);
 				deck.add(tempCard);
+				BoardCell nameCell = new BoardCell(Integer.parseInt(line.substring(index, line.indexOf(" ", index))), Integer.parseInt(line.substring(line.indexOf(" ", index) + 1)));
+				roomNameDisplayCells.put(nameCell, roomName);
 			}
 		}
 		// Create to check for wrong room exceptions
@@ -140,6 +145,11 @@ public class Board extends JPanel{
 					}
 					else {
 						board[row][column].setRoom();
+						for (BoardCell c: roomNameDisplayCells.keySet()) {
+							if (c.getRow() == row && c.getCol() == column) {
+								board[row][column].setRoomNameDisplayCell(roomNameDisplayCells.get(c));
+							}
+						}
 					}
 					column++;
 					numColumns++;
