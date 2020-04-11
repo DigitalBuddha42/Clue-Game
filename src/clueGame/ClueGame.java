@@ -25,6 +25,7 @@ public class ClueGame {
 		JMenuBar bar = new JMenuBar();
 		JMenu file= new JMenu("File");
 		
+		
 		JMenuItem exit = new JMenuItem("Exit");
 		class ExitMenuItemListener implements ActionListener{
 			public void actionPerformed(ActionEvent e) {
@@ -33,6 +34,17 @@ public class ClueGame {
 		}
 		exit.addActionListener(new ExitMenuItemListener());
 		file.add(exit);
+		
+		JMenuItem detectiveNotes = new JMenuItem("Detective Notes");
+		JDialog detectiveNotesWindow = new DetectiveNotes();
+		detectiveNotesWindow.setVisible(false);
+		class dNotesMenuItemListener implements ActionListener{
+			public void actionPerformed(ActionEvent e) {
+				detectiveNotesWindow.setVisible(true);
+			}
+		}
+		detectiveNotes.addActionListener(new dNotesMenuItemListener());
+		file.add(detectiveNotes);
 		
 		bar.add(file);
 		
