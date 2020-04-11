@@ -109,6 +109,7 @@ public class BoardCell {
 		
 	}
 	
+	// Each cell draws its own corresponding rectangle and door on the board
 	public void draw(Graphics g) {
 		int width = 25;
 		int height = 25;
@@ -117,9 +118,6 @@ public class BoardCell {
 			g.setColor(Color.gray);
 			g.fillRect(column+width*column, row+height*row, width, height);
 			g.drawRect(column+width*column, row+height*row, width, height);
-			if (isRoomNameDisplayCell) {
-				g.drawString(displayText, column+width*column, row+height*row);
-			}
 		}
 		else {
 			g.setColor(Color.black);
@@ -128,6 +126,7 @@ public class BoardCell {
 			g.fillRect(column+width*column, row+height*row, width, height);
 		}
 		
+		// Draw each doorway in the correct direction
 		if(isDoorway) {
 			int doorHeight = 25;
 			int doorWidth = 25;
@@ -158,6 +157,7 @@ public class BoardCell {
 		}
 	}
 	
+	// Tell cells that are meant to display the room name based on the legend file the name of the room
 	public void setRoomNameDisplayCell (String displayText) {
 		isRoomNameDisplayCell = true;
 		this.displayText = displayText;

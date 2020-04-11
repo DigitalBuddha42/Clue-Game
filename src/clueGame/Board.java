@@ -514,6 +514,7 @@ public class Board extends JPanel{
 		return theAnswer;
 	}
 	
+	// Display every cell in the board correctly
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -524,6 +525,8 @@ public class Board extends JPanel{
 		for(int i = 0; i < numRows; i++) {
 			for(int j = 0; j < numColumns; j++) {
 				board[i][j].draw(g);
+				
+				// For board cells that need to display the corresponding room names
 				if(board[i][j].getRoomNameDisplayCell()) {
 					String roomName = board[i][j].getDisplayText();
 					roomName = roomName.toUpperCase();
@@ -535,6 +538,7 @@ public class Board extends JPanel{
 			}
 		}
 		
+		// Display player circles
 		for(Player p: allPlayers) {
 			p.draw(g);
 		}

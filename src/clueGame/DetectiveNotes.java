@@ -9,26 +9,32 @@ import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+/**
+ * @author Sam Mills, Nadia Bixenman
+ *
+ */
 public class DetectiveNotes extends JDialog{
 	
+	// Constructor for entire JDialog box, adds all panels in order
 	public DetectiveNotes() {
 		setTitle("Detective Notes");
 		setSize(800,700);
 		setLayout(new GridLayout(3,2));
 		JPanel panel = createPeople();
 		add(panel);
-		panel = createRooms();
-		add(panel);
-		panel = createWeapons();
-		add(panel);
 		panel = createPersonGuess();
 		add(panel);
+		panel = createRooms();
+		add(panel);
 		panel = createRoomGuess();
+		add(panel);
+		panel = createWeapons();
 		add(panel);
 		panel = createWeaponGuess();
 		add(panel);
 	}
 	
+	// Panel for checking people off
 	private JPanel createPeople() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(0,2));
@@ -40,6 +46,7 @@ public class DetectiveNotes extends JDialog{
 		return panel;
 	}
 	
+	// Panel for checking rooms off
 	private JPanel createRooms() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(0,2));
@@ -53,6 +60,7 @@ public class DetectiveNotes extends JDialog{
 		return panel;
 	}
 	
+	// Panel for checking weapons off
 	private JPanel createWeapons() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(0,2));
@@ -67,6 +75,7 @@ public class DetectiveNotes extends JDialog{
 		return panel;
 	}
 	
+	// Panel with dropdown menu for guessing a person
 	private JPanel createPersonGuess() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(1,2));
@@ -79,6 +88,7 @@ public class DetectiveNotes extends JDialog{
 		return panel;
 	}
 	
+	// Panel with dropdown menu for guessing a room
 	private JPanel createRoomGuess() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(1,2));
@@ -93,6 +103,7 @@ public class DetectiveNotes extends JDialog{
 		return panel;
 	}
 	
+	// Panel with dropdown menu for guessing a weapon
 	private JPanel createWeaponGuess() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(1,2));

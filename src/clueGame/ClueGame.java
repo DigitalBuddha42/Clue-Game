@@ -18,9 +18,14 @@ import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+/**
+ * @author Sam Mills, Nadia Bixenman
+ *
+ */
 public class ClueGame {
 	private static Board board;
 	
+	// Creates the menu bar and file menu
 	public static JMenuBar createMenuBar() {
 		JMenuBar bar = new JMenuBar();
 		JMenu file= new JMenu("File");
@@ -51,6 +56,7 @@ public class ClueGame {
 		return bar;
 	}
 	
+	// Sets up the game and board and creates and displays the gui
 	public static void main(String[] args) {
 		board = Board.getInstance();
 		board.setConfigFiles("ClueLayout.csv", "ClueLegend.txt", "CluePlayer", "ClueWeapons");
