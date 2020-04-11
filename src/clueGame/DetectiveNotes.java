@@ -13,7 +13,7 @@ public class DetectiveNotes extends JDialog{
 	
 	public DetectiveNotes() {
 		setTitle("Detective Notes");
-		setSize(800,800);
+		setSize(800,700);
 		setLayout(new GridLayout(3,2));
 		JPanel panel = createPeople();
 		add(panel);

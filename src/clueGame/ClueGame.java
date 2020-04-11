@@ -59,7 +59,7 @@ public class ClueGame {
 		JFrame jf = new JFrame();
 		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		jf.setTitle("Clue Game");
-		jf.setSize(900, 800);
+		jf.setSize(800, 700);
 		
 		GameControlPanel controlPanel = new GameControlPanel();
 		jf.add(controlPanel, BorderLayout.SOUTH);
