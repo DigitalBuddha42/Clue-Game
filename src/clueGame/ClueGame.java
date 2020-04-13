@@ -1,10 +1,13 @@
 package clueGame;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.MenuBar;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -17,6 +20,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
+import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 /**
@@ -57,11 +61,71 @@ public class ClueGame {
 		return bar;
 	}
 	
+	public static JPanel createCards(ArrayList<Card> humanCards) {
+		JPanel panel = new JPanel();
+		panel.setLayout(new GridLayout(3,1));
+		panel.setSize(new Dimension(500, 100));
+		panel.setBorder(new TitledBorder (new EtchedBorder(), "My Cards"));
+		
+		JPanel playerPanel = new JPanel();
+		playerPanel.setLayout(new GridLayout(0,1));
+		playerPanel.setBorder(new TitledBorder (new EtchedBorder(), "People"));
+		
+		JPanel roomPanel = new JPanel();
+		roomPanel.setLayout(new GridLayout(0,1));
+		roomPanel.setBorder(new TitledBorder (new EtchedBorder(), "Rooms"));
+		
+		JPanel weaponPanel = new JPanel();
+		weaponPanel.setLayout(new GridLayout(0,1));
+		weaponPanel.setBorder(new TitledBorder (new EtchedBorder(), "Weapons"));
+		
+		for(Card c: humanCards) {
+			JTextField card = new JTextField(20);
+			
+			card.setText(c.getCardName());
+			card.setHorizontalAlignment(JTextField.CENTER);
+			card.setDisabledTextColor(Color.black);
+			card.setEnabled(false);
+			
+			if(c.getCardType() == CardType.PERSON) {
+				playerPanel.add(card);
+			}
+			else if(c.getCardType() == CardType.ROOM) {
+				roomPanel.add(card);
+			}
+			else if(c.getCardType() == CardType.WEAPON) {
+				weaponPanel.add(card);
+			}
+			
+			
+		}
+		
+		panel.add(playerPanel);
+		panel.add(roomPanel);
+		panel.add(weaponPanel);
+		
+		return panel;
+	}
+	
 	// Sets up the game and board and creates and displays the gui
 	public static void main(String[] args) {
 		board = Board.getInstance();
 		board.setConfigFiles("ClueLayout.csv", "ClueLegend.txt", "CluePlayer", "ClueWeapons");
 		board.initialize();
+		board.selectAnswer();
+		board.dealCards();
+		
+		String humanName = "";
+		ArrayList<Card> humanCards = new ArrayList<Card>();
+		
+		for(Player p : board.getPlayers()) {
+			if(p instanceof HumanPlayer) {
+				humanName = p.getPlayerName();
+				for(Card c : p.getMyCards()) {
+					humanCards.add(c);
+				}
+			}
+		}
 		
 		JFrame jf = new JFrame();
 		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -74,15 +138,10 @@ public class ClueGame {
 		jf.add(board, BorderLayout.CENTER);
 		jf.setJMenuBar(createMenuBar());
 		
-		String humanName = "";
-		for(Player p : board.getPlayers()) {
-			if(p instanceof HumanPlayer) {
-				humanName = p.getPlayerName();
-			}
-		}
+		jf.add(createCards(humanCards), BorderLayout.EAST);
 		
 		String title = "Welcome to Clue";
-		String message = "You are " + humanName + ", press Next Player to begin play";
+		String message = "You are " + humanName + ", press Next Player to begin play"; 
 		JOptionPane.showMessageDialog(jf, message, title, JOptionPane.INFORMATION_MESSAGE);
 		
 		
