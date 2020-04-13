@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
@@ -72,6 +73,18 @@ public class ClueGame {
 		
 		jf.add(board, BorderLayout.CENTER);
 		jf.setJMenuBar(createMenuBar());
+		
+		String humanName = "";
+		for(Player p : board.getPlayers()) {
+			if(p instanceof HumanPlayer) {
+				humanName = p.getPlayerName();
+			}
+		}
+		
+		String title = "Welcome to Clue";
+		String message = "You are " + humanName + ", press Next Player to begin play";
+		JOptionPane.showMessageDialog(jf, message, title, JOptionPane.INFORMATION_MESSAGE);
+		
 		
 		jf.setVisible(true);
 		board.repaint();
