@@ -1,0 +1,17 @@
+commit 85f6e8e85e681ec7acf59a47dd29dbe4877d893f
+Author: Sam Mills <smills1@mymail.mines.edu>
+Date:   Mon Apr 13 18:12:36 2020 -0600
+
+    Added comments
+
+commit 7e4b4e865db725ec04026b3f70a6dfc8ecf39f6f
+Author: nadiabixenman <nadiabixenman@mymail.mines.edu>
+Date:   Mon Apr 13 14:01:40 2020 -0600
+
+    Added human player cards
+
+commit ebe51dbdc4dc59ac6539d9d556f0a32b21046617
+Author: nadiabixenman <nadiabixenman@mymail.mines.edu>
+Date:   Mon Apr 13 13:32:28 2020 -0600
+
+    Added Splash screen
