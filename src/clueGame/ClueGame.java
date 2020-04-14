@@ -61,6 +61,7 @@ public class ClueGame {
 		return bar;
 	}
 	
+	// Pass in the human's cards and add each to a panel to be added to the full gui
 	public static JPanel createCards(ArrayList<Card> humanCards) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(3,1));
@@ -118,6 +119,7 @@ public class ClueGame {
 		String humanName = "";
 		ArrayList<Card> humanCards = new ArrayList<Card>();
 		
+		// Get the human player's cards to pass into createCards
 		for(Player p : board.getPlayers()) {
 			if(p instanceof HumanPlayer) {
 				humanName = p.getPlayerName();
@@ -132,14 +134,18 @@ public class ClueGame {
 		jf.setTitle("Clue Game");
 		jf.setSize(800, 700);
 		
+		// Add control panel to the display
 		GameControlPanel controlPanel = new GameControlPanel();
 		jf.add(controlPanel, BorderLayout.SOUTH);
 		
+		// Add the board to the display
 		jf.add(board, BorderLayout.CENTER);
 		jf.setJMenuBar(createMenuBar());
 		
+		// Display the human player's cards
 		jf.add(createCards(humanCards), BorderLayout.EAST);
 		
+		// Splash screen to display on startup
 		String title = "Welcome to Clue";
 		String message = "You are " + humanName + ", press Next Player to begin play"; 
 		JOptionPane.showMessageDialog(jf, message, title, JOptionPane.INFORMATION_MESSAGE);

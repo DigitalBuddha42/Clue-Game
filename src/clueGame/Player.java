@@ -99,6 +99,7 @@ public class Player {
 		return seenCards;
 	} 
 	
+	// Draws a circle of the correct color for each player
 	public void draw(Graphics g) {
 		int width = 25;
 		int height = 25;
