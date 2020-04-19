@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.ResourceBundle.Control;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -30,6 +31,7 @@ import javax.swing.border.TitledBorder;
  */
 public class ClueGame {
 	private static Board board;
+	private static GameControlPanel controlPanel;
 	
 	// Creates the menu bar and file menu
 	public static JMenuBar createMenuBar() {
@@ -141,9 +143,10 @@ public class ClueGame {
 		jf.setSize(800, 700);
 		
 		// Add control panel to the display
-		GameControlPanel controlPanel = new GameControlPanel();
+		controlPanel = new GameControlPanel();
 		jf.add(controlPanel, BorderLayout.SOUTH);
-		
+		controlPanel.updateDieRoll(diceRoll);
+		controlPanel.updateTurn(board.getCurrentPlayer().getPlayerName());
 		// Add the board to the display
 		jf.add(board, BorderLayout.CENTER);
 		jf.setJMenuBar(createMenuBar());
@@ -161,6 +164,12 @@ public class ClueGame {
 		board.repaint();
 		
 
+	}
+	
+	public static void updateUI (int dieRoll) {
+		controlPanel.updateDieRoll(dieRoll);
+		controlPanel.updateTurn(board.getCurrentPlayer().getPlayerName());
+		controlPanel.repaint();
 	}
 
 }

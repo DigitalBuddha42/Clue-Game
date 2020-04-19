@@ -46,6 +46,7 @@ public class GameControlPanel extends JPanel {
 		panel.setLayout(new GridLayout(2,1));
 		JLabel playerLabel = new JLabel("Whose turn?");
 		panel.add(playerLabel);
+		currentPlayer.setEditable(false);
 		panel.add(currentPlayer);
 		return panel;
 	}
@@ -106,22 +107,22 @@ public class GameControlPanel extends JPanel {
 		return panel;
 	}
 	
-	private void updateTurn(String player) {
+	public void updateTurn(String player) {
 		this.currentPlayer.setText(player);
 	}
 	
-	private void updateGuess(String guess) {
+	public void updateGuess(String guess) {
 		this.guess.setText(guess);
 	}
 	
-	private void updateGuessResult(String guessResult) {
+	public void updateGuessResult(String guessResult) {
 		this.guessResult.setText(guessResult);
 	}
 	
+	public void updateDieRoll(int dieRoll) {
+		this.dieRoll.setText(Integer.toString(dieRoll));
+	}
 	
-	
-	
-
 	public static void main(String[] args) {
 		GameControlPanel panel = new GameControlPanel();
         JFrame frame = new JFrame();

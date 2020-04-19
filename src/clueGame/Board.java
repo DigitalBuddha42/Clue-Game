@@ -522,6 +522,10 @@ public class Board extends JPanel{
 		return theAnswer;
 	}
 	
+	public Player getCurrentPlayer() {
+		return allPlayers.get(currentPlayer);
+	}
+	
 	// Display every cell in the board correctly
 	@Override
 	public void paintComponent(Graphics g) {
@@ -564,13 +568,23 @@ public class Board extends JPanel{
 	public void nextPlayer() {
 		Random rand = new Random();
 		int diceRoll = 0;
-		if(turnOver) {
-			
-			currentPlayer = (currentPlayer++) % allPlayers.size();
+		this.addMouseListener(new TargetsListener());
+		if((currentPlayer == humanPlayer && turnOver) || currentPlayer != humanPlayer) {
+			if ((allPlayers.size() - currentPlayer) > 1) {
+				currentPlayer++;
+			} else {
+				currentPlayer = 0;
+			}
 			diceRoll = rand.nextInt( 6 ) + 1;
+			targets.clear();
+			visited.clear();
 			calcTargets(allPlayers.get(currentPlayer).getPlayerRow(), allPlayers.get(currentPlayer).getPlayerCol(), diceRoll);
-			
+			if (currentPlayer != humanPlayer) {
+				allPlayers.get(currentPlayer).makeMove(targets);
+			}
+			ClueGame.updateUI(diceRoll);
 			repaint();
+			turnOver = false;
 		}
 		else {
 			String message = "Your turn is not over. Pick a valid spot to move to";
@@ -579,21 +593,17 @@ public class Board extends JPanel{
 		}
 	}
 	
-	private class TargetsListener implements MouseListener{
-
+	private class TargetsListener implements MouseListener {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			int width = 25;
 			int height = 25;
-			boolean correctClick = false;
 			if(currentPlayer == humanPlayer) {
 				for(BoardCell cell : targets) {
 					Rectangle rect = new Rectangle( cell.getCol()+width*cell.getCol(), cell.getRow()+height*cell.getRow(), width, height );
 					if(rect.contains(e.getX(), e.getY())) {
 						turnOver = true;
-						correctClick = true;
-						Board.getInstance().getPlayers().get(humanPlayer).setRow(cell.getRow());
-						Board.getInstance().getPlayers().get(humanPlayer).setColumn(cell.getCol());
+						Board.getInstance().getPlayers().get(humanPlayer).makeMove(cell);
 						repaint();
 					}
 				}

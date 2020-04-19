@@ -106,4 +106,25 @@ public class Player {
 		g.setColor(color);
 		g.fillOval(column + width*column, row + height*row, width, height);
 	}
+	
+	public void makeMove(BoardCell cell) {
+		setRow(cell.getRow());
+		setColumn(cell.getCol());
+	}
+	
+	public void makeMove(Set<BoardCell> targets) {
+		Random rand = new Random();
+		int choice = rand.nextInt(targets.size());
+		int count = 0;
+		for (BoardCell c: targets) {
+			if (count == choice) {
+				this.row = c.getRow();
+				this.column = c.getCol();
+				return;
+			}
+			count++;
+		}
+	}
+	
+	
 }
