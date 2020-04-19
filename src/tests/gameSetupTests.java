@@ -63,7 +63,7 @@ public class gameSetupTests {
 			}
 			else if(p.getPlayerName().equals("Player3")) {
 				assertEquals(Color.green, p.getPlayerColor());
-				assertEquals(20, p.getPlayerRow());
+				assertEquals(15, p.getPlayerRow());
 				assertEquals(13, p.getPlayerCol());
 				playerCount++;
 			}
