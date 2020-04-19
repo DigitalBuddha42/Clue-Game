@@ -167,6 +167,7 @@ public class ClueGame {
 	}
 	
 	public static void updateUI (int dieRoll) {
+		//Update dice roll and player name
 		controlPanel.updateDieRoll(dieRoll);
 		controlPanel.updateTurn(board.getCurrentPlayer().getPlayerName());
 		controlPanel.repaint();

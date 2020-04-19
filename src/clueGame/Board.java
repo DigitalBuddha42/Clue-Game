@@ -548,6 +548,7 @@ public class Board extends JPanel{
 					g.drawString(roomName, j+width*j, i+height*i);
 				}
 				
+				//Draw target cells if the current player is the human player
 				if(humanPlayer == currentPlayer) {
 					for(BoardCell cell : targets) {
 						if( cell.getRow() == i && cell.getCol() ==  j) {
@@ -569,25 +570,29 @@ public class Board extends JPanel{
 		Random rand = new Random();
 		int diceRoll = 0;
 		this.addMouseListener(new TargetsListener());
+		
+		//Check that it is the human's turn to move or that the current player is a computer
 		if((currentPlayer == humanPlayer && turnOver) || currentPlayer != humanPlayer) {
-			if ((allPlayers.size() - currentPlayer) > 1) {
+			if ((allPlayers.size() - currentPlayer) > 1) { //Update current player
 				currentPlayer++;
 			} else {
 				currentPlayer = 0;
 			}
-			diceRoll = rand.nextInt( 6 ) + 1;
+			
+			diceRoll = rand.nextInt( 6 ) + 1; //roll dice from 1-6
 			targets.clear();
 			visited.clear();
+			
 			calcTargets(allPlayers.get(currentPlayer).getPlayerRow(), allPlayers.get(currentPlayer).getPlayerCol(), diceRoll);
-			if (currentPlayer != humanPlayer) {
+			if (currentPlayer != humanPlayer) { //For computer player, choose next location
 				allPlayers.get(currentPlayer).makeMove(targets);
 			}
-			ClueGame.updateUI(diceRoll);
+			ClueGame.updateUI(diceRoll); //Update the player name and display the dice roll
 			repaint();
 			turnOver = false;
 		}
 		else {
-			String message = "Your turn is not over. Pick a valid spot to move to";
+			String message = "Your turn is not over. Pick a valid spot to move to"; //If human has not completed their turn, display error
 			String title = "Error";
 			JOptionPane.showMessageDialog(Board.getInstance(), message, title, JOptionPane.INFORMATION_MESSAGE);
 		}
@@ -598,12 +603,13 @@ public class Board extends JPanel{
 		public void mouseClicked(MouseEvent e) {
 			int width = 25;
 			int height = 25;
+			//If it is the humans turn, set turnOver to true if the human chooses an appropriate target cell to move to
 			if(currentPlayer == humanPlayer) {
 				for(BoardCell cell : targets) {
-					Rectangle rect = new Rectangle( cell.getCol()+width*cell.getCol(), cell.getRow()+height*cell.getRow(), width, height );
-					if(rect.contains(e.getX(), e.getY())) {
+					Rectangle rect = new Rectangle( cell.getCol()+width*cell.getCol(), cell.getRow()+height*cell.getRow(), width, height ); //Create rectangle where the target cell is
+					if(rect.contains(e.getX(), e.getY())) { //Check if user clicks within target cell
 						turnOver = true;
-						Board.getInstance().getPlayers().get(humanPlayer).makeMove(cell);
+						Board.getInstance().getPlayers().get(humanPlayer).makeMove(cell); //Move humanPlayer to chosen target cell
 						repaint();
 					}
 				}
