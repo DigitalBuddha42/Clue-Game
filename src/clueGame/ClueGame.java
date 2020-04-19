@@ -8,6 +8,7 @@ import java.awt.MenuBar;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -119,10 +120,15 @@ public class ClueGame {
 		String humanName = "";
 		ArrayList<Card> humanCards = new ArrayList<Card>();
 		
+		Random rand = new Random();
+		int diceRoll = 0;
+		diceRoll = rand.nextInt( 6 ) + 1;
+		
 		// Get the human player's cards to pass into createCards
 		for(Player p : board.getPlayers()) {
 			if(p instanceof HumanPlayer) {
 				humanName = p.getPlayerName();
+				board.calcTargets(p.getPlayerRow(), p.getPlayerCol(), diceRoll);
 				for(Card c : p.getMyCards()) {
 					humanCards.add(c);
 				}

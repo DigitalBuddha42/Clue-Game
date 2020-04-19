@@ -3,11 +3,16 @@ package clueGame;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.*;
 import java.io.FileReader;
 import java.lang.reflect.Field;
 import java.util.*;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 
@@ -34,6 +39,9 @@ public class Board extends JPanel{
 	private Set<Card> deck;  
 	private ArrayList<Card> playerDeck;
 	private Map<BoardCell, String> roomNameDisplayCells;
+	private int humanPlayer = 0;
+	private int currentPlayer = 0;
+	private boolean turnOver = false;
 
 	// Singleton pattern, only one instance of board
 	private static Board theInstance = new Board();
@@ -535,6 +543,15 @@ public class Board extends JPanel{
 					g.setFont(font);
 					g.drawString(roomName, j+width*j, i+height*i);
 				}
+				
+				if(humanPlayer == currentPlayer) {
+					for(BoardCell cell : targets) {
+						if( cell.getRow() == i && cell.getCol() ==  j) {
+							g.setColor(Color.cyan);
+							g.fillRect(j+width*j, i+height*i, width, height);
+						}
+					}
+				}
 			}
 		}
 		
@@ -542,6 +559,59 @@ public class Board extends JPanel{
 		for(Player p: allPlayers) {
 			p.draw(g);
 		}
+	}
+	
+	public void nextPlayer() {
+		Random rand = new Random();
+		int diceRoll = 0;
+		if(turnOver) {
+			
+			currentPlayer = (currentPlayer++) % allPlayers.size();
+			diceRoll = rand.nextInt( 6 ) + 1;
+			calcTargets(allPlayers.get(currentPlayer).getPlayerRow(), allPlayers.get(currentPlayer).getPlayerCol(), diceRoll);
+			
+			repaint();
+		}
+		else {
+			String message = "Your turn is not over. Pick a valid spot to move to";
+			String title = "Error";
+			JOptionPane.showMessageDialog(Board.getInstance(), message, title, JOptionPane.INFORMATION_MESSAGE);
+		}
+	}
+	
+	private class TargetsListener implements MouseListener{
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			int width = 25;
+			int height = 25;
+			boolean correctClick = false;
+			if(currentPlayer == humanPlayer) {
+				for(BoardCell cell : targets) {
+					Rectangle rect = new Rectangle( cell.getCol()+width*cell.getCol(), cell.getRow()+height*cell.getRow(), width, height );
+					if(rect.contains(e.getX(), e.getY())) {
+						turnOver = true;
+						correctClick = true;
+						Board.getInstance().getPlayers().get(humanPlayer).setRow(cell.getRow());
+						Board.getInstance().getPlayers().get(humanPlayer).setColumn(cell.getCol());
+						repaint();
+					}
+				}
+			}
+		}
+
+		// unused methods
+		@Override
+		public void mouseEntered(MouseEvent arg0) {}
+
+		@Override
+		public void mouseExited(MouseEvent arg0) {}
+
+		@Override
+		public void mousePressed(MouseEvent arg0) {}
+
+		@Override
+		public void mouseReleased(MouseEvent arg0) {}
 	}
 	
 }

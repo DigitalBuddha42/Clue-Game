@@ -2,6 +2,8 @@ package clueGame;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -51,6 +53,12 @@ public class GameControlPanel extends JPanel {
 	//Creates the button to move to the next player
 	private JPanel createNextPlayerPanel() {
 		JButton nextTurn = new JButton("Next player");
+		nextTurn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Board.getInstance().nextPlayer();
+			}
+		});
 		JPanel panel = new JPanel();
 		panel.add(nextTurn);
 		return panel;
