@@ -613,10 +613,13 @@ public class Board extends JPanel{
 			repaint();
 			turnOver = false;
 		}
-		else {
+		else if(currentPlayer == humanPlayer) {
 			String message = "Your turn is not over. Pick a valid spot to move to"; //If human has not completed their turn, display error
 			String title = "Error";
 			JOptionPane.showMessageDialog(Board.getInstance(), message, title, JOptionPane.INFORMATION_MESSAGE);
+		}
+		if(currentPlayer != humanPlayer) {
+			
 		}
 	}
 	
