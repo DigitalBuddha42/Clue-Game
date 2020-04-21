@@ -619,7 +619,14 @@ public class Board extends JPanel{
 			JOptionPane.showMessageDialog(Board.getInstance(), message, title, JOptionPane.INFORMATION_MESSAGE);
 		}
 		if(currentPlayer != humanPlayer) {
-			
+			ComputerPlayer p = ((ComputerPlayer) allPlayers.get(currentPlayer));
+			Solution suggestion = p.createSuggestion();
+			Card c;
+			if(suggestion != null) {
+				c = handleSuggestion(suggestion, p);
+				p.suggestionResult(c);
+				ClueGame.updateSuggestion(suggestion.toString(), c.getCardName());
+			}
 		}
 	}
 	

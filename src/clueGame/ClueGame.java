@@ -172,5 +172,11 @@ public class ClueGame {
 		controlPanel.updateTurn(board.getCurrentPlayer().getPlayerName());
 		controlPanel.repaint();
 	}
+	
+	public static void updateSuggestion(String guess, String guessResult) {
+		controlPanel.updateGuess(guess);
+		controlPanel.updateGuessResult(guessResult);
+		controlPanel.repaint();
+	}
 
 }
