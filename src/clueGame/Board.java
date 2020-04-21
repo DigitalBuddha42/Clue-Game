@@ -571,6 +571,28 @@ public class Board extends JPanel{
 		int diceRoll = 0;
 		this.addMouseListener(new TargetsListener());
 		
+		if(currentPlayer != humanPlayer) { //If player is computer
+			ComputerPlayer p = ((ComputerPlayer) allPlayers.get(currentPlayer));
+			Solution accusation = p.makeAccusation();
+			if(accusation != null) {
+				boolean result = checkAccusation(accusation); 
+				String title = "Accusation Result";
+				String message;
+				if(result) {
+					message = p.getPlayerName() + " has won! It was " + accusation.person + " in the " + accusation.room + " with the " + accusation.weapon;
+				}
+				else {
+					message = p.getPlayerName() + " guessed incorrectly. The guess: " + accusation.person + " in the " + accusation.room + " with the " + accusation.weapon + " is not correct.";
+				}
+				JOptionPane.showMessageDialog(Board.getInstance(), message, title, JOptionPane.INFORMATION_MESSAGE);
+				if ((allPlayers.size() - currentPlayer) > 1) { //Update current player
+					currentPlayer++;
+				} else {
+					currentPlayer = 0;
+				}
+			}
+		}
+		
 		//Check that it is the human's turn to move or that the current player is a computer
 		if((currentPlayer == humanPlayer && turnOver) || currentPlayer != humanPlayer) {
 			if ((allPlayers.size() - currentPlayer) > 1) { //Update current player

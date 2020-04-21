@@ -13,8 +13,8 @@ public class Player {
 	private int row;
 	private int column;
 	private Color color;
-	private ArrayList<Card> myCards;
-	private ArrayList<Card> seenCards;
+	protected ArrayList<Card> myCards;
+	protected ArrayList<Card> seenCards;
 	
 	
 	public Player(String playerName, int row, int column, Color color) {
@@ -31,7 +31,7 @@ public class Player {
 	public Card disproveSuggestion(Solution suggestion) {
 		ArrayList<Card> possibleCards = new ArrayList();
 		
-		for(Card c: seenCards) {
+		for(Card c: myCards) {
 			if(c.getCardType() == CardType.PERSON) {
 				if(c.getCardName().equals(suggestion.person)) {
 					possibleCards.add(c);

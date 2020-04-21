@@ -9,10 +9,14 @@ import java.util.*;
 public class ComputerPlayer extends Player {
 	
 	private char lastRoomInitial;
+	private Solution lastSuggestion;
+	private boolean makeAccusation;
 
 	public ComputerPlayer(String playerName, int row, int column, Color color) {
 		super(playerName, row, column, color);
 		lastRoomInitial = 'Z'; //Set to values that we know will be overridden because 0,0 is inside a room
+		lastSuggestion = null;
+		makeAccusation = false;
 	}
 
 	public BoardCell pickLocation(Set<BoardCell> targets) {
@@ -51,8 +55,23 @@ public class ComputerPlayer extends Player {
 		return null;
 	}
 	
-	public void makeAccusation() {
+	public Solution makeAccusation() {
+		boolean willMakeAccusation = true;
+		if(makeAccusation) {
+			for(Card c : myCards) {
+				if(c.getCardType() == CardType.ROOM) {
+					if(c.getCardName().equals(lastSuggestion.room)){
+						willMakeAccusation = false;
+					}
+				}
+			}
+			
+			if(willMakeAccusation) {
+				return lastSuggestion;
+			}
+		}
 		
+		return null;
 	}
 	
 	public Solution createSuggestion() {
@@ -86,6 +105,7 @@ public class ComputerPlayer extends Player {
 			String weaponChoice = possibleWeapons.get(randomIndex);
 
 			Solution temp = new Solution(personChoice, roomName , weaponChoice);
+			lastSuggestion = temp;
 			return temp;
 		} else {
 			return null;
@@ -97,6 +117,16 @@ public class ComputerPlayer extends Player {
 		this.setColumn(cell.getCol());
 		if (cell.isDoorway()) {
 			lastRoomInitial = cell.getInitial();
+		}
+	}
+	
+	public void suggestionResult(Card result) {
+		if(result != null) {
+			makeAccusation = false;
+			seenCards.add(result);
+		}
+		else {
+			makeAccusation = true;
 		}
 	}
 }
