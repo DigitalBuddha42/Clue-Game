@@ -106,6 +106,14 @@ public class ComputerPlayer extends Player {
 
 			Solution temp = new Solution(personChoice, roomName , weaponChoice);
 			lastSuggestion = temp;
+			
+			// Move suggested player to the room
+			Board board = Board.getInstance();
+			for (Player p: board.getPlayers()) {
+				if (p.getPlayerName().equals(personChoice)) {
+					p.makeMove(board.getCellAt(this.getPlayerRow(), this.getPlayerCol()));
+				}
+			}
 			return temp;
 		} else {
 			return null;
