@@ -669,12 +669,7 @@ public class Board extends JPanel{
 							}
 							HumanSuggestion guess = new HumanSuggestion(roomName, currentPlayer);
 							guess.setVisible(true);
-							Card c;
-							if(humanSuggestion != null) {
-								c = handleSuggestion(humanSuggestion, allPlayers.get(0));
-								ClueGame.updateSuggestion(humanSuggestion.toString(), c.getCardName());
-								return;
-							}
+							
 						}
 					}
 				}
@@ -694,98 +689,6 @@ public class Board extends JPanel{
 		@Override
 		public void mouseReleased(MouseEvent arg0) {}
 	}
-
-
-	private void humanSuggestionPrompt(BoardCell cell) {
-		submitSuggestion = false;
-		currentHumanCell = cell;
-		Solution suggestion = null;
-		String roomName = null;
-
-		for (char c: Board.getInstance().getLegend().keySet()) {
-			if(c == cell.getInitial()) {
-				roomName = Board.getInstance().getLegend().get(c);
-			}
-		}
-
-		JDialog makeSuggestionWindow = new JDialog();
-
-		JPanel roomChoice = new JPanel();
-		roomChoice.setLayout(new GridLayout(1,2));
-		JLabel roomLeftLabel = new JLabel("Room");
-		JLabel roomRightLabel = new JLabel(roomName);
-		roomChoice.add(roomLeftLabel);
-		roomChoice.add(roomRightLabel);
-
-		JPanel personChoice = new JPanel();
-		personChoice.setLayout(new GridLayout(1,2));
-		JLabel personLabel = new JLabel("Person");
-		personChoice.add(personLabel);
-		JComboBox<String> personComboBox = new JComboBox<String>();
-		for( Player player: Board.getInstance().getPlayers() ) {
-			personComboBox.addItem(player.getPlayerName());
-		}
-		personChoice.add(personComboBox);
-
-		JPanel weaponChoice = new JPanel();
-		weaponChoice.setLayout(new GridLayout(1,2));
-		JLabel weaponLabel = new JLabel("Weapon");
-		weaponChoice.add(weaponLabel);
-		JComboBox<String> weaponComboBox = new JComboBox<String>();
-		for( Card card: Board.getInstance().getDeck() ) {
-			if( card.getCardType() == CardType.WEAPON ) {
-				weaponComboBox.addItem(card.getCardName());
-			}
-		}
-		weaponChoice.add(weaponComboBox);
-
-		JPanel buttonPanel = new JPanel();
-		buttonPanel.setLayout(new GridLayout(1,2));
-		JButton submitButton = new JButton("Submit");
-		submitButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				currentHumanCell = cell;
-				humanSuggestion = submitSuggestion((String) personComboBox.getSelectedItem(),
-						Board.getInstance().getLegend().get(currentHumanCell.getInitial()),
-						(String) weaponComboBox.getSelectedItem());
-				submitSuggestion = true;
-				makeSuggestionWindow.dispose();
-			}
-		});
-		JButton cancelButton = new JButton("Cancel");
-		cancelButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				humanSuggestion = null;
-				makeSuggestionWindow.dispose();
-			}
-		});
-		
-		buttonPanel.add(submitButton);
-		buttonPanel.add(cancelButton);
-
-
-		makeSuggestionWindow.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		makeSuggestionWindow.setModal(true);
-		makeSuggestionWindow.setSize(300, 300);
-		makeSuggestionWindow.setLayout(new GridLayout(4,2));
-		makeSuggestionWindow.add(roomChoice);
-		makeSuggestionWindow.add(personChoice);
-		makeSuggestionWindow.add(weaponChoice);
-		makeSuggestionWindow.add(buttonPanel);
-		makeSuggestionWindow.setVisible(true);
-
-
-	}
-	
-	
-	
-
-	private Solution submitSuggestion(String personName, String roomName, String weaponName) {
-		return new Solution(personName, roomName, weaponName);
-	}
-
-
-
 }
+
+

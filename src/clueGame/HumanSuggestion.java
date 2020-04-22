@@ -115,6 +115,7 @@ public class HumanSuggestion extends JDialog{
 				Player p = Board.getInstance().getPlayers().get(playerIndex);
 				Card c = Board.getInstance().handleSuggestion(solution,p);
 				ClueGame.updateSuggestion(solution.toString(), c.getCardName());
+				Board.getInstance().nextPlayer();
 				dispose();
 			}
 		});
