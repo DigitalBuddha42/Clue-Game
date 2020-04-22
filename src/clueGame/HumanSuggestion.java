@@ -21,21 +21,34 @@ public class HumanSuggestion extends JDialog{
 		this.playerIndex = playerIndex;
 		setTitle("Make a Guess");
 		setSize(300,400);
-		setLayout(new GridLayout(4,2));
+		setLayout(new GridLayout(4,1));
+		
 		JPanel roomSuggestion = createRoomSuggestion(room);
 		add(roomSuggestion);
+		
+		JPanel personPanel = new JPanel();
+		personPanel.setLayout(new GridLayout(1,2));
 		JPanel personSuggestion = createPersonSuggestion();
-		add(personSuggestion);
 		JPanel personOptions = createPersonBox();
-		add(personOptions);
+		personPanel.add(personSuggestion);
+		personPanel.add(personOptions);
+		add(personPanel);
+		
+		JPanel weaponPanel = new JPanel();
+		weaponPanel.setLayout(new GridLayout(1,2));
 		JPanel weaponSuggestion = createWeaponSuggestion();
-		add(weaponSuggestion);
 		JPanel weaponOptions = createWeaponBox();
-		add(weaponOptions);
+		weaponPanel.add(weaponSuggestion);
+		weaponPanel.add(weaponOptions);
+		add(weaponPanel);
+		
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.setLayout(new GridLayout(1,2));
 		JPanel submitButton = createSubmitButton(room);
-		add(submitButton);
 		JPanel cancelButton = createCancelButton();
-		add(cancelButton);
+		buttonPanel.add(submitButton);
+		buttonPanel.add(cancelButton);
+		add(buttonPanel);
 		
 	}
 	

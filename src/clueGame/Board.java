@@ -88,6 +88,7 @@ public class Board extends JPanel{
 			e.getMessage();
 		}
 		calcAdjancencies();
+		this.addMouseListener(new TargetsListener());
 
 	}
 
@@ -584,7 +585,6 @@ public class Board extends JPanel{
 	public void nextPlayer() {
 		Random rand = new Random();
 		int diceRoll = 0;
-		this.addMouseListener(new TargetsListener());
 
 		if(currentPlayer != humanPlayer) { //If player is computer
 			ComputerPlayer p = ((ComputerPlayer) allPlayers.get(currentPlayer));
@@ -624,6 +624,7 @@ public class Board extends JPanel{
 			if (currentPlayer != humanPlayer) { //For computer player, choose next location
 				allPlayers.get(currentPlayer).makeMove(targets);
 			}
+			
 			ClueGame.updateUI(diceRoll); //Update the player name and display the dice roll
 			repaint();
 			turnOver = false;
@@ -652,8 +653,9 @@ public class Board extends JPanel{
 			int height = 25;
 			//If it is the humans turn, set turnOver to true if the human chooses an appropriate target cell to move to
 			if(currentPlayer == humanPlayer) {
+				Rectangle rect = new Rectangle();
 				for(BoardCell cell : targets) {
-					Rectangle rect = new Rectangle( cell.getCol()+width*cell.getCol(), cell.getRow()+height*cell.getRow(), width, height ); //Create rectangle where the target cell is
+					rect.setBounds(cell.getCol()+width*cell.getCol(), cell.getRow()+height*cell.getRow(), width, height); //Create rectangle where the target cell is
 					if(rect.contains(e.getX(), e.getY())) { //Check if user clicks within target cell
 						turnOver = true;
 						Board.getInstance().getPlayers().get(humanPlayer).makeMove(cell); //Move humanPlayer to chosen target cell
@@ -743,7 +745,6 @@ public class Board extends JPanel{
 		submitButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//submitSuggestion = false;
 				currentHumanCell = cell;
 				humanSuggestion = submitSuggestion((String) personComboBox.getSelectedItem(),
 						Board.getInstance().getLegend().get(currentHumanCell.getInitial()),
