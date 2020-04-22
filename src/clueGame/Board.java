@@ -51,8 +51,8 @@ public class Board extends JPanel{
 	private Map<BoardCell, String> roomNameDisplayCells;
 	private int humanPlayer = 0;
 	private int currentPlayer = 0;
-	private boolean turnOver = false;
-	private boolean submitSuggestion = false;
+	boolean turnOver = false;
+	boolean submitSuggestion = false;
 	private BoardCell currentHumanCell;
 	private Solution humanSuggestion;
 	JComboBox<String> personBox;
@@ -600,6 +600,9 @@ public class Board extends JPanel{
 					message = p.getPlayerName() + " guessed incorrectly. The guess: " + accusation.person + " in the " + accusation.room + " with the " + accusation.weapon + " is not correct.";
 				}
 				JOptionPane.showMessageDialog(Board.getInstance(), message, title, JOptionPane.INFORMATION_MESSAGE);
+				if (result) {
+					System.exit(0);
+				}
 				if ((allPlayers.size() - currentPlayer) > 1) { //Update current player
 					currentPlayer++;
 				} else {
@@ -610,6 +613,7 @@ public class Board extends JPanel{
 
 		//Check that it is the human's turn to move or that the current player is a computer
 		if((currentPlayer == humanPlayer && turnOver) || currentPlayer != humanPlayer) {
+			submitSuggestion = false;
 			if ((allPlayers.size() - currentPlayer) > 1) { //Update current player
 				currentPlayer++;
 			} else {
@@ -641,7 +645,11 @@ public class Board extends JPanel{
 			if(suggestion != null) {
 				c = handleSuggestion(suggestion, p);
 				p.suggestionResult(c);
-				ClueGame.updateSuggestion(suggestion.toString(), c.getCardName());
+				if (c != null) {
+					ClueGame.updateSuggestion(suggestion.toString(), c.getCardName());
+				} else {
+					ClueGame.updateSuggestion(suggestion.toString(), "No new clue");
+				}
 			}
 		}
 	}
@@ -657,7 +665,7 @@ public class Board extends JPanel{
 			int width = 25;
 			int height = 25;
 			//If it is the humans turn, set turnOver to true if the human chooses an appropriate target cell to move to
-			if(currentPlayer == humanPlayer) {
+			if(currentPlayer == humanPlayer && !submitSuggestion) {
 				Rectangle rect = new Rectangle();
 				for(BoardCell cell : targets) {
 					rect.setBounds(cell.getCol()+width*cell.getCol(), cell.getRow()+height*cell.getRow(), width, height); //Create rectangle where the target cell is
@@ -673,6 +681,7 @@ public class Board extends JPanel{
 								}
 							}
 							HumanSuggestion guess = new HumanSuggestion(roomName, currentPlayer);
+							submitSuggestion = true;
 							guess.setVisible(true);
 							
 						}

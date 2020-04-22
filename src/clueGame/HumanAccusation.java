@@ -120,6 +120,9 @@ public class HumanAccusation extends JDialog {
 					message = "You guessed incorrectly. The guess: " + accusation.person + " in the " + accusation.room + " with the " + accusation.weapon + " is not correct.";
 				}
 				JOptionPane.showMessageDialog(Board.getInstance(), message, title, JOptionPane.INFORMATION_MESSAGE);
+				if (result) {
+					System.exit(0);
+				}
 				
 				if(!result) Board.getInstance().humanIncorrectAccusation();
 				dispose();

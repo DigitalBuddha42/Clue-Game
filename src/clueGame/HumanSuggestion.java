@@ -114,8 +114,12 @@ public class HumanSuggestion extends JDialog{
 				Solution solution = new Solution((String)personBox.getSelectedItem(), roomName, (String)weaponBox.getSelectedItem());
 				Player p = Board.getInstance().getPlayers().get(playerIndex);
 				Card c = Board.getInstance().handleSuggestion(solution,p);
-				ClueGame.updateSuggestion(solution.toString(), c.getCardName());
-				Board.getInstance().nextPlayer();
+				if (c != null) {
+					ClueGame.updateSuggestion(solution.toString(), c.getCardName());
+				} else {
+					ClueGame.updateSuggestion(solution.toString(), "No new clue");
+				}
+			//	Board.getInstance().nextPlayer();
 				dispose();
 			}
 		});
@@ -130,6 +134,7 @@ public class HumanSuggestion extends JDialog{
 		cancelButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				Board.getInstance().submitSuggestion = false;
 				dispose();
 			}
 		});
