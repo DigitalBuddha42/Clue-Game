@@ -645,6 +645,11 @@ public class Board extends JPanel{
 			}
 		}
 	}
+	
+	public void humanIncorrectAccusation() {
+		turnOver = true;
+		nextPlayer();
+	}
 
 	private class TargetsListener implements MouseListener {
 		@Override

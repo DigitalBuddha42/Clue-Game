@@ -8,48 +8,34 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-public class HumanSuggestion extends JDialog{
+public class HumanAccusation extends JDialog {
 	JComboBox<String> personBox;
 	JComboBox<String> weaponBox;
-	String room;
-	int playerIndex = 0;
+	JComboBox<String> roomBox;
 	
-	public HumanSuggestion(String room, int playerIndex){
-		this.room = room;
-		this.playerIndex = playerIndex;
-		setTitle("Make a Guess");
+	public HumanAccusation() {
+		setTitle("Make an Accusation");
 		setSize(300,400);
-		setLayout(new GridLayout(4,1));
-		
-		JPanel roomSuggestion = createRoomSuggestion(room);
-		add(roomSuggestion);
-		
-		JPanel personPanel = new JPanel();
-		personPanel.setLayout(new GridLayout(1,2));
-		JPanel personSuggestion = createPersonSuggestion();
+		setLayout(new GridLayout(4,2));
+		JPanel room = createRoomSuggestion();
+		add(room);
+		JPanel roomOptions = createRoomBox();
+		add(roomOptions);
+		JPanel person = createPersonSuggestion();
+		add(person);
 		JPanel personOptions = createPersonBox();
-		personPanel.add(personSuggestion);
-		personPanel.add(personOptions);
-		add(personPanel);
-		
-		JPanel weaponPanel = new JPanel();
-		weaponPanel.setLayout(new GridLayout(1,2));
-		JPanel weaponSuggestion = createWeaponSuggestion();
+		add(personOptions);
+		JPanel weapon = createWeaponSuggestion();
+		add(weapon);
 		JPanel weaponOptions = createWeaponBox();
-		weaponPanel.add(weaponSuggestion);
-		weaponPanel.add(weaponOptions);
-		add(weaponPanel);
-		
-		JPanel buttonPanel = new JPanel();
-		buttonPanel.setLayout(new GridLayout(1,2));
-		JPanel submitButton = createSubmitButton(room);
-		JPanel cancelButton = createCancelButton();
-		buttonPanel.add(submitButton);
-		buttonPanel.add(cancelButton);
-		add(buttonPanel);
-		
+		add(weaponOptions);
+		JPanel submit = createSubmitButton();
+		add(submit);
+		JPanel cancel = createCancelButton();
+		add(cancel);
 	}
 	
 	private JPanel createPersonSuggestion() {
@@ -94,28 +80,48 @@ public class HumanSuggestion extends JDialog{
 		return panel;
 	}
 	
-	private JPanel createRoomSuggestion(String roomName) {
-		JPanel roomChoice = new JPanel();
-		roomChoice.setLayout(new GridLayout(1,2));
-		JLabel roomLeftLabel = new JLabel("Room");
-		JLabel roomRightLabel = new JLabel(roomName);
-		roomChoice.add(roomLeftLabel);
-		roomChoice.add(roomRightLabel);
-		return roomChoice;
+	private JPanel createRoomSuggestion() {
+		JPanel panel = new JPanel();
+		panel.setLayout(new GridLayout(1,1));
+		JLabel room = new JLabel("Room");
+		panel.add(room);
+		return panel;
 	}
 	
-	private JPanel createSubmitButton(String roomName) {
+	private JPanel createRoomBox() {
+		JPanel panel = new JPanel();
+		panel.setLayout(new GridLayout(1,1));
+		roomBox = new JComboBox<String>();
+		for( Card c : Board.getInstance().getDeck()) {
+			if(c.getCardType() == CardType.ROOM) {
+				roomBox.addItem(c.getCardName());
+			}
+		}
+		
+		panel.add(roomBox);
+		return panel;
+	}
+	
+	private JPanel createSubmitButton() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(1,1));
 		JButton submitButton = new JButton("Submit");
 		submitButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Solution solution = new Solution((String)personBox.getSelectedItem(), roomName, (String)weaponBox.getSelectedItem());
-				Player p = Board.getInstance().getPlayers().get(playerIndex);
-				Card c = Board.getInstance().handleSuggestion(solution,p);
-				ClueGame.updateSuggestion(solution.toString(), c.getCardName());
-				Board.getInstance().nextPlayer();
+				Solution accusation = new Solution((String)personBox.getSelectedItem(), (String)roomBox.getSelectedItem(), (String)weaponBox.getSelectedItem());
+				boolean result = Board.getInstance().checkAccusation(accusation); 
+				String title = "Accusation Result";
+				String message;
+				if(result) {
+					message = "You have won! It was " + accusation.person + " in the " + accusation.room + " with the " + accusation.weapon;
+				}
+				else {
+					message = "You guessed incorrectly. The guess: " + accusation.person + " in the " + accusation.room + " with the " + accusation.weapon + " is not correct.";
+				}
+				JOptionPane.showMessageDialog(Board.getInstance(), message, title, JOptionPane.INFORMATION_MESSAGE);
+				
+				if(!result) Board.getInstance().humanIncorrectAccusation();
 				dispose();
 			}
 		});
@@ -136,6 +142,4 @@ public class HumanSuggestion extends JDialog{
 		panel.add(cancelButton);
 		return panel;
 	}
-	
-	
 }

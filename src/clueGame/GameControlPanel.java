@@ -68,6 +68,13 @@ public class GameControlPanel extends JPanel {
 	//Creates the button which allows the player to make an accusation
 	private JPanel createAccusationPanel() {
 		JButton makeAccusation = new JButton("Make an accusation");
+		makeAccusation.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				HumanAccusation accusation = new HumanAccusation();
+				accusation.setVisible(true);
+			}
+		});
 		JPanel panel = new JPanel();
 		panel.add(makeAccusation);
 		return panel;
