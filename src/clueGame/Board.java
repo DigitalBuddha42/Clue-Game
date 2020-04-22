@@ -55,6 +55,8 @@ public class Board extends JPanel{
 	private boolean submitSuggestion = false;
 	private BoardCell currentHumanCell;
 	private Solution humanSuggestion;
+	JComboBox<String> personBox;
+	JComboBox<String> weaponBox;
 
 	// Singleton pattern, only one instance of board
 	private static Board theInstance = new Board();
@@ -657,7 +659,14 @@ public class Board extends JPanel{
 						Board.getInstance().getPlayers().get(humanPlayer).makeMove(cell); //Move humanPlayer to chosen target cell
 						repaint();
 						if (cell.isDoorway()) {
-							humanSuggestionPrompt(cell);
+							String roomName = null;
+							for (char c: Board.getInstance().getLegend().keySet()) {
+								if(c == cell.getInitial()) {
+									roomName = Board.getInstance().getLegend().get(c);
+								}
+							}
+							HumanSuggestion guess = new HumanSuggestion(roomName, currentPlayer);
+							guess.setVisible(true);
 							Card c;
 							if(humanSuggestion != null) {
 								c = handleSuggestion(humanSuggestion, allPlayers.get(0));
@@ -734,7 +743,7 @@ public class Board extends JPanel{
 		submitButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				submitSuggestion = false;
+				//submitSuggestion = false;
 				currentHumanCell = cell;
 				humanSuggestion = submitSuggestion((String) personComboBox.getSelectedItem(),
 						Board.getInstance().getLegend().get(currentHumanCell.getInitial()),
@@ -768,6 +777,9 @@ public class Board extends JPanel{
 
 
 	}
+	
+	
+	
 
 	private Solution submitSuggestion(String personName, String roomName, String weaponName) {
 		return new Solution(personName, roomName, weaponName);
