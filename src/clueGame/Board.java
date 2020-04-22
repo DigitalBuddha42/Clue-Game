@@ -3,8 +3,11 @@ package clueGame;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.*;
@@ -12,8 +15,15 @@ import java.io.FileReader;
 import java.lang.reflect.Field;
 import java.util.*;
 
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 
 /**
@@ -42,6 +52,9 @@ public class Board extends JPanel{
 	private int humanPlayer = 0;
 	private int currentPlayer = 0;
 	private boolean turnOver = false;
+	private boolean submitSuggestion = false;
+	private BoardCell currentHumanCell;
+	private Solution humanSuggestion;
 
 	// Singleton pattern, only one instance of board
 	private static Board theInstance = new Board();
@@ -59,8 +72,8 @@ public class Board extends JPanel{
 	public static Board getInstance() {
 		return theInstance;
 	}
-	
-	
+
+
 	/** Loads the config files and handles their exceptions
 	 */
 	public void initialize() {
@@ -73,9 +86,9 @@ public class Board extends JPanel{
 			e.getMessage();
 		}
 		calcAdjancencies();
-		
+
 	}
-	
+
 	/** Reads the legend file, ensuring that it has been correctly read and is correctly formatted, and adds to the legend map
 	 * @throws FileNotFoundException
 	 * @throws BadConfigFormatException
@@ -84,7 +97,7 @@ public class Board extends JPanel{
 		FileReader reader = new FileReader(roomConfigFile);
 		Scanner in = new Scanner(reader);
 		Card tempCard;
-		
+
 		while(in.hasNextLine()) {
 			String line = in.nextLine();
 			char initial = line.charAt(0);
@@ -106,7 +119,7 @@ public class Board extends JPanel{
 		// Create to check for wrong room exceptions
 		allInitials = legend.keySet();
 	}
-	
+
 	/** Reads the layout file, ensuring that it has been correctly read and is formatted correctly, and adds cells to the board, as well as
 	 * calls the appropriate BoardCell methods for each type of cell, keeping track of number of columns and rows
 	 * @throws FileNotFoundException
@@ -143,7 +156,7 @@ public class Board extends JPanel{
 					}
 					board[row][column] = new BoardCell(row, column);
 					board[row][column].setInitial(roomInitial);
-					
+
 					// Walkways
 					if(roomInitial.charAt(0) == 'W') {
 						board[row][column].setWalkway();
@@ -176,11 +189,11 @@ public class Board extends JPanel{
 		this.numRows = numRows;
 		this.numColumns = numColumns;
 	}
-	
+
 	public void loadPlayerConfig() throws FileNotFoundException, BadConfigFormatException{
 		FileReader reader = new FileReader(playerConfigFile);
 		Scanner in = new Scanner(reader);
-		
+
 		String line = " ";
 		int row;
 		int col;
@@ -189,11 +202,11 @@ public class Board extends JPanel{
 		Color color = null;
 		String playerType = " ";
 		Card tempCard;
-		
+
 		while(in.hasNextLine()) {
 			name = in.next();
 			colorString = in.next();
-			
+
 			// Converting colorString to a java color
 			try {
 				Field field  = Class.forName("java.awt.Color").getField( colorString );
@@ -201,20 +214,20 @@ public class Board extends JPanel{
 			}catch(Exception e){
 				System.out.println( "The color entered for player " + name + " is not a valid color" );
 			}
-			
+
 			playerType = in.next();
 			// Exception to check player is either Human or Computer
 			if(!playerType.equals("Human") && !playerType.equals("Computer")) {
 				throw new BadConfigFormatException("The player type " + playerType + " is not a valid player type.");
 			}
-			
+
 			row = Integer.parseInt(in.next());
 			col = Integer.parseInt(in.next());
-			
+
 			// Add new person card to deck
 			tempCard = new Card(name, CardType.PERSON);
 			deck.add(tempCard);
-			
+
 			//Add new human or computer player to set of players
 			if(playerType.equals("Human")){
 				allPlayers.add(new HumanPlayer(name, row, col, color));
@@ -223,40 +236,40 @@ public class Board extends JPanel{
 				allPlayers.add(new ComputerPlayer(name, row, col, color));
 			}
 		}
-		
+
 		in.close();
 	}
-	
+
 	public void loadWeaponFile() throws FileNotFoundException, BadConfigFormatException{
 		FileReader reader = new FileReader(weaponConfigFile);
 		Scanner in = new Scanner(reader);
-		
+
 		String line = "";
 		String weapon = "";
 		String type = "";
 		int commaIndex = 0;
 		Card tempCard;
-		
+
 		while(in.hasNextLine()) {
 			line = in.nextLine();
 			commaIndex = line.indexOf(','); //Find where the comma is to separate the weapon from type
-			
+
 			weapon = line.substring(0, commaIndex);
 			type = line.substring(commaIndex + 1);
-			
+
 			// Check that the weapon is a card
 			if(!type.equals("Card")) {
 				throw new BadConfigFormatException("The type: " + type + " is not a valid card");
 			}
-			
+
 			// Adding the weapon to the deck
 			tempCard = new Card(weapon, CardType.WEAPON);
 			deck.add(tempCard);
 		}
-		
+
 		in.close();
 	}
-	
+
 	public void calcAdjancencies() {
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numColumns; j++) {
@@ -278,12 +291,12 @@ public class Board extends JPanel{
 
 
 				} 
-				
+
 				if (i > 0) { //Make sure we won't get an out of bounds exception
 					// Add cell from doorway
 					if (!board[i][j].isRoom() && board[i - 1][j].isDoorway() && board[i - 1][j].getDoorDirection() == DoorDirection.DOWN) {
 						tempAdj.add(board[i - 1][j]);
-					// Add cell from walkway if it is not a room or doorway
+						// Add cell from walkway if it is not a room or doorway
 					} else if (!board[i][j].isRoom() && !board[i][j].isDoorway() && board[i - 1][j].isWalkway()) {
 						tempAdj.add(board[i - 1][j]);
 					}
@@ -320,13 +333,13 @@ public class Board extends JPanel{
 			}
 		}
 	}
-			
-	
+
+
 	/** Sets the names of the layout and legend config files
 	 * @param layoutName
 	 * @param legendName
 	 */
-	
+
 	public void setConfigFiles(String layoutName, String legendName) {
 		roomConfigFile = legendName;
 		boardConfigFile = layoutName;
@@ -339,28 +352,28 @@ public class Board extends JPanel{
 		playerConfigFile = playerName;
 		weaponConfigFile = weaponsName;
 	}
-	
-	
+
+
 	public Map<Character, String> getLegend() {
 		return legend;
 	}
-	
+
 	public int getNumRows() {
 		return numRows;
 	}
-	
+
 	public int getNumColumns() {
 		return numColumns;
 	}
-	
+
 	public BoardCell getCellAt(int row, int column) {
 		return board[row][column];
 	}
-	
+
 	public Set<BoardCell> getAdjList(int row, int column) {
 		return adjMatrix.get(board[row][column]);
 	}
-	
+
 	public void calcTargets(int row, int column, int pathLength) {
 		for(BoardCell cell : adjMatrix.get(board[row][column])) { //Iterate through adjacency set
 			// Add cell to visited matrix
@@ -380,7 +393,7 @@ public class Board extends JPanel{
 					targets.add(cell);
 					continue;
 				}
-				
+
 			}
 			// Adding cell from walkway
 			visited.add(cell);
@@ -393,15 +406,15 @@ public class Board extends JPanel{
 			visited.remove(cell);
 		}
 	}
-	
+
 	public Set<BoardCell> getTargets() {
 		Set<BoardCell> tempTargets = new HashSet<BoardCell>();
 		tempTargets.addAll(targets); //Create temporary set equal to targets to return
 		targets.clear(); // Clear targets for next roll
 		return tempTargets;
-		
+
 	}
-	
+
 	//Helper function to reduce code in calcTargets
 	// Checks cells to add from doorway
 	public boolean targetHelper(int row, int column, BoardCell cell) {
@@ -420,7 +433,7 @@ public class Board extends JPanel{
 		}
 		return false;
 	}
-	
+
 	/** Chooses the answer at random from the initial deck
 	 * 
 	 */
@@ -454,7 +467,7 @@ public class Board extends JPanel{
 				}
 			}
 		}
-		
+
 		// Set the solution to the three cards chosen
 		playerDeck = new ArrayList<Card>(deck);
 		for (Card c: solutionSet) {
@@ -468,9 +481,9 @@ public class Board extends JPanel{
 			playerDeck.remove(c);
 		}
 		theAnswer = new Solution(person, room, weapon);
-		
+
 	}
-	
+
 	/** Deal cards to players
 	 * 
 	 */
@@ -478,7 +491,7 @@ public class Board extends JPanel{
 		Random rand = new Random();
 		Collections.shuffle(playerDeck); // randomize the available cards
 		int player = 0;
-		
+
 		for(Card c: playerDeck) {
 			allPlayers.get(player).dealCard(c); // Deal cards one at a time to each player
 			player++;
@@ -488,7 +501,7 @@ public class Board extends JPanel{
 		}
 
 	}
-	
+
 	public Card handleSuggestion(Solution suggestion, Player suggester) {
 		for (int i = allPlayers.indexOf(suggester) + 1; i < allPlayers.size(); i++) {
 			if (allPlayers.get(i).disproveSuggestion(suggestion) != null) {
@@ -502,42 +515,42 @@ public class Board extends JPanel{
 		}
 		return null;
 	}
-	
+
 	public boolean checkAccusation(Solution accusation) {
 		if(accusation.person.equals(theAnswer.person) && accusation.weapon.equals(theAnswer.weapon) && accusation.room.equals(theAnswer.room)) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	public ArrayList<Player> getPlayers() {
 		return allPlayers;
 	}
-	
+
 	public Set<Card> getDeck(){
 		return deck;
 	}
-	
+
 	public Solution getSolution() {
 		return theAnswer;
 	}
-	
+
 	public Player getCurrentPlayer() {
 		return allPlayers.get(currentPlayer);
 	}
-	
+
 	// Display every cell in the board correctly
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		
+
 		int width = 25;
 		int height = 25;
-		
+
 		for(int i = 0; i < numRows; i++) {
 			for(int j = 0; j < numColumns; j++) {
 				board[i][j].draw(g);
-				
+
 				// For board cells that need to display the corresponding room names
 				if(board[i][j].getRoomNameDisplayCell()) {
 					String roomName = board[i][j].getDisplayText();
@@ -547,7 +560,7 @@ public class Board extends JPanel{
 					g.setFont(font);
 					g.drawString(roomName, j+width*j, i+height*i);
 				}
-				
+
 				//Draw target cells if the current player is the human player
 				if(humanPlayer == currentPlayer) {
 					for(BoardCell cell : targets) {
@@ -559,18 +572,18 @@ public class Board extends JPanel{
 				}
 			}
 		}
-		
+
 		// Display player circles
 		for(Player p: allPlayers) {
 			p.draw(g);
 		}
 	}
-	
+
 	public void nextPlayer() {
 		Random rand = new Random();
 		int diceRoll = 0;
 		this.addMouseListener(new TargetsListener());
-		
+
 		if(currentPlayer != humanPlayer) { //If player is computer
 			ComputerPlayer p = ((ComputerPlayer) allPlayers.get(currentPlayer));
 			Solution accusation = p.makeAccusation();
@@ -592,7 +605,7 @@ public class Board extends JPanel{
 				}
 			}
 		}
-		
+
 		//Check that it is the human's turn to move or that the current player is a computer
 		if((currentPlayer == humanPlayer && turnOver) || currentPlayer != humanPlayer) {
 			if ((allPlayers.size() - currentPlayer) > 1) { //Update current player
@@ -600,11 +613,11 @@ public class Board extends JPanel{
 			} else {
 				currentPlayer = 0;
 			}
-			
+
 			diceRoll = rand.nextInt( 6 ) + 1; //roll dice from 1-6
 			targets.clear();
 			visited.clear();
-			
+
 			calcTargets(allPlayers.get(currentPlayer).getPlayerRow(), allPlayers.get(currentPlayer).getPlayerCol(), diceRoll);
 			if (currentPlayer != humanPlayer) { //For computer player, choose next location
 				allPlayers.get(currentPlayer).makeMove(targets);
@@ -629,7 +642,7 @@ public class Board extends JPanel{
 			}
 		}
 	}
-	
+
 	private class TargetsListener implements MouseListener {
 		@Override
 		public void mouseClicked(MouseEvent e) {
@@ -643,6 +656,15 @@ public class Board extends JPanel{
 						turnOver = true;
 						Board.getInstance().getPlayers().get(humanPlayer).makeMove(cell); //Move humanPlayer to chosen target cell
 						repaint();
+						if (cell.isDoorway()) {
+							humanSuggestionPrompt(cell);
+							Card c;
+							if(humanSuggestion != null) {
+								c = handleSuggestion(humanSuggestion, allPlayers.get(0));
+								ClueGame.updateSuggestion(humanSuggestion.toString(), c.getCardName());
+								return;
+							}
+						}
 					}
 				}
 			}
@@ -661,5 +683,96 @@ public class Board extends JPanel{
 		@Override
 		public void mouseReleased(MouseEvent arg0) {}
 	}
-	
+
+
+	private void humanSuggestionPrompt(BoardCell cell) {
+		submitSuggestion = false;
+		currentHumanCell = cell;
+		Solution suggestion = null;
+		String roomName = null;
+
+		for (char c: Board.getInstance().getLegend().keySet()) {
+			if(c == cell.getInitial()) {
+				roomName = Board.getInstance().getLegend().get(c);
+			}
+		}
+
+		JDialog makeSuggestionWindow = new JDialog();
+
+		JPanel roomChoice = new JPanel();
+		roomChoice.setLayout(new GridLayout(1,2));
+		JLabel roomLeftLabel = new JLabel("Room");
+		JLabel roomRightLabel = new JLabel(roomName);
+		roomChoice.add(roomLeftLabel);
+		roomChoice.add(roomRightLabel);
+
+		JPanel personChoice = new JPanel();
+		personChoice.setLayout(new GridLayout(1,2));
+		JLabel personLabel = new JLabel("Person");
+		personChoice.add(personLabel);
+		JComboBox<String> personComboBox = new JComboBox<String>();
+		for( Player player: Board.getInstance().getPlayers() ) {
+			personComboBox.addItem(player.getPlayerName());
+		}
+		personChoice.add(personComboBox);
+
+		JPanel weaponChoice = new JPanel();
+		weaponChoice.setLayout(new GridLayout(1,2));
+		JLabel weaponLabel = new JLabel("Weapon");
+		weaponChoice.add(weaponLabel);
+		JComboBox<String> weaponComboBox = new JComboBox<String>();
+		for( Card card: Board.getInstance().getDeck() ) {
+			if( card.getCardType() == CardType.WEAPON ) {
+				weaponComboBox.addItem(card.getCardName());
+			}
+		}
+		weaponChoice.add(weaponComboBox);
+
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.setLayout(new GridLayout(1,2));
+		JButton submitButton = new JButton("Submit");
+		submitButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				submitSuggestion = false;
+				currentHumanCell = cell;
+				humanSuggestion = submitSuggestion((String) personComboBox.getSelectedItem(),
+						Board.getInstance().getLegend().get(currentHumanCell.getInitial()),
+						(String) weaponComboBox.getSelectedItem());
+				submitSuggestion = true;
+				makeSuggestionWindow.dispose();
+			}
+		});
+		JButton cancelButton = new JButton("Cancel");
+		cancelButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				humanSuggestion = null;
+				makeSuggestionWindow.dispose();
+			}
+		});
+		
+		buttonPanel.add(submitButton);
+		buttonPanel.add(cancelButton);
+
+
+		makeSuggestionWindow.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		makeSuggestionWindow.setModal(true);
+		makeSuggestionWindow.setSize(300, 300);
+		makeSuggestionWindow.setLayout(new GridLayout(4,2));
+		makeSuggestionWindow.add(roomChoice);
+		makeSuggestionWindow.add(personChoice);
+		makeSuggestionWindow.add(weaponChoice);
+		makeSuggestionWindow.add(buttonPanel);
+		makeSuggestionWindow.setVisible(true);
+
+
+	}
+
+	private Solution submitSuggestion(String personName, String roomName, String weaponName) {
+		return new Solution(personName, roomName, weaponName);
+	}
+
+
+
 }

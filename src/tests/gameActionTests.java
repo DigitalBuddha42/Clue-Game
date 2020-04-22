@@ -426,7 +426,7 @@ public class gameActionTests {
 		Card testPerson = new Card("Player5", CardType.PERSON);
 		
 		for (Player p: board.getPlayers()) {
-			p.setSeenCards(new ArrayList<Card> (0)); // Ensure no player has a card that can disprove the suggestion
+			p.setMyCards(new ArrayList<Card> (0)); // Ensure no player has a card that can disprove the suggestion
 			p.dealCard(testRoom);
 			p.dealCard(testWeapon);
 			p.dealCard(testPerson);
@@ -446,7 +446,7 @@ public class gameActionTests {
 		Card testPerson = new Card("Player1", CardType.PERSON);
 		
 		for (Player p: board.getPlayers()) {
-			p.setSeenCards(new ArrayList<Card> (0)); // Ensure no player has a card that can disprove the suggestion
+			p.setMyCards(new ArrayList<Card> (0)); // Ensure no player has a card that can disprove the suggestion
 		}
 		
 		ComputerPlayer testPlayer1 = (ComputerPlayer) board.getPlayers().get(1); // Give the suggester the cards that disprove the suggestion
@@ -468,7 +468,7 @@ public class gameActionTests {
 		Card testPerson = new Card("Player1", CardType.PERSON);
 		
 		for (Player p: board.getPlayers()) {
-			p.setSeenCards(new ArrayList<Card> (0)); // Ensure no player has a card that can disprove the suggestion
+			p.setMyCards(new ArrayList<Card> (0)); // Ensure no player has a card that can disprove the suggestion
 		}
 		
 		HumanPlayer testPlayer1 = (HumanPlayer) board.getPlayers().get(0); // Give the suggester the cards that disprove the suggestion
@@ -491,7 +491,7 @@ public class gameActionTests {
 		Card testPerson = new Card("Player1", CardType.PERSON);
 		
 		for (Player p: board.getPlayers()) {
-			p.setSeenCards(new ArrayList<Card> (0)); // Ensure no player has a card that can disprove the suggestion
+			p.setMyCards(new ArrayList<Card> (0)); // Ensure no player has a card that can disprove the suggestion
 		}
 		
 		HumanPlayer testPlayer1 = (HumanPlayer) board.getPlayers().get(0); // Give the suggester the cards that disprove the suggestion
@@ -513,7 +513,7 @@ public class gameActionTests {
 		Card testPerson = new Card("Player1", CardType.PERSON);
 		
 		for (Player p: board.getPlayers()) {
-			p.setSeenCards(new ArrayList<Card> (0)); // Ensure no player has a card that can disprove the suggestion
+			p.setMyCards(new ArrayList<Card> (0)); // Ensure no player has a card that can disprove the suggestion
 		}
 		board.getPlayers().get(5).dealCard(testRoom);
 		board.getPlayers().get(1).dealCard(testWeapon);
@@ -534,7 +534,7 @@ public class gameActionTests {
 		Card testPerson = new Card("Player1", CardType.PERSON);
 		
 		for (Player p: board.getPlayers()) {
-			p.setSeenCards(new ArrayList<Card> (0)); // Ensure no player has a card that can disprove the suggestion
+			p.setMyCards(new ArrayList<Card> (0)); // Ensure no player has a card that can disprove the suggestion
 		}
 		board.getPlayers().get(5).dealCard(testRoom);
 		board.getPlayers().get(0).dealCard(testWeapon);

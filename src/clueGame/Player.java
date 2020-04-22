@@ -91,6 +91,10 @@ public class Player {
 		this.column = column;
 	}
 	
+	public void setMyCards(ArrayList<Card> myCards) {
+		this.myCards = myCards;
+	}
+	
 	public void setSeenCards(ArrayList<Card> seenCards) {
 		this.seenCards = seenCards;
 	}
